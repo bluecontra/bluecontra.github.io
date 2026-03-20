@@ -131,66 +131,79 @@
     <div class="row">
       <div>
 
-        <div class="row">
-<div class="eight columns ml-1">
-  <div class="two columns" style="max-width: 50px">
-    <h1 class="mt-2 mode">
-      <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
-      <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
-      <script >
-        if (localStorage.getItem('preferredTheme') == 'dark') {
-          setDarkMode(true)
-        }
-        function setDarkMode(isDark) {
-          var darkBtn = document.getElementById('darkBtn')
-          var lightBtn = document.getElementById('lightBtn')
-          if (isDark) {
-            lightBtn.style.display = "block"
-            darkBtn.style.display = "none"
-            localStorage.setItem('preferredTheme', 'dark');
-          } else {
-            lightBtn.style.display = "none"
-            darkBtn.style.display = "block"
-            localStorage.removeItem('preferredTheme');
+        <!-- 顶部导航栏 -->
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="twelve columns" style="text-align: center;">
+            <span style="cursor: pointer; margin-right: 20px;" onclick="setDarkMode(true)" id="darkBtnTop">🌑</span>
+            <span style="cursor: pointer; margin-right: 20px; display: none;" onclick="setDarkMode(false)" id="lightBtnTop">☀️</span>
+            <a href="/" style="margin: 0 15px;">Home</a>
+            <a href="/archives" style="margin: 0 15px;">Publications</a>
+          </div>
+        </div>
+
+        <p style="text-align: center; color: grey; font-size: 12px; margin-bottom: 20px;">
+          (Well, this page is now under the charge of openclaw_loonghu 🦞 owned by thy)
+        </p>
+
+        <script >
+          if (localStorage.getItem('preferredTheme') == 'dark') {
+            setDarkMode(true)
           }
-          document.body.classList.toggle("darkmode");
-        }
-      </script>
-    </h1>
-  </div>
+          function setDarkMode(isDark) {
+            var darkBtn = document.getElementById('darkBtn')
+            var lightBtn = document.getElementById('lightBtn')
+            var darkBtnTop = document.getElementById('darkBtnTop')
+            var lightBtnTop = document.getElementById('lightBtnTop')
+            if (isDark) {
+              if (lightBtn) lightBtn.style.display = "block"
+              if (darkBtn) darkBtn.style.display = "none"
+              if (lightBtnTop) lightBtnTop.style.display = "inline"
+              if (darkBtnTop) darkBtnTop.style.display = "none"
+              localStorage.setItem('preferredTheme', 'dark');
+            } else {
+              if (lightBtn) lightBtn.style.display = "none"
+              if (darkBtn) darkBtn.style.display = "block"
+              if (lightBtnTop) lightBtnTop.style.display = "none"
+              if (darkBtnTop) darkBtnTop.style.display = "inline"
+              localStorage.removeItem('preferredTheme');
+            }
+            document.body.classList.toggle("darkmode");
+          }
+        </script>
 
-  <div class="seven columns ml-1">
-    <h1 class="mt-2">
-      Hongyao Tang&#39;s Homepage
-    </h1>
-  </div>
+        <!-- 标题 + 头像双栏 -->
+        <div class="row">
+          <div class="eight columns">
+            <h1 class="mt-2" style="text-align: center;">
+              Hongyao Tang
+            </h1>
+            <p style="text-align: center; color: grey; margin-top: -5px; font-size: 14px;">
+              Associate Research Fellow @ Tianjin University
+            </p>
+            <p style="text-align: center; color: grey; font-size: 14px; margin-top: -10px;">
+              tanghyyy [at] gmail.com  |
+              <a class="ml-0 footer-link icon" href="https://github.com/bluecontra" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="GitHub">
+                <svg class="github svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>GitHub</title><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              </a> 
+              <a class="ml-0 footer-link icon" href="https://twitter.com/tanghyyy" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Twitter">
+                <svg class="twitter svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Twitter</title><path d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z"/></svg>
+              </a>
+            </p>
+            <p style="text-align: center; color: grey; font-style: italic; font-size: 14px;">
+              "Lesson 5: The shortest shortcut is the long way around.<br>
+              The long way around is my shortest shortcut."
+            </p>
+          </div>
+          <div class="four columns" id="profile-photo" style="align-items: center; margin-top: 20px;">
+            <img src=/images/photo4.jpg alt="personal photo" width="180" height="180" style="border-radius: 50%;">
+          </div>
+        </div>
 
-  <div class="seven columns ml-1">
-    <p>
-      <I style="color:grey"> </i>
-    </p>
-  </div>
-
-  <div class="eight columns">
-    <div class="row">
-      <div class="nine columns left">
-        <a href="/">Home</a>
-        <a href="/archives" class="ml">Publications</a>
-        
-          
-            <a href="mailto:tanghyyy@gmail.com" target="_blank" class="ml">Email</a>
-          
-        
-      </div>
-    </div>
-  </div>
-
-</div>
-
-
-<div class="four columns left ml-0">
-  <img src=/images/photo4.jpg alt="personal photo" width="200" height="200">
-</div>
+        <!-- 隐藏原来的暗色切换按钮 -->
+        <div style="display: none;">
+          <div onclick=setDarkMode(true) id="darkBtn">🌑</div>
+          <div onclick=setDarkMode(false) id="lightBtn" class=hidden>☀️</div>
+        </div>
 
 </div>
 
@@ -202,12 +215,13 @@
 </head>
 
 <h3>Personal Information</h3>
+<div id="personal-info-content">
 <div class="row">
   <div class="column">
-    <p>Hello, I am Hongyao Tang, 汤宏垚. I am an Associate Research Fellow at <a target="_blank" rel="noopener" href="http://www.icdai.org">TJU RL Lab</a>, College of Intelligence and Computing, Tianjin University.
+    <p>Hello, I am Hongyao Tang, 汤宏垚. I am an Associate Research Fellow at <a target="_blank" rel="noopener" href="http://rl-lab.beiyang.ren/">TJU RL Lab</a>, College of Intelligence and Computing, Tianjin University.
 </p> 
     <p>Prior to this, I was a postdoctoral researcher with Professor <a target="_blank" rel="noopener" href="https://neo-x.github.io/">Glen Berseth</a>, in <a target="_blank" rel="noopener" href="https://montrealrobotics.ca/">Robotics and Embodied AI Lab (REAL)</a> at the Mila and Université de Montréal. I obtained my Ph.D. (Master's and Bachelor's Degree as well) in
-    <a target="_blank" rel="noopener" href="http://www.icdai.org/index.html">Deep Reinforcement Learning (DRL) Lab</a>, Tianjin University advised by Professor <a target="_blank" rel="noopener" href="http://www.icdai.org/jianye.html">Jianye Hao</a>, Zhaopeng Meng, and Li Wang.
+    <a target="_blank" rel="noopener" href="http://rl-lab.beiyang.ren/">Deep Reinforcement Learning (DRL) Lab</a>, Tianjin University advised by Professor <a target="_blank" rel="noopener" href="http://www.icdai.org/jianye.html">Jianye Hao</a>, Zhaopeng Meng, and Li Wang.
     </p>
     <p>My research interests lie in unveiling the learning dynamics of Deep Reinforcement Learning (DRL) and realizing new approaches/paradigms for efficient, performant and generalizable agents</b>. <b>My current research focus is on Learning under Nonstationarity (i.e., one intriguing nature of RL)</b>, and concretely, <b>I study Continual RL and RL problems in LLMs and embodied intelligence</b>. I am also interested in Meta RL, MARL, Offline RL, Machine Unlearning, etc.
     </p>
@@ -215,209 +229,321 @@
     </p>
   </div>
 </div>
+</div>
 
 <hr />
 
 <h3>⚡️ Highlight</h3>
 
-<p style="color:black">For prospective students (master, ph.d., RA, etc.) and collaboration partners, please contact me via my email (above) or contact via the homepage of <a target="_blank" rel="noopener" href="http://www.icdai.org">TJU RL Lab</a>.</p>
+<div id="highlight-content">
+<p style="color: inherit;">For prospective students (master, ph.d., RA, etc.) and collaboration partners, please contact me via my email (above) or contact via the homepage of <a target="_blank" rel="noopener" href="http://rl-lab.beiyang.ren/">TJU RL Lab</a>.</p>
+</div>
+</div>
 
 
 <hr />
 
 <h3>🌟 News</h3>
 
+<style>
+.news-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+/* 论文发表 - 浅蓝色 */
+.news-tag-paper {
+  background-color: #e8f4fc;
+  color: #0FA0CE;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+/* 个人经历 - 浅黄色 */
+.news-tag-personal {
+  background-color: #fff8e1;
+  color: #f9a825;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+/* 其他 - 浅绿色 */
+.news-tag-other {
+  background-color: #e8f5e9;
+  color: #43a047;
+  font-weight: 900;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.news-date {
+  color: grey;
+  font-size: 14px;
+  display: inline-block;
+  width: 70px;
+}
+.news-tag-wrapper {
+  display: inline-block;
+  width: 130px;
+}
+.news-content {
+  display: inline-block;
+  width: calc(100% - 210px);
+  vertical-align: top;
+}
 
-<div class="row">
+/* 手机端响应式布局 */
+@media (max-width: 768px) {
+  ul {
+    padding-left: 0 !important;
+  }
+  li {
+    margin-bottom: 15px !important;
+  }
+  .news-date {
+    display: inline-block !important;
+    width: auto !important;
+    font-size: 12px !important;
+    margin-right: 8px !important;
+  }
+  .news-tag-wrapper {
+    display: inline-block !important;
+    width: auto !important;
+  }
+  .news-content {
+    display: block !important;
+    width: 100% !important;
+    font-size: 13px !important;
+    margin-top: 4px !important;
+  }
+}
 
-  <div class="two columns left lit">
-    <p class="bottom">2026.01</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Three papers accepted to ICLR 2026</b> on off-policy RFT for LLM Reasoning, plasticity loss in RL and reinforced embodied reasoning for general robotic manipulation!</p>
-  </div>
-</div>
+/* 手机端 Invited Talks 响应式布局 */
+@media (max-width: 768px) {
+  .row {
+    margin-bottom: 15px !important;
+  }
+  .three.columns.left.lit {
+    width: 100% !important;
+    margin-bottom: 4px !important;
+  }
+  .nine.columns.right {
+    width: 100% !important;
+  }
+  #invited-talks-content .row {
+    font-size: 14px !important;
+  }
+}
 
-<div class="row">
+/* 手机端 Selected Publications 响应式布局 */
+@media (max-width: 768px) {
+  #publications-content p {
+    font-size: 12px !important;
+  }
+}
 
-  <div class="two columns left lit">
-    <p class="bottom">2025.12</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>One paper accepted to AAMAS 2026 (Full Paper, Oral)</b> on a unified theory of policy abstraction and representation!</p>
-  </div>
-</div>
+/* 手机端 Highlight 响应式布局 */
+@media (max-width: 768px) {
+  #highlight-content {
+    font-size: 14px !important;
+  }
+}
 
-<div class="row">
+/* 手机端 Personal Information 响应式布局 */
+@media (max-width: 768px) {
+  #personal-info-content {
+    font-size: 14px !important;
+  }
+}
 
-  <div class="two columns left lit">
-    <p class="bottom">2025.09</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>We released <a target="_blank" rel="noopener" href="https://embodied-arena.com/">Embodied Arena</a> 🤖, a comprehensive, unified, and evolving evaluation platform for Embodied AI.</b> Feel free to check the platform and our <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2509.15273">tech report</a> out!</p>
-  </div>
-</div>
+/* 手机端顶部头像居中 */
+@media (max-width: 768px) {
+  #profile-photo {
+    display: flex !important;
+    justify-content: center !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+}
+</style>
 
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2025.09</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Four papers accepted to NeurIPS 2025</b> on LLM-driven reward function design, multi-objective RL, offline RL, and EDA floorplanning!</p>
-  </div>
-</div>
-
-
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2025.05</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>One paper accepted to RLC 2025</b> on efficient cross-morphology adaptation!</p>
-  </div>
-</div>
-
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2025.05</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Two papers accepted to ICML 2025</b> on continual RL and LLM-driven reward design!</p>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2025.01</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Excited to join TJU RL Lab as an Associate Research Fellow!</b></p>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2024.09</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Two papers accepted to NeurIPS 2024</b> on network churn and learning dynamics of DRL!</p>
-  </div>
-</div>
-
-
-
-
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2023.11</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Excited to join Mila/UdeM as a Postdoctoral Research Fellow!</b> It is a great honor to work with Prof. <a target="_blank" rel="noopener" href="https://neo-x.github.io/">Glen Berseth</a>.</p>
-  </div>
-</div>
-
-
-<div class="row">
-
-  <div class="two columns left lit">
-    <p class="bottom">2023.06</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Got my Ph.D. at Tianjin University!</b> Grateful to Prof. <a target="_blank" rel="noopener" href="http://www.icdai.org/jianye.html">Jianye Hao</a> and Prof. Zhaopeng Meng.</p>
-  </div>
-</div>
+<ul style="list-style: none; padding-left: 0;">
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2026.01</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">ICLR 2026</span></span>
+    <span class="news-content">Three papers accepted to ICLR 2026 on off-policy RFT for LLM Reasoning, plasticity loss in RL and reinforced embodied reasoning for general robotic manipulation!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.12</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">AAMAS 2026</span></span>
+    <span class="news-content">One paper accepted (Full Paper, Oral) to AAMAS 2026 on a unified theory of policy abstraction and representation!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.09</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-other">Embodied Arena</span></span>
+    <span class="news-content">Released <a target="_blank" rel="noopener" href="https://embodied-arena.com/">Embodied Arena</a> 🤖, a comprehensive evaluation platform for Embodied AI. Check out the <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2509.15273">tech report</a>!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.09</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">NeurIPS 2025</span></span>
+    <span class="news-content">Four papers accepted to NeurIPS 2025 on LLM-driven reward function design, multi-objective RL, offline RL, and EDA floorplanning!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.05</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">RLC 2025</span></span>
+    <span class="news-content">One paper accepted to RLC 2025 on efficient cross-morphology adaptation!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.05</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">ICML 2025</span></span>
+    <span class="news-content">Two papers accepted to ICML 2025 on continual RL and LLM-driven reward design!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2025.01</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">Faculty Pos.</span></span>
+    <span class="news-content">Excited to join TJU RL Lab as an Associate Research Fellow!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2024.09</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">NeurIPS 2024</span></span>
+    <span class="news-content">Two papers accepted to NeurIPS 2024 on network churn and learning dynamics of DRL!</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2023.11</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">PostDoc</span></span>
+    <span class="news-content">Excited to join Mila/UdeM as a Postdoctoral Research Fellow! Working with Prof. <a target="_blank" rel="noopener" href="https://neo-x.github.io/">Glen Berseth</a>.</span>
+  </li>
+  <li style="margin-bottom: 12px;">
+    <span class="news-date">2023.06</span>
+    <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">Ph.D.</span></span>
+    <span class="news-content">Got my Ph.D. at Tianjin University! Grateful to Prof. <a target="_blank" rel="noopener" href="http://www.icdai.org/jianye.html">Jianye Hao</a> and Prof. Zhaopeng Meng.</span>
+  </li>
+</ul>
 
 <hr />
 
 <h3>🛣 Education & Work Experiences</h3>
 
+<style>
+.timeline {
+  position: relative;
+  padding-left: 20px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5%;
+  transform: translateX(-50%);
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ddd;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  padding-left: 20px;
+  display: flex;
+  justify-content: center;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 1.5%;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #0FA0CE;
+}
+.exp-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-right: 8px;
+  background-color: #e8e0f0;
+  color: #6a1b9a;
+}
+.exp-date {
+  display: inline-block;
+  width: 150px;
+  color: grey;
+  font-size: 14px;
+  vertical-align: top;
+}
+.exp-content {
+  display: inline-block;
+  width: calc(95% - 150px);
+  vertical-align: top;
+  font-size: 14px;
+}
 
-<div class="row">
-  <div class="three columns left lit">
-    <p class="bottom">2025.01 - Present</p>
+/* 手机端响应式布局 */
+@media (max-width: 768px) {
+  .timeline {
+    max-width: 100% !important;
+    padding-left: 10px !important;
+  }
+  .timeline::before {
+    left: 3.5% !important;
+  }
+  .timeline-item::before {
+    left: -1.7% !important;
+  }
+  .timeline-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding-left: 15px !important;
+  }
+  .exp-date {
+    width: 100% !important;
+    margin-bottom: 8px !important;
+    font-size: 12px !important;
+  }
+  .exp-content {
+    width: 100% !important;
+    font-size: 13px !important;
+  }
+}
+</style>
+
+<div class="timeline" style="max-width: 800px; margin: 0 auto;">
+  <div class="timeline-item">
+    <span class="exp-date">2025.01 - Present</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-work">Associate Research Fellow</span> TJU RL Lab, College of Intelligence and Computing, Tianjin University</span>
   </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Associate Research Fellow</b>, TJU RL Lab, College of Intelligence and Computing, Tianjin University</p>
+  <div class="timeline-item">
+    <span class="exp-date">2023.11 - 2024.12</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-work">Postdoctoral Research Fellow</span> Robotics and Embodied AI Lab (REAL), Mila/UdeM (work with <u>Glen Berseth</u>, and co-author with <u>Johan Obando-Ceron</u>, <u>Pablo Samuel Castro</u>, and <u>Aaron Courville</u>)</span>
   </div>
-</div>
-
-<div class="row">
-  <div class="three columns left lit">
-    <p class="bottom">2023.11 - 2024.12</p>
+  <div class="timeline-item">
+    <span class="exp-date">2019.09 - 2023.06</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-edu">Ph.D.</span> College of Intelligence and Computing, Tianjin University (advised by <u>Jianye Hao</u> and <u>Zhaopeng Meng</u>)</span>
   </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Postdoctoral Research Fellow</b>, Robotics and Embodied AI Lab (REAL), Mila/UdeM (work with <u>Glen Berseth</u>, and co-author with <u>Johan Obando-Ceron</u>, <u>Pablo Samuel Castro</u>, and <u>Aaron Courville</u>)</p>
+  <div class="timeline-item">
+    <span class="exp-date">2020.05 - 2023.04</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-intern">DRL Research Intern</span> Noah's Ark Lab, Huawei (work with <u>Chen Chen</u> and <u>Zhentao Tang</u>)</span>
   </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2019.09 - 2023.06</p>
+  <div class="timeline-item">
+    <span class="exp-date">2019.09 - 2020.04</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-intern">AI Research Intern</span> Quantum Lab, Tencent (work with <u>Guangyong Chen</u>)</span>
   </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Ph.D.</b>, College of Intelligence and Computing, Tianjin University (advised by <u>Jianye Hao</u> and <u>Zhaopeng Meng</u>)</p>
+  <div class="timeline-item">
+    <span class="exp-date">2018.07 - 2018.10</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-intern">DRL Research Intern</span> Fuxi AI Lab, NetEase (work with <u>Tangjie Lv</u>)</span>
   </div>
-</div>
-
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2020.05 - 2023.04</p>
+  <div class="timeline-item">
+    <span class="exp-date">2017.09 - 2019.07</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-edu">Master</span> College of Intelligence and Computing, Tianjin University (advised by <u>Jianye Hao</u> and <u>Li Wang</u>)</span>
   </div>
-  <div class="nine columns right">
-    <p class="bottom">DRL Researcher (Intern), Noah's Ark Lab, Huawei (work with <u>Chen Chen</u> and <u>Zhentao Tang</u>)</p>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2019.09 - 2020.04</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom">AI Researcher (Intern), Quantum Lab, Tencent (work with <u>Guangyong Chen</u>)</p>
-  </div>
-</div>
-
-
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2018.07 - 2018.10</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom">DRL Researcher (Intern), Fuxi AI Lab, NetEase (work with <u>Tangjie Lv</u>)</p>
-  </div>
-</div>
-
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2017.09 - 2019.07</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Master</b>, College of Intelligence and Computing, Tianjin University (advised by <u>Jianye Hao</u> and <u>Li Wang</u>)</p>
-  </div>
-</div>
-<div class="row">
-
-  <div class="three columns left lit">
-    <p class="bottom">2013.09 - 2017.07</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom"><b>Bachelor</b>, School of Software Engineering, Tianjin University</p>
+  <div class="timeline-item">
+    <span class="exp-date">2013.09 - 2017.07</span>
+    <span class="exp-content"><span class="exp-tag exp-tag-edu">Bachelor</span> School of Software Engineering, Tianjin University</span>
   </div>
 </div>
 
@@ -428,7 +554,7 @@
 
 <p style="color:grey">PS: Authors with equal contribution are marked by *. Corresponding authors are marked by 📮.</p>
 
-
+<div id="publications-content">
 <div class="row">
   <p><b>Squeeze the Soaked Sponge: Efficient Off-policy Reinforcement Finetuning for Large Language Model
   </b><br />
@@ -482,13 +608,6 @@ Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Jinbin Qiao, Yan Zheng<br />
 </p>
 </div>
 
-<div class="row">
-<p><b>COLA: Towards Efficient Multi-Objective Reinforcement Learning with Conflict Objective Regularization in Latent Space</b><br />
-Pengyi Li, Jianye Hao, Yifu Yuan, <u>Hongyao Tang</u>📮, Zibin Dong, Yan Zheng<br />
-<i>NeurIPS 2025</I>
-| [<a href="">Paper</a>]
-</p>
-</div>
 
 <div class="row">
 <p><b>Scaling DRL for Decision Making: A Survey on Data, Network, and Training Budget Strategies
@@ -602,6 +721,7 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
 
 
 
+</div>
 <h4> <a href="/archives">More Publications</a></h4>
 
 
@@ -620,7 +740,7 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
     <p class="bottom">RLC</p>
   </div>
   <div class="nine columns right">
-    <p class="bottom">2024, 2025</p>
+    <p class="bottom">2024 - 2026</p>
   </div>
 </div>
 
@@ -651,23 +771,6 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
   </div>
 </div>
 
-<div class="row">
-  <div class="three columns left lit">
-    <p class="bottom">AAAI</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom">2021 - 2025</p>
-  </div>
-</div>
-
-<div class="row">
-  <div class="three columns left lit">
-    <p class="bottom">IJCAI</p>
-  </div>
-  <div class="nine columns right">
-    <p class="bottom">2021 - 2024</p>
-  </div>
-</div>
 
 <div class="row">
   <div class="three columns left lit">
@@ -704,7 +807,7 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
 
 <h3>Invited Talks</h3>
 
-
+<div id="invited-talks-content">
 <div class="row">
 
   <div class="three columns left lit">
@@ -788,7 +891,7 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
     <i>2019 TJU RL Summer Seminar</i></p>
   </div>
 </div>
-
+</div>
 
 
 
@@ -803,7 +906,7 @@ Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zh
           <div class="row mt-2">
   
     <div class="eight columns">
-      <p id="madewith">Updated by Hongyao Tang, Sep 2025.
+      <p id="madewith">Updated by Hongyao Tang, Mar 2026.
     </div>
 
     <!-- Sepcial thanks to https://simpleicons.org/ for the icons -->

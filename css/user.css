@@ -220,6 +220,21 @@ select:focus {
   .pub-card {
     padding: 12px 14px;
   }
+  .pub-card p {
+    line-height: 1.5;
+  }
+  .pub-card p b {
+    font-size: 14px;
+  }
+  .pub-card p i {
+    font-size: 12px;
+  }
+  .pub-card p a {
+    font-size: 12px;
+  }
+  .pub-card p u {
+    font-size: 12px;
+  }
   .pub-card::before {
     width: 3px;
   }

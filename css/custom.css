@@ -26,6 +26,15 @@
        url('../fonts/inter-v2-latin-regular.svg#Inter') format('svg'); /* Legacy iOS */
 }
 
+/* inter-bold - latin */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/inter-v2-latin-700.woff2') format('woff2'),
+       url('../fonts/inter-v2-latin-700.woff') format('woff');
+}
+
 html {
   overflow: auto;
 }

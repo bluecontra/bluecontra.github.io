@@ -249,3 +249,309 @@ select:focus {
     font-size: 13px !important;
   }
 }
+
+/* ==========================================================================
+   Navigation Bar
+   ========================================================================== */
+.navbar {
+  padding: 12px 0;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  font-size: 17px;
+  text-align: center;
+}
+body.darkmode .navbar {
+  border-bottom-color: #444;
+}
+.navbar a {
+  margin: 0 15px;
+  color: #555;
+  text-decoration: none;
+  background-image: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.navbar a:hover {
+  color: #0FA0CE;
+}
+.navbar a.active {
+  color: #555;
+  border-bottom-color: #aaa;
+  font-weight: 600;
+}
+body.darkmode .navbar a {
+  color: #aaa;
+}
+body.darkmode .navbar a.active {
+  color: #ccc;
+  border-bottom-color: #888;
+}
+.navbar .dark-toggle {
+  cursor: pointer;
+  margin-right: 20px;
+  font-size: 18px;
+}
+
+/* ==========================================================================
+   Publication Cards — Metallic Frosted Glass
+   ========================================================================== */
+.pub-card {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(220,222,228,0.8) 0%,
+      rgba(240,242,248,0.7) 20%,
+      rgba(255,255,255,0.95) 38%,
+      rgba(230,232,238,0.6) 45%,
+      rgba(252,253,255,0.9) 55%,
+      rgba(235,237,243,0.65) 70%,
+      rgba(215,217,223,0.75) 100%
+    );
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px 16px 20px;
+  margin-bottom: 12px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.pub-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.06) 44%,
+    rgba(255,255,255,0.3) 50%,
+    rgba(255,255,255,0.06) 56%,
+    transparent 62%
+  );
+  opacity: 0.75;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+  transform: translateX(0);
+}
+.pub-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: #c8c8c8;
+  border-radius: 3px 0 0 3px;
+  transition: width 0.25s;
+}
+.pub-card:hover {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.025) 2px,
+      rgba(0,0,0,0.025) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(235,237,243,0.85) 0%,
+      rgba(248,250,255,0.8) 20%,
+      rgba(255,255,255,1) 38%,
+      rgba(240,242,248,0.7) 45%,
+      rgba(255,255,255,1) 55%,
+      rgba(245,247,253,0.75) 70%,
+      rgba(230,232,238,0.8) 100%
+    );
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.85),
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 4px 16px rgba(0,0,0,0.1),
+    2px 0 8px rgba(160,165,175,0.3);
+}
+.pub-card:hover::after {
+  opacity: 1;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.1) 44%,
+    rgba(255,255,255,0.45) 50%,
+    rgba(255,255,255,0.1) 56%,
+    transparent 62%
+  );
+  transform: translateX(2%);
+}
+.pub-card:hover::before {
+  width: 5px;
+}
+
+/* Typography hierarchy inside pub-card */
+.pub-card p {
+  margin: 0;
+  line-height: 1.6;
+}
+.pub-card p b {
+  font-size: 16px;
+  color: #222;
+}
+.pub-card p i {
+  font-size: 14px;
+  color: #baa040;
+  position: relative;
+  padding-left: 12px;
+  transition: color 0.3s;
+}
+.pub-card p i::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #baa040;
+  transition: background 0.3s;
+}
+.pub-card:hover p i {
+  color: #4a8c5c;
+}
+.pub-card:hover p i::before {
+  background: #4a8c5c;
+}
+body.darkmode .pub-card p i::before {
+  background: #c4a840;
+}
+.pub-card p a {
+  font-size: 14px;
+}
+.pub-card p u {
+  text-decoration: underline;
+  text-decoration-color: #aaa;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  color: #333;
+}
+
+body.darkmode .pub-card {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(255,255,255,0.018) 2px,
+      rgba(255,255,255,0.018) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(55,56,62,0.8) 0%,
+      rgba(72,73,80,0.55) 20%,
+      rgba(88,89,96,0.9) 38%,
+      rgba(58,59,65,0.5) 45%,
+      rgba(82,83,90,0.85) 55%,
+      rgba(65,66,72,0.55) 70%,
+      rgba(48,49,54,0.75) 100%
+    );
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 2px 8px rgba(0,0,0,0.3);
+}
+body.darkmode .pub-card::before {
+  background: #c8c8c8;
+}
+body.darkmode .pub-card::after {
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.04) 44%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.04) 56%,
+    transparent 62%
+  );
+  opacity: 0.65;
+}
+body.darkmode .pub-card:hover::after {
+  opacity: 1;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.07) 44%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.07) 56%,
+    transparent 62%
+  );
+}
+body.darkmode .pub-card:hover {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(255,255,255,0.022) 2px,
+      rgba(255,255,255,0.022) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(68,69,76,0.85) 0%,
+      rgba(85,86,94,0.65) 20%,
+      rgba(102,103,112,0.95) 38%,
+      rgba(72,73,80,0.58) 45%,
+      rgba(95,96,105,0.9) 55%,
+      rgba(78,79,86,0.65) 70%,
+      rgba(60,61,67,0.8) 100%
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 4px 16px rgba(0,0,0,0.4),
+    2px 0 8px rgba(120,125,135,0.25);
+}
+body.darkmode .pub-card p b {
+  color: #eee;
+}
+body.darkmode .pub-card p i {
+  color: #c4a840;
+}
+body.darkmode .pub-card p i::before {
+  background: #c4a840;
+}
+body.darkmode .pub-card:hover p i {
+  color: #5daa72;
+}
+body.darkmode .pub-card:hover p i::before {
+  background: #5daa72;
+}
+body.darkmode .pub-card p u {
+  color: #ddd;
+  text-decoration-color: #aaa;
+}
+
+/* ==========================================================================
+   Rainbow highlight for Oral / Spotlight
+   ========================================================================== */
+.rainbow {
+  background: linear-gradient(135deg, #e74c3c, #f39c12, #2ecc71, #3498db, #9b59b6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}

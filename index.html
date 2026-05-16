@@ -39,6 +39,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="preload" href="/fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v2-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -59,13 +60,11 @@
       <div>
 
         <!-- 顶部导航栏 -->
-        <div class="row" style="margin-bottom: 20px;">
-          <div class="twelve columns" style="text-align: center;">
-            <span style="cursor: pointer; margin-right: 20px;" onclick="setDarkMode(true)" id="darkBtnTop">🌑</span>
-            <span style="cursor: pointer; margin-right: 20px; display: none;" onclick="setDarkMode(false)" id="lightBtnTop">☀️</span>
-            <a href="/" style="margin: 0 15px;">Home</a>
-            <a href="/archives" style="margin: 0 15px;">Publications</a>
-          </div>
+        <div class="navbar">
+          <span class="dark-toggle" onclick="setDarkMode(true)" id="darkBtnTop">🌑</span>
+          <span class="dark-toggle" onclick="setDarkMode(false)" id="lightBtnTop" style="display: none;">☀️</span>
+          <a href="/" class="active">Home</a>
+          <a href="/archives">Publications</a>
         </div>
 
         <p style="text-align: center; color: grey; font-size: 12px; margin-bottom: 20px;">
@@ -102,7 +101,7 @@
               Associate Research Fellow @ Tianjin University
             </p>
             <p style="text-align: center; color: grey; font-size: 14px; margin-top: -10px;">
-              tanghyyy [at] gmail.com  |
+              📧 tanghyyy [at] gmail.com  |
               <a class="ml-0 footer-link icon" href="https://scholar.google.com/citations?user=yIqzRH4AAAAJ" target="_blank" style="text-decoration: none" rel="noreferrer" aria-label="Google Scholar">
                 <svg class="scholar svg-hov" width="18" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Google Scholar</title><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l12 9.5 12-9.5L12 0z"/></svg>
               </a>
@@ -172,7 +171,7 @@
         <li style="margin-bottom: 12px;">
           <span class="news-date">2026.04</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">ICML 2026</span></span>
-          <span class="news-content">Two papers accepted to ICML 2026 on DRL scaling with MOE structure and efficient non-forgetting network forcontinual RL!</span>
+          <span class="news-content">Two papers accepted to ICML 2026 on DRL scaling with MOE structure and efficient non-forgetting network for continual RL!</span>
         </li>
         <li style="margin-bottom: 12px;">
           <span class="news-date">2026.01</span>
@@ -271,7 +270,7 @@
 
       <p style="color:grey">PS: Authors with equal contribution are marked by *. Corresponding authors are marked by 📮.</p>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>Improving Deep Reinforcement Learning by Reducing the Chain Effect of Value and Policy Churn</b><br />
         <u>Hongyao Tang</u>, Glen Berseth<br />
         <i>NeurIPS 2024</i>
@@ -280,7 +279,7 @@
         </p>
       </div>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>Mitigating Plasticity Loss in Continual Reinforcement Learning by Reducing Churn
         </b><br />
         <u>Hongyao Tang</u>📮, Johan Obando-Ceron, Pablo Samuel Castro, Aaron Courville, Glen Berseth<br />
@@ -290,25 +289,25 @@
         </p>
       </div>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>ScaleMoE: Mixture-of-Experts for Scalable Continuous Control in Actor-Critic Reinforcement Learning
         </b><br />
         Yi Ma, Chenjun Xiao, <u>Hongyao Tang</u>📮, Yaodong Yang, Jinyi Liu, Jing Liang, Jiye Liang<br />
-        <i>ICML 2026 (Spotlight)</i>
+        <i>ICML 2026 (<span class="rainbow">Spotlight</span>)</i>
         | [<a target="_blank" rel="noopener" href="">Paper</a>]
         </p>
       </div>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>Neuro-evolutionary Continual Reinforcement Learning
         </b><br />
         Pengyi Li, <u>Hongyao Tang</u>📮, Yifu Yuan, Yan Zheng, Jianye Hao<br />
-        <i>ICML 2026 (Spotlight)</i>
+        <i>ICML 2026 (<span class="rainbow">Spotlight</span>)</i>
         | [<a target="_blank" rel="noopener" href="">Paper</a>]
         </p>
       </div>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>PACE: Unleashing the Power of Code Embeddings to Boost AutoML Agents</b><br />
         Gangyi Zhao, Hebin Liang, <u>Hongyao Tang</u>📮, Yi Ma, Jinyi Liu, Zhaocheng Du, YAN ZHENG, Chenjun Xiao, Jianye HAO<br />
         <i>KDD 2026</i>
@@ -316,7 +315,7 @@
         </p>
       </div>
 
-      <div class="row">
+      <div class="row pub-card">
         <p><b>The Ladder in Chaos: Improving Policy Learning by Harnessing the Parameter Evolving Path in A Low-dimensional Space</b><br />
         <u>Hongyao Tang</u>, Min Zhang, Chen Chen, Jianye Hao <br />
         <i>NeurIPS 2024</i>
@@ -325,7 +324,7 @@
       </div>
 
       <div id="publications-content">
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Squeeze the Soaked Sponge: Efficient Off-policy Reinforcement Finetuning for Large Language Model
           </b><br />
           Jing Liang*, Jinyi Liu*, Yi Ma*, <u>Hongyao Tang</u>📮, Yan Zheng, Shuyue Hu, Lei Bai, Jianye Hao<br />
@@ -334,7 +333,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>The Rank and Gradient Lost in Non-stationarity: Sample Weight Decay for Mitigating Plasticity Loss in Reinforcement Learning
           </b><br />
           Zihao Wu, <u>Hongyao Tang</u>📮, Yi Ma, Jiashun Liu, Yan Zheng, Jianye Hao<br />
@@ -343,7 +342,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Scaling DRL for Decision Making: A Survey on Data, Network, and Training Budget Strategies
           </b><br />
           Yi Ma*, <u>Hongyao Tang</u>*, Chenjun Xiao, Yaodong Yang, Wei Wei, Jianye Hao, Jiye Liang<br />
@@ -352,7 +351,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Embodied-R1: Reinforced Embodied Reasoning for General Robotic Manipulation
           </b><br />
           Yifu Yuan, Haiqin Cui, Yaoting Huang, Yibin Chen, Fei Ni, Zibin Dong, Pengyi Li, Yan Zheng, <u>Hongyao Tang</u>, Jianye Hao<br />
@@ -361,7 +360,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>LaRes: Evolutionary Reinforcement Learning with LLM-based Adaptive Reward Search</b><br />
           Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Jinbin Qiao, Yan Zheng<br />
           <i>NeurIPS 2025</i>
@@ -369,15 +368,15 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Towards A Unified Policy Abstraction Theory and Representation Learning Approach in Markov Decision Processes</b><br />
           Min Zhang, <u>Hongyao Tang</u>📮, Jianye Hao, Yan Zheng<br />
-          <i>AAMAS 2026 (Full Paper, Oral)</i>
+          <i>AAMAS 2026 (Full Paper, <span class="rainbow">Oral</span>)</i>
           | [<a href="">Paper</a>]
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Embodied Arena: A Comprehensive, Unified, and Evolving Evaluation Platform for Embodied AI</b><br />
           Fei Ni, Min Zhang, Pengyi Li, Yifu Yuan, Lingfeng Zhang, Yuecheng Liu, Peilong Han, Longxin Kou, Shaojin Ma, Jinbin Qiao, David Gamaliel Arcos Bravo, Yuening Wang, Xiao Hu, Zhanguang Zhang, Xianze Yao, Yutong Li, Zhao Zhang, Ying Wen, Ying-Cong Chen, Xiaodan Liang, Liang Lin, Bin He, Haitham Bou-Ammar, He Wang, Huazhe Xu, Jiankang Deng, Shan Luo, Shuqiang Jiang, Wei Pan, Yang Gao, Stefanos Zafeiriou, Jan Peters, Yuzheng Zhuang, Yingxue Zhang, Yan Zheng, <u>Hongyao Tang</u>, Jianye Hao<br />
           <i>arXiv 2025</i>
@@ -385,7 +384,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Efficient Morphology-Aware Policy Transfer to New Embodiments
           </b><br />
           Michael Przystupa, <u>Hongyao Tang</u>, Glen Berseth, Mariano Phielipp, Santiago Miret, Martin Jägersand, Matthew E. Taylor<br />
@@ -394,7 +393,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Can We Optimize Deep RL Policy Weights as Trajectory Modeling?
           </b><br />
           <u>Hongyao Tang</u><br />
@@ -403,7 +402,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>EvoRainbow: Combining Improvements in Evolutionary Reinforcement Learning for Policy Search</b><br />
           Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Xian Fu, Yan Zheng<br />
           <i>ICML 2024</i>
@@ -412,7 +411,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>Reining Generalization in Offline Reinforcement Learning via Representation Distinction</b><br />
           Yi Ma, <u>Hongyao Tang</u>📮, Dong Li, Zhaopeng Meng<br />
           <i>NeurIPS 2023</i>
@@ -420,7 +419,7 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>HyAR: Addressing Discrete-Continuous Action Reinforcement Learning via Hybrid Action Representation</b><br />
           Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zhaopeng Meng, Li Wang<br />
           <i>ICLR 2022</i>
@@ -429,10 +428,10 @@
           </p>
         </div>
 
-        <div class="row">
+        <div class="row pub-card">
           <p><b>What about Inputting Policy in Value Function: Policy Representation and Policy-Extended Value Function Approximator</b><br />
           <u>Hongyao Tang</u>, Zhaopeng Meng, Jianye Hao, Chen Chen, Daniel Graves, Dong Li, Changmin Yu, Hangyu Mao, Wulong Liu, Yaodong Yang, Wenyuan Tao, Li Wang<br />
-          <i>AAAI 2022 Oral Presentation (&lt; 5%)</i>
+          <i>AAAI 2022 <span class="rainbow">Oral</span> Presentation (&lt; 5%)</i>
           | [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.09536.pdf">Paper</a>]
           [<a target="_blank" rel="noopener" href="https://github.com/TJU-DRL-LAB/self-supervised-rl/tree/main/RL_with_Policy_Representation/Policy-based_RL_with_PeVFA/PPO-PeVFA">Code</a>]
           </p>

@@ -39,6 +39,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="preload" href="/fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/inter-v2-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/inter-v2-latin-700.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -59,13 +60,11 @@
       <div>
 
         <!-- 顶部导航栏 -->
-        <div class="row" style="margin-bottom: 20px;">
-          <div class="twelve columns" style="text-align: center;">
-            <span style="cursor: pointer; margin-right: 20px;" onclick="setDarkMode(true)" id="darkBtnTop">🌑</span>
-            <span style="cursor: pointer; margin-right: 20px; display: none;" onclick="setDarkMode(false)" id="lightBtnTop">☀️</span>
-            <a href="/" style="margin: 0 15px;">Home</a>
-            <a href="/archives" style="margin: 0 15px;">Publications</a>
-          </div>
+        <div class="navbar">
+          <span class="dark-toggle" onclick="setDarkMode(true)" id="darkBtnTop">🌑</span>
+          <span class="dark-toggle" onclick="setDarkMode(false)" id="lightBtnTop" style="display: none;">☀️</span>
+          <a href="/">Home</a>
+          <a href="/archives" class="active">Publications</a>
         </div>
 
         <p style="text-align: center; color: grey; font-size: 12px; margin-bottom: 20px;">
@@ -137,9 +136,9 @@
         <div id="publications-content">
           <p style="color:grey">PS: Authors with equal contribution are marked by *. Corresponding authors are marked by 📮.</p>
 
-          <h3 style="color:blue">2026</h3>
+          <h3 style="color:#222">2026</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[56] <b>PACE: Unleashing the Power of Code Embeddings to Boost AutoML Agents</b><br />
             Gangyi Zhao, Hebin Liang, <u>Hongyao Tang</u>📮, Yi Ma, Jinyi Liu, Zhaocheng Du, YAN ZHENG, Chenjun Xiao, Jianye HAO<br />
             <i>KDD 2026</i>
@@ -147,25 +146,25 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[55] <b>ScaleMoE: Mixture-of-Experts for Scalable Continuous Control in Actor-Critic Reinforcement Learning
             </b><br />
             Yi Ma, Chenjun Xiao, <u>Hongyao Tang</u>📮, Yaodong Yang, Jinyi Liu, Jing Liang, Jiye Liang<br />
-            <i>ICML 2026 (Spotlight)</i>
+            <i>ICML 2026 (<span class="rainbow">Spotlight</span>)</i>
             | [<a target="_blank" rel="noopener" href="">Paper</a>]
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[54] <b>Neuro-evolutionary Continual Reinforcement Learning
             </b><br />
             Pengyi Li, <u>Hongyao Tang</u>📮, Yifu Yuan, Yan Zheng, Jianye Hao<br />
-            <i>ICML 2026 (Spotlight)</i>
+            <i>ICML 2026 (<span class="rainbow">Spotlight</span>)</i>
             | [<a target="_blank" rel="noopener" href="">Paper</a>]
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[53] <b>Squeeze the Soaked Sponge: Efficient Off-policy Reinforcement Finetuning for Large Language Model
             </b><br />
             Jing Liang*, Jinyi Liu*, Yi Ma*, <u>Hongyao Tang</u>📮, Yan Zheng, Shuyue Hu, Lei Bai, Jianye Hao<br />
@@ -174,7 +173,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[52] <b>The Rank and Gradient Lost in Non-stationarity: Sample Weight Decay for Mitigating Plasticity Loss in Reinforcement Learning
             </b><br />
             Zihao Wu, <u>Hongyao Tang</u>📮, Yi Ma, Jiashun Liu, Yan Zheng, Jianye Hao<br />
@@ -183,7 +182,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[51] <b>Embodied-R1: Reinforced Embodied Reasoning for General Robotic Manipulation
             </b><br />
             Yifu Yuan, Haiqin Cui, Yaoting Huang, Yibin Chen, Fei Ni, Zibin Dong, Pengyi Li, Yan Zheng, <u>Hongyao Tang</u>, Jianye Hao<br />
@@ -192,17 +191,17 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2025</h3>
+          <h3 style="color:#222">2025</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[50]<b>Towards A Unified Policy Abstraction Theory and Representation Learning Approach in Markov Decision Processes</b><br />
             Min Zhang, <u>Hongyao Tang</u>📮, Jianye Hao, Yan Zheng<br />
-            <i>AAMAS 2026 (Full Paper, Oral)</i>
+            <i>AAMAS 2026 (Full Paper, <span class="rainbow">Oral</span>)</i>
             | [<a href="">Paper</a>]
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[49] <b>MUVLA: Learning to Explore Object Navigation via Map Understanding</b><br />
             Peilong Han, Fan Jia, Min Zhang, Yutao Qiu, <u>Hongyao Tang</u>, Yan Zheng, Tiancai Wang, Jianye Hao<br />
             <i>arXiv 2025</i>
@@ -210,7 +209,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[48] <b>Embodied Arena: A Comprehensive, Unified, and Evolving Evaluation Platform for Embodied AI</b><br />
             Fei Ni, Min Zhang, Pengyi Li, Yifu Yuan, Lingfeng Zhang, Yuecheng Liu, Peilong Han, Longxin Kou, Shaojin Ma, Jinbin Qiao, David Gamaliel Arcos Bravo, Yuening Wang, Xiao Hu, Zhanguang Zhang, Xianze Yao, Yutong Li, Zhao Zhang, Ying Wen, Ying-Cong Chen, Xiaodan Liang, Liang Lin, Bin He, Haitham Bou-Ammar, He Wang, Huazhe Xu, Jiankang Deng, Shan Luo, Shuqiang Jiang, Wei Pan, Yang Gao, Stefanos Zafeiriou, Jan Peters, Yuzheng Zhuang, Yingxue Zhang, Yan Zheng, <u>Hongyao Tang</u>, Jianye Hao<br />
             <i>arXiv 2025</i>
@@ -218,7 +217,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[47] <b>LaRes: Evolutionary Reinforcement Learning with LLM-based Adaptive Reward Search</b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Jinbin Qiao, Yan Zheng<br />
             <i>NeurIPS 2025</i>
@@ -226,7 +225,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[46] <b>COLA: Towards Efficient Multi-Objective Reinforcement Learning with Conflict Objective Regularization in Latent Space</b><br />
             Pengyi Li, Jianye Hao, Yifu Yuan, <u>Hongyao Tang</u>📮, Zibin Dong, Yan Zheng<br />
             <i>NeurIPS 2025</i>
@@ -234,7 +233,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[45] <b>FANS: A Flatness-Aware Network Structure for Generalization in Offline Reinforcement Learning</b><br />
             Da Wang, Yi Ma, Ting Guo, <u>Hongyao Tang</u>, Wei Wei, Jiye Liang<br />
             <i>NeurIPS 2025</i>
@@ -242,7 +241,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[44] <b>CORE: Collaborative Optimization with Reinforcement Learning and Evolutionary Algorithm for Floorplanning</b><br />
             Pengyi Li, Shixiong Kai, Jianye HAO, Ruizhe Zhong, <u>Hongyao Tang</u>, Zhentao Tang, Mingxuan Yuan, Junchi Yan<br />
             <i>NeurIPS 2025</i>
@@ -250,7 +249,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[43] <b>Scaling DRL for Decision Making: A Survey on Data, Network, and Training Budget Strategies
             </b><br />
             Yi Ma*, <u>Hongyao Tang</u>*, Chenjun Xiao, Yaodong Yang, Wei Wei, Jianye Hao, Jiye Liang<br />
@@ -259,7 +258,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[42] <b>Efficient Morphology-Aware Policy Transfer to New Embodiments
             </b><br />
             Michael Przystupa, <u>Hongyao Tang</u>, Glen Berseth, Mariano Phielipp, Santiago Miret, Martin Jägersand, Matthew E. Taylor<br />
@@ -268,7 +267,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[41] <b>Mitigating Plasticity Loss in Continual Reinforcement Learning by Reducing Churn
             </b><br />
             <u>Hongyao Tang</u>📮, Johan Obando-Ceron, Pablo Samuel Castro, Aaron Courville, Glen Berseth<br />
@@ -278,7 +277,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[40] <b>R*: Efficient Reward Design via Reward Structure Evolution and Parameter Alignment Optimization with Large Language Models
             </b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Yifu Yuan, Jinbin Qiao, Zibin Dong, Yan Zheng<br />
@@ -287,7 +286,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[39] <b>Can We Optimize Deep RL Policy Weights as Trajectory Modeling?
             </b><br />
             <u>Hongyao Tang</u><br />
@@ -296,7 +295,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[38] <b>Dual Ensembled Multiagent Q-Learning with Hypernet Regularizer</b><br />
             Yaodong Yang, Guangyong Chen, <u>Hongyao Tang</u>, Furui Liu, Danruo DENG, Pheng-Ann Heng<br />
             <i>AAMAS 2025</i>
@@ -304,7 +303,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[37] <b>ED2: Environment Dynamics Decomposition World Models for Continuous Control</b><br />
             Yifu Yuan, <u>Hongyao Tang</u>, Cong Wang, Yan Zheng, Jianye Hao<br />
             <i>Visual Intelligence 2025</i>
@@ -312,9 +311,9 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2024</h3>
+          <h3 style="color:#222">2024</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[36] <b>Improving Deep Reinforcement Learning by Reducing the Chain Effect of Value and Policy Churn</b><br />
             <u>Hongyao Tang</u>, Glen Berseth<br />
             <i>NeurIPS 2024</i>
@@ -323,7 +322,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[35] <b>The Ladder in Chaos: Improving Policy Learning by Harnessing the Parameter Evolving Path in A Low-dimensional Space</b><br />
             <u>Hongyao Tang</u>, Min Zhang, Chen Chen, Jianye Hao <br />
             <i>NeurIPS 2024</i>
@@ -331,7 +330,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[34] <b>Minimally Invasive Morphology Adaptation via Parameter Efficient Fine-Tuning</b><br />
             Michael Przystupa, <u>Hongyao Tang</u>, Mariano Phielipp, Santiago Miret, Martin Jägersand, Glen Berseth<br />
             <i>CoRL 2024 Workshop on MAPoDeL</i>
@@ -339,7 +338,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[33] <b>Self-Supervised Bisimulation Action Chunk Representation for Efficient RL</b><br />
             Lei Shi, Jianye Hao, <u>Hongyao Tang</u>, Zibin Dong, Yan Zheng <br />
             <i>NeurIPS 2024 Workshop on Self-Supervised Learning - Theory and Practice/SafeGenAi</i>
@@ -347,7 +346,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[32] <b>HuLE-Nav: Human-Like Exploration for Zero-Shot Object Navigation via Vision-Language Models</b><br />
             Peilong Han, Min Zhang, Jianye Hao, <u>Hongyao Tang</u>, Yan Zheng<br />
             <i>NeurIPS 2024 Workshop on Behavioral ML</i>
@@ -355,7 +354,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[31] <b>Learning Robust Representations for Transfer in Reinforcement Learning</b><br />
             Faisal Mohamed, Roger Creus Castanyer, <u>Hongyao Tang</u>, Zahra Sheikhbahaee, Glen Berseth<br />
             <i>NeurIPS 2024 Workshop on FITML</i>
@@ -363,7 +362,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[30] <b>MFE-ETP: A Comprehensive Evaluation Benchmark for Multi-modal Foundation Models on Embodied Task Planning</b><br />
             Min Zhang, Jianye Hao, Xian Fu, Peilong Han, Hao Zhang, Lei Shi, <u>Hongyao Tang</u>, Yan Zheng<br />
             <i>arXiv preprint 2024</i>
@@ -371,7 +370,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[29] <b>What can VLMs Do for Zero-shot Embodied Task Planning?</b><br />
             Xian Fu, Min Zhang, Jianye Hao, Peilong Han, Hao Zhang, Lei Shi, <u>Hongyao Tang</u><br />
             <i>ICML 2024 Workshop on LLMs and Congition</i>
@@ -379,7 +378,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[28] <b>EvoRainbow: Combining Improvements in Evolutionary Reinforcement Learning for Policy Search</b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Xian Fu, Yan Zheng<br />
             <i>ICML 2024</i>
@@ -388,7 +387,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[27] <b>Value-Evolutionary-Based Reinforcement Learning</b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Yan Zheng, Fazl Barez<br />
             <i>ICML 2024</i>
@@ -397,7 +396,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[26] <b>Bridging Evolutionary Algorithms and Reinforcement Learning: A Comprehensive Survey
             </b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Xian Fu, Yan Zheng, Ke Tang<br />
@@ -406,7 +405,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[25] <b>Designing Biological Sequences without Prior Knowledge using Evolutionary Reinforcement Learning</b><br />
             Xi Zeng, Xiaotian Hao, <u>Hongyao Tang</u>, Zhentai Tang, Shaoqing Jiao, Dazhi Lu, Jiajie Peng<br />
             <i>AAAI 2024</i>
@@ -414,9 +413,9 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2023</h3>
+          <h3 style="color:#222">2023</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[24] <b>Reining Generalization in Offline Reinforcement Learning via Representation Distinction</b><br />
             Yi Ma, <u>Hongyao Tang</u>📮, Dong Li, Zhaopeng Meng<br />
             <i>NeurIPS 2023</i>
@@ -424,7 +423,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[23] <b>Boosting Off-policy RL with Policy Representation and Policy-extended Value Function Approximator</b><br />
             Min Zhang, Jianye Hao, <u>Hongyao Tang</u>, Yan Zheng<br />
             <i>ICML 2023 Workshop on Frontiers4LCD</i>
@@ -432,7 +431,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[22] <b>RACE: Improve Multi-Agent Reinforcement Learning with Representation Asymmetry and Collaborative Evolution</b><br />
             Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Yan Zheng, Xian Fu<br />
             <i>ICML 2023</i>
@@ -440,7 +439,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[21] <b>ERL-Re^2: Efficient Evolutionary Reinforcement Learning with Shared State Representation and Individual Policy Representation</b><br />
             Jianye Hao, Pengyi Li, <u>Hongyao Tang</u>, Yan Zheng, Xian Fu, Zhaopeng Meng<br />
             <i>ICLR 2023</i>
@@ -449,7 +448,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[20] <b>Exploration in Deep Reinforcement Learning: From Single-Agent to Multi-Agent Domain</b><br />
             Jianye Hao, Tianpei Yang, <u>Hongyao Tang</u>, Chenjia Bai, Jinyi Liu, Zhaopeng Meng, Peng Liu<br />
             <i>IEEE Transactions on Neural Networks and Learning Systems (Accepted in 2023 Jan)</i>
@@ -457,9 +456,9 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2022</h3>
+          <h3 style="color:#222">2022</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[19] <b>State-Aware Proximal Pessimistic Algorithms for Offline Reinforcement Learning</b><br />
             Chen Chen, <u>Hongyao Tang</u>, Yi Ma, Chao Wang, Qianli Shen, Dong Li, Jianye Hao<br />
             <i>arXiv preprint, 2022</i>
@@ -467,7 +466,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[18] <b>PMIC: Improving Multi-Agent Reinforcement Learning with Progressive Mutual Information Collaboration</b><br />
             Pengyi Li, <u>Hongyao Tang</u>, Tianpei Yang, Xiaotian Hao, Tong Sang, Yan Zheng, Jianye Hao, Matthew E. Taylor, Wenyuan Tao, Zhen Wang<br />
             <i>ICML 2022</i>
@@ -476,7 +475,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[17] <b>PAnDR: Fast Adaptation to New Environments from Offline Experiences via Decoupling Policy and Environment Representations</b><br />
             Tong Sang*, <u>Hongyao Tang</u>*, Yi Ma, Jianye Hao, Yan Zheng, Zhaopeng Meng, Boyan Li, Zhen Wang<br />
             <i>IJCAI 2022</i>
@@ -484,7 +483,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[16] <b>HyAR: Addressing Discrete-Continuous Action Reinforcement Learning via Hybrid Action Representation</b><br />
             Boyan Li*, <u>Hongyao Tang</u>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zhaopeng Meng, Li Wang<br />
             <i>ICLR 2022</i>
@@ -493,18 +492,18 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[15] <b>What about Inputting Policy in Value Function: Policy Representation and Policy-Extended Value Function Approximator</b><br />
             <u>Hongyao Tang</u>, Zhaopeng Meng, Jianye Hao, Chen Chen, Daniel Graves, Dong Li, Changmin Yu, Hangyu Mao, Wulong Liu, Yaodong Yang, Wenyuan Tao, Li Wang<br />
-            <i>AAAI 2022 Oral Presentation (&lt; 5%)</i>
+            <i>AAAI 2022 <span class="rainbow">Oral</span> Presentation (&lt; 5%)</i>
             | [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.09536.pdf">Paper</a>]
             [<a target="_blank" rel="noopener" href="https://github.com/TJU-DRL-LAB/self-supervised-rl/tree/main/RL_with_Policy_Representation/Policy-based_RL_with_PeVFA/PPO-PeVFA">Code</a>]
             </p>
           </div>
 
-          <h3 style="color:blue">2021</h3>
+          <h3 style="color:#222">2021</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[14] <b>An Efficient Transfer Learning Framework for Multiagent Reinforcement Learning</b><br />
             Tianpei Yang*, Weixun Wang*, <u>Hongyao Tang</u>*, Jianye Hao, Zhaopeng Meng, Hangyu Mao, Dong Li, Wulong Liu, Yingfeng Chen, Yujing Hu, Changjie Fan, Chengwei Zhang<br />
             <i>NeurIPS 2021</i>
@@ -512,7 +511,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[13] <b>Foresee then Evaluate: Decomposing Value Estimation with Latent Future Prediction</b><br />
             <u>Hongyao Tang</u>, Zhaopeng Meng, Guangyong Chen, Pengfei Chen, Chen Chen, Yaodong Yang, Luo Zhang, Wulong Liu, Jianye Hao<br />
             <i>AAAI 2021</i>
@@ -520,7 +519,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[12] <b>Towards Effective Context for Meta-Reinforcement Learning: an Approach based on Contrastive Learning</b><br />
             Haotian Fu, <u>Hongyao Tang</u>, Jianye Hao, Chen Chen, Xidong Feng, Dong Li, Wulong Liu<br />
             <i>AAAI 2021</i>
@@ -528,7 +527,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[11] <b>Addressing Action Oscillations through Learning Policy Inertia</b><br />
             Chen Chen*, <u>Hongyao Tang</u>*, Jianye Hao, Wulong Liu, Zhaopeng Meng<br />
             <i>AAAI 2021</i>
@@ -536,7 +535,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[10] <b>Uncertainty-Aware Low-Rank Q-Matrix Estimation for Deep Reinforcement Learning</b><br />
             Tong Sang, <u>Hongyao Tang</u>, Jianye Hao, Yan Zheng, Zhaopeng Meng<br />
             <i>DAI 2021</i>
@@ -544,7 +543,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[9] <b>ED2: An Environment Dynamics Decomposition Framework for World Model Construction</b><br />
             Cong Wang, Tianpei Yang, Jianye Hao, Yan Zheng, <u>Hongyao Tang</u>, Fazl Barez, Jinyi Liu, Jiajie Peng, Haiyin Piao, Zhixiao Sun<br />
             <i>arXiv preprint (2021)</i>
@@ -552,9 +551,9 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2020</h3>
+          <h3 style="color:#222">2020</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[8] <b>Q-value Path Decomposition for Deep Multiagent Reinforcement Learning</b><br />
             Yaodong Yang, Jianye Hao, Guangyong Chen, <u>Hongyao Tang</u>, Yingfeng Chen, Yujing Hu, Changjie Fan, Zhongyu Wei<br />
             <i>ICML 2020</i>
@@ -562,7 +561,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[7] <b>Qatten: A General Framework for Cooperative Multiagent Reinforcement Learning</b><br />
             Yaodong Yang, Jianye Hao, Ben Liao, Kun Shao, Guangyong Chen, Wulong Liu, <u>Hongyao Tang</u><br />
             <i>arXiv preprint (2020)</i>
@@ -570,7 +569,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[6] <b>KoGuN: Accelerating Deep Reinforcement Learning via Integrating Human Suboptimal Knowledge</b><br />
             Peng Zhang, Jianye Hao, Weixun Wang, <u>Hongyao Tang</u>, Yi Ma, Yihai Duan, Yan Zheng<br />
             <i>IJCAI 2020</i>
@@ -578,7 +577,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[5] <b>MGHRL: Meta Goal-Generation for Hierarchical Reinforcement Learning</b><br />
             Haotian Fu, <u>Hongyao Tang</u>, Jianye Hao, Wulong Liu, Chen Chen<br />
             <i>DAI 2020</i>
@@ -586,7 +585,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[4] <b>Mastering Basketball With Deep Reinforcement Learning: An Integrated Curriculum Training Approach</b><br />
             Hangtian Jia, Chunxu Ren, Yujing Hu, Yingfeng Chen, Tangjie Lv, Changjie Fan, <u>Hongyao Tang</u>, Jianye Hao<br />
             <i>AAMAS 2020 Extended Abstract</i>
@@ -594,9 +593,9 @@
             </p>
           </div>
 
-          <h3 style="color:blue">2019 and Before</h3>
+          <h3 style="color:#222">2019 and Before</h3>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[3] <b>Hierarchical Deep Multiagent Reinforcement Learning with Temporal Abstraction</b><br />
             <u>Hongyao Tang</u>, Jianye Hao, Tangjie Lv, Yingfeng Chen, Zongzhang Zhang, Hangtian Jia, Chunxu Ren, Yan Zheng, Changjie Fan, Li Wang<br />
             <i>arXiv preprint (2019)</i>
@@ -604,7 +603,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[2] <b>Deep Multi-Agent Reinforcement Learning with Discrete-Continuous Hybrid Action Spaces</b><br />
             Haotian Fu, <u>Hongyao Tang</u>, Jianye Hao, Zihan Lei, Yingfeng Chen, Changjie Fan<br />
             <i>IJCAI 2019</i>
@@ -612,7 +611,7 @@
             </p>
           </div>
 
-          <div class="row">
+          <div class="row pub-card">
             <p>[1] <b>An Optimal Rewiring Strategy for Cooperative Multiagent Social Learning</b><br />
             <u>Hongyao Tang</u>, Jianye Hao, Li Wang, Tim Baarslag, Zan Wang<br />
             <i>AAAI 2019 Student Abstract Finalist & AAMAS 2019 Extended Abstract</i>

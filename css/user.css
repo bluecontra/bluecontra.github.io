@@ -306,20 +306,20 @@ body.darkmode .navbar a.active {
       135deg,
       rgba(0,0,0,0),
       rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
+      rgba(0,0,0,0.02) 2px,
+      rgba(0,0,0,0.02) 4px
     ),
     linear-gradient(
       135deg,
-      rgba(220,222,228,0.8) 0%,
-      rgba(240,242,248,0.7) 20%,
+      rgba(235,237,240,0.8) 0%,
+      rgba(248,249,252,0.7) 20%,
       rgba(255,255,255,0.95) 38%,
-      rgba(230,232,238,0.6) 45%,
-      rgba(252,253,255,0.9) 55%,
-      rgba(235,237,243,0.65) 70%,
-      rgba(215,217,223,0.75) 100%
+      rgba(242,243,247,0.6) 45%,
+      rgba(254,254,255,0.9) 55%,
+      rgba(246,247,250,0.65) 70%,
+      rgba(230,232,236,0.75) 100%
     );
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 0 8px 8px 0;
   padding: 16px 20px 16px 20px;
   margin-bottom: 12px;
@@ -366,18 +366,18 @@ body.darkmode .navbar a.active {
       135deg,
       rgba(0,0,0,0),
       rgba(0,0,0,0) 2px,
-      rgba(0,0,0,0.025) 2px,
-      rgba(0,0,0,0.025) 4px
+      rgba(0,0,0,0.015) 2px,
+      rgba(0,0,0,0.015) 4px
     ),
     linear-gradient(
       135deg,
-      rgba(235,237,243,0.85) 0%,
-      rgba(248,250,255,0.8) 20%,
+      rgba(242,244,248,0.85) 0%,
+      rgba(252,253,255,0.8) 20%,
       rgba(255,255,255,1) 38%,
-      rgba(240,242,248,0.7) 45%,
+      rgba(247,248,252,0.7) 45%,
       rgba(255,255,255,1) 55%,
-      rgba(245,247,253,0.75) 70%,
-      rgba(230,232,238,0.8) 100%
+      rgba(250,251,254,0.75) 70%,
+      rgba(240,242,246,0.8) 100%
     );
   transform: translateY(-1px);
   box-shadow:

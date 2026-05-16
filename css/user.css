@@ -218,22 +218,23 @@ select:focus {
     font-size: 12px !important;
   }
   .pub-card {
-    padding: 12px 14px;
+    padding: 12px 14px !important;
   }
   .pub-card p {
-    line-height: 1.5;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
   }
   .pub-card p b {
-    font-size: 14px;
+    font-size: 14px !important;
   }
   .pub-card p i {
-    font-size: 12px;
+    font-size: 12px !important;
   }
   .pub-card p a {
-    font-size: 12px;
+    font-size: 12px !important;
   }
   .pub-card p u {
-    font-size: 12px;
+    font-size: 12px !important;
   }
   .pub-card::before {
     width: 3px;

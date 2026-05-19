@@ -95,6 +95,26 @@ select:focus {
   vertical-align: top;
 }
 
+.news-collapsible {
+  display: none;
+}
+
+.news-toggle {
+  display: inline-block;
+  margin-top: 4px;
+  color: #3498db;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+.news-toggle:hover {
+  color: #2980b9;
+}
+
 /* ==========================================================================
    Education & Work Timeline
    ========================================================================== */

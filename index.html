@@ -226,22 +226,24 @@
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">AAMAS 2025</span></span>
           <span class="news-content">One paper accepted to AAMAS 2025 on multi-agent RL with better sample efficiency!</span>
         </li>
-        <li style="margin-bottom: 12px;">
+        <li class="news-collapsible" style="margin-bottom: 12px;">
           <span class="news-date">2024.09</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">NeurIPS 2024</span></span>
           <span class="news-content">Two papers accepted to NeurIPS 2024 on network churn and learning dynamics of DRL!</span>
         </li>
-        <li style="margin-bottom: 12px;">
+        <li class="news-collapsible" style="margin-bottom: 12px;">
           <span class="news-date">2023.11</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">PostDoc</span></span>
           <span class="news-content">Excited to join Mila/UdeM as a Postdoctoral Research Fellow! Working with Prof. <a target="_blank" rel="noopener" href="https://neo-x.github.io/">Glen Berseth</a>.</span>
         </li>
-        <li style="margin-bottom: 12px;">
+        <li class="news-collapsible" style="margin-bottom: 12px;">
           <span class="news-date">2023.06</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">Ph.D.</span></span>
           <span class="news-content">Got my Ph.D. at Tianjin University! Grateful to Prof. <a target="_blank" rel="noopener" href="http://www.icdai.org/jianye.html">Jianye Hao</a> and Prof. Zhaopeng Meng.</span>
         </li>
       </ul>
+
+      <button class="news-toggle" onclick="toggleNews()" id="news-toggle-btn">Show more ▼</button>
 
       <hr />
 
@@ -378,13 +380,13 @@
           </p>
         </div>
 
-        <div class="row pub-card">
+<!--         <div class="row pub-card">
           <p><b>LaRes: Evolutionary Reinforcement Learning with LLM-based Adaptive Reward Search</b><br />
           Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Jinbin Qiao, Yan Zheng<br />
           <i>NeurIPS 2025</i>
           | [<a href="">Paper</a>]
           </p>
-        </div>
+        </div> -->
 
         <div class="row pub-card">
           <p><b>Towards A Unified Policy Abstraction Theory and Representation Learning Approach in Markov Decision Processes</b><br />
@@ -631,6 +633,20 @@
   </div>
 
   <script defer src="https://cloud.umami.is/script.js" data-website-id="c18823bb-5edc-42ac-9611-3d15eb7f83e8"></script>
+  <script>
+    function toggleNews() {
+      var items = document.querySelectorAll('.news-collapsible');
+      var btn = document.getElementById('news-toggle-btn');
+      var hidden = getComputedStyle(items[0]).display === 'none';
+      if (hidden) {
+        items.forEach(function(el) { el.style.display = 'list-item'; });
+        btn.textContent = 'Show less ▲';
+      } else {
+        items.forEach(function(el) { el.style.display = 'none'; });
+        btn.textContent = 'Show more ▼';
+      }
+    }
+  </script>
 </body>
 
 </html>

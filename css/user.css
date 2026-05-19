@@ -257,6 +257,9 @@ select:focus {
   .pub-card p u {
     font-size: 12px !important;
   }
+  .pub-card .tldr {
+    font-size: 12px !important;
+  }
   .pub-card::before {
     width: 3px;
   }
@@ -495,6 +498,10 @@ body.darkmode .navbar a.active {
 .pub-card:hover p i {
   color: #4a8c5c;
 }
+.pub-card:hover .tldr {
+  color: #4a8c5c;
+  font-weight: 700;
+}
 .pub-card:hover p i::before {
   background: #4a8c5c;
 }
@@ -510,6 +517,18 @@ body.darkmode .pub-card p i::before {
   text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
   color: #333;
+}
+.pub-card .tldr {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 3px 12px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 12px;
+  font-size: 13px;
+  color: #baa040;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
 }
 
 body.darkmode .pub-card {
@@ -599,12 +618,20 @@ body.darkmode .pub-card p i::before {
 body.darkmode .pub-card:hover p i {
   color: #5daa72;
 }
+body.darkmode .pub-card:hover .tldr {
+  color: #5daa72;
+  font-weight: 700;
+}
 body.darkmode .pub-card:hover p i::before {
   background: #5daa72;
 }
 body.darkmode .pub-card p u {
   color: #ddd;
   text-decoration-color: #aaa;
+}
+body.darkmode .pub-card .tldr {
+  background: rgba(255, 255, 255, 0.08);
+  color: #c4a840;
 }
 
 /* ==========================================================================

@@ -93,6 +93,7 @@ select:focus {
   display: inline-block;
   width: calc(100% - 210px);
   vertical-align: top;
+  font-size: 14px;
 }
 
 .news-collapsible {
@@ -104,7 +105,7 @@ select:focus {
   margin-top: 4px;
   color: #3498db;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   border: none;
   background: none;
@@ -157,7 +158,7 @@ select:focus {
   display: inline-block;
   padding: 2px 8px;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   margin-right: 8px;
   background-color: #e8e0f0;

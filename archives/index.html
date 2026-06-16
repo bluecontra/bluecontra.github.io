@@ -63,6 +63,16 @@
 </head>
 
 <body>
+  <nav id="toc-nav" aria-label="Year navigation">
+    <a class="toc-item" href="#year-2026"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2026</span></a>
+    <a class="toc-item" href="#year-2025"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2025</span></a>
+    <a class="toc-item" href="#year-2024"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2024</span></a>
+    <a class="toc-item" href="#year-2023"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2023</span></a>
+    <a class="toc-item" href="#year-2022"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2022</span></a>
+    <a class="toc-item" href="#year-2021"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2021</span></a>
+    <a class="toc-item" href="#year-2020"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2020</span></a>
+    <a class="toc-item" href="#year-2019"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">2019−</span></a>
+  </nav>
   <div class="container">
     <div class="row">
       <div>
@@ -144,7 +154,7 @@
         <div id="publications-content">
           <p style="color:grey">PS: Authors with equal contribution are marked by *. First / co-first authors played by me are marked by 🔥. Corresponding authors are marked by 💧.</p>
 
-          <h3 style="color:#222">2026</h3>
+          <h3 id="year-2026" style="color:#222">2026</h3>
 
           <div class="row pub-card">
             <p>[60] <b>Embodied-R1.5: Evolving Physical Intelligence via Embodied Foundation Models</b><br />
@@ -236,7 +246,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2025</h3>
+          <h3 id="year-2025" style="color:#222">2025</h3>
 
           <div class="row pub-card">
             <p>[50] <b>Towards A Unified Policy Abstraction Theory and Representation Learning Approach in Markov Decision Processes</b><br />
@@ -366,7 +376,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2024</h3>
+          <h3 id="year-2024" style="color:#222">2024</h3>
 
           <div class="row pub-card">
             <p>[35] <b>Improving Deep Reinforcement Learning by Reducing the Chain Effect of Value and Policy Churn</b><br />
@@ -468,7 +478,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2023</h3>
+          <h3 id="year-2023" style="color:#222">2023</h3>
 
           <div class="row pub-card">
             <p>[23] <b>Reining Generalization in Offline Reinforcement Learning via Representation Distinction</b><br />
@@ -511,7 +521,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2022</h3>
+          <h3 id="year-2022" style="color:#222">2022</h3>
 
           <div class="row pub-card">
             <p>[18] <b>State-Aware Proximal Pessimistic Algorithms for Offline Reinforcement Learning</b><br />
@@ -556,7 +566,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2021</h3>
+          <h3 id="year-2021" style="color:#222">2021</h3>
 
           <div class="row pub-card">
             <p>[13] <b>An Efficient Transfer Learning Framework for Multiagent Reinforcement Learning</b><br />
@@ -598,7 +608,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2020</h3>
+          <h3 id="year-2020" style="color:#222">2020</h3>
 
           <div class="row pub-card">
             <p>[8] <b>Q-value Path Decomposition for Deep Multiagent Reinforcement Learning</b><br />
@@ -640,7 +650,7 @@
             </p>
           </div>
 
-          <h3 style="color:#222">2019 and Before</h3>
+          <h3 id="year-2019" style="color:#222">2019 and Before</h3>
 
           <div class="row pub-card">
             <p>[3] <b>Hierarchical Deep Multiagent Reinforcement Learning with Temporal Abstraction</b><br />
@@ -694,6 +704,32 @@
   </div>
 
   <script defer src="https://cloud.umami.is/script.js" data-website-id="c18823bb-5edc-42ac-9611-3d15eb7f83e8"></script>
+  <script>
+    function initScrollSpy() {
+      var nav = document.getElementById('toc-nav');
+      if (!nav) return;
+      var items = Array.prototype.slice.call(nav.querySelectorAll('.toc-item')).map(function(item) {
+        var el = document.getElementById(item.getAttribute('href').slice(1));
+        return { item: item, section: el };
+      }).filter(function(s) { return s.section; });
+
+      function update() {
+        var scrollTop = document.body.scrollTop;
+        var trigger = scrollTop + window.innerHeight * 0.35;
+        var current = null;
+        items.forEach(function(s) {
+          if (s.section.offsetTop <= trigger) current = s;
+        });
+        items.forEach(function(s) { s.item.classList.toggle('active', s === current); });
+        nav.classList.toggle('visible', !!current);
+      }
+
+      document.body.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    }
+    initScrollSpy();
+  </script>
 </body>
 
 </html>

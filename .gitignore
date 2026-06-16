@@ -11,6 +11,10 @@ Icon
 # VSCode
 .vscode/
 
+# Claude Code
+.agents/
+skills-lock.json
+
 # IDE
 .idea/
 *.swp

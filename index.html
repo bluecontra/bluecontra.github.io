@@ -182,6 +182,16 @@
 
       <ul style="list-style: none; padding-left: 0;">
         <li style="margin-bottom: 12px;">
+          <span class="news-date">2026.08</span>
+          <span class="news-tag-wrapper"><span class="news-tag" style="background: linear-gradient(135deg, rgba(235,237,240,1) 0%, rgba(248,249,252,1) 30%, rgba(255,255,255,1) 50%, rgba(242,243,247,1) 70%, rgba(230,232,236,1) 100%); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 3px rgba(0,0,0,0.08); color: #222; font-weight: 900; padding: 4px 10px; border-radius: 4px;">WarpSAC</span></span>
+          <span class="news-content">We propose <b><a target="_blank" rel="noopener" href="https://wzhhasadream.github.io/WarpSAC/">WarpSAC</a></b> (i.e., at <i>"Warp Speed"</i>🚀) that <u>outperforms FlashSAC across 20+ CPU/GPU-scale environments</u>, and points toward <u>in-minutes sim-to-real deployment for Unitree G1</u>!</span>
+        </li>
+        <li style="margin-bottom: 12px;">
+          <span class="news-date">2026.08</span>
+          <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">EMNLP 2026</span></span>
+          <span class="news-content">One paper accepted to EMNLP 2026 (Findings) on critic-guided embodied agent!</span>
+        </li>
+        <li style="margin-bottom: 12px;">
           <span class="news-date">2026.07</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">ACM MM 2026</span></span>
           <span class="news-content">One paper accepted to ACM MM 2026 on grounded embodied reasoning via pinned chain-of-thought!</span>
@@ -189,7 +199,7 @@
         <li style="margin-bottom: 12px;">
           <span class="news-date">2026.06</span>
           <span class="news-tag-wrapper"><span class="news-tag" style="background: linear-gradient(135deg, rgba(235,237,240,1) 0%, rgba(248,249,252,1) 30%, rgba(255,255,255,1) 50%, rgba(242,243,247,1) 70%, rgba(230,232,236,1) 100%); border: 1px solid rgba(0,0,0,0.1); box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 3px rgba(0,0,0,0.08); color: #222; font-weight: 900; padding: 4px 10px; border-radius: 4px;">Embodied-R1.5</span></span>
-          <span class="news-content">We released <b>Embodied-R1.5</b>🤖🧠, a 8B embodied foundation model that has comprehensive embodied reasoning capabilitys, which <u>achieves SOTA performance on 16/24 embodied VLM benchmarks</u> and can be fine-tuned into a VLA that <u>outperforms π<sub>0.5</sub> across 4 popular manipulation benchmark suites</u></span>
+          <span class="news-content">We released <b><a target="_blank" rel="noopener" href="https://embodied-r.github.io/">Embodied-R1.5</a></b>🤖🧠, a 8B embodied foundation model that has comprehensive embodied reasoning capabilitys, which <u>achieves SOTA performance on 16/24 embodied VLM benchmarks</u> and can be fine-tuned into a VLA that <u>outperforms π<sub>0.5</sub> across 4 popular manipulation benchmark suites</u></span>
         </li>
         <li style="margin-bottom: 12px;">
           <span class="news-date">2026.05</span>
@@ -236,12 +246,12 @@
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">ICML 2025</span></span>
           <span class="news-content">Two papers accepted to ICML 2025 on continual RL and LLM-driven reward design!</span>
         </li>
-        <li style="margin-bottom: 12px;">
+        <li class="news-collapsible" style="margin-bottom: 12px;">
           <span class="news-date">2025.01</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-personal">Faculty Pos.</span></span>
           <span class="news-content">Excited to join TJU RL Lab as an Associate Research Fellow!</span>
         </li>
-        <li style="margin-bottom: 12px;">
+        <li class="news-collapsible" style="margin-bottom: 12px;">
           <span class="news-date">2024.12</span>
           <span class="news-tag-wrapper"><span class="news-tag news-tag-paper">AAMAS 2025</span></span>
           <span class="news-content">One paper accepted to AAMAS 2025 on multi-agent RL with better sample efficiency!</span>
@@ -311,6 +321,17 @@
       <p style="color:grey">PS: Authors with equal contribution are marked by *. First / co-first authors played by me are marked by 🔥. Corresponding authors are marked by 💧.</p>
 
       <div class="row pub-card">
+        <p><b>WarpSAC: Towards the Pinnacle of Scalable Off-policy RL by Rethinking Exploration and Exploitation</b><br />
+        Zihao Wu, <u>Hongyao Tang</u><sup>💧</sup>, Yi Ma, Huizhong Song, Pengyi Li, Yifu Yuan, Fei Ni, Jinyi Liu, Wei Wei, Jianrong Wang, Yan Zheng, Jianye Hao<br />
+        <i>arXiv preprint 2026</i>
+        | [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2608.24479">Paper</a>]
+        [<a target="_blank" rel="noopener" href="https://wzhhasadream.github.io/WarpSAC/">Project Page</a>]
+        [<a target="_blank" rel="noopener" href="https://github.com/wzhhasadream/warprl">Code</a>]
+        <span class="tldr">⚡️TL;DR: We propose WarpSAC, a regime-aware family of off-policy RL algorithms that beats FlashSAC by 4.5%/23.1% AUC across 9 CPU-scale/14 GPU-scale envs and points towards an in-minutes sim-to-real deployment for Unitree G1 with a single high-end GPU like B200</span>
+        </p>
+      </div>
+
+      <div class="row pub-card">
         <p><b>Embodied-R1.5: Evolving Physical Intelligence via Embodied Foundation Models</b><br />
         Yifu Yuan, Yaoting Huang, Xianze Yao, Yutong Li, Shuoheng Zhang, Linqi Han, Pengyi Li, Jiangeng Sun, Wenting Jia, Zhao Zhang, Yuhao Liu, Ruihao Liao, Yucheng Hu, Qiyu Wu, Yuxiao Li, Zibin Dong, Fei Ni, Yan Zheng, Shuyang Gu, Yi Ma, <u>Hongyao Tang</u><sup>💧</sup>, Han Hu, Jianye Hao<br />
         <i>arXiv preprint 2026</i>
@@ -323,7 +344,7 @@
 
       <div class="row pub-card">
         <p><b>Towards a Formal Definition of Agent Memory: Basis, Span, Optimality, and the Sequential Memory Problem</b><br />
-        <u>Hongyao Tang</u><br />
+        <u>Hongyao Tang</u><sup>🔥💧</sup><br />
         <i>arXiv preprint 2026</i>
         | [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2608.11654">Paper</a>]
         <span class="tldr">⚡️TL;DR: proposes a unified formal account of agent memory — memory is a basis, knowledge is its span, answerability is a coverage problem — and formalizes the continual agent-memory problem as a sequential MDP, instantiated on Homer's Odyssey</span>
@@ -433,7 +454,7 @@
           </p>
         </div>
 
-        <div class="row pub-card">
+<!--         <div class="row pub-card">
           <p><b>Scaling DRL for Decision Making: A Survey on Data, Network, and Training Budget Strategies
           </b><br />
           Yi Ma*, <u>Hongyao Tang</u><sup>🔥</sup>*, Chenjun Xiao, Yaodong Yang, Wei Wei, Jianye Hao, Jiye Liang<br />
@@ -441,7 +462,7 @@
           | [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2508.03194">Paper</a>]
           <span class="tldr">⚡️TL;DR: proposes a new taxonomy for RL scaling research, from four perspectives: data, network, training, and priors</span>
           </p>
-        </div>
+        </div> -->
 
 <!--         <div class="row pub-card">
           <p><b>LaRes: Evolutionary Reinforcement Learning with LLM-based Adaptive Reward Search</b><br />
@@ -468,7 +489,7 @@
           </p>
         </div> -->
 
-        <div class="row pub-card">
+<!--         <div class="row pub-card">
           <p><b>Efficient Morphology-Aware Policy Transfer to New Embodiments
           </b><br />
           Michael Przystupa, <u>Hongyao Tang</u>, Glen Berseth, Mariano Phielipp, Santiago Miret, Martin Jägersand, Matthew E. Taylor<br />
@@ -476,7 +497,7 @@
           | [<a target="_blank" rel="noopener" href="https://openreview.net/attachment?id=sX47KXdPZj&name=pdf">Paper</a>]
           <span class="tldr">⚡️TL;DR: investigates different param-effient fine-tuning (PeFT) methods for multi-task policies of locomotion robots</span>
           </p>
-        </div>
+        </div> -->
 
         <div class="row pub-card">
           <p><b>Can We Optimize Deep RL Policy Weights as Trajectory Modeling?
@@ -488,7 +509,7 @@
           </p>
         </div>
 
-        <div class="row pub-card">
+<!--         <div class="row pub-card">
           <p><b>EvoRainbow: Combining Improvements in Evolutionary Reinforcement Learning for Policy Search</b><br />
           Pengyi Li, Jianye Hao, <u>Hongyao Tang</u>, Xian Fu, Yan Zheng<br />
           <i>ICML 2024</i>
@@ -496,7 +517,7 @@
           [<a target="_blank" rel="noopener" href="https://github.com/yeshenpy/EvoRainbow">Code</a>]
           <span class="tldr">⚡️TL;DR: just like Rainbow(-DQN), this is a high-performance ERL algorithm along with comprehensive comparison among algorithmic choices</span>
           </p>
-        </div>
+        </div> -->
 
         <div class="row pub-card">
           <p><b>Reining Generalization in Offline Reinforcement Learning via Representation Distinction</b><br />
@@ -507,7 +528,7 @@
           </p>
         </div>
 
-        <div class="row pub-card">
+<!--         <div class="row pub-card">
           <p><b>HyAR: Addressing Discrete-Continuous Action Reinforcement Learning via Hybrid Action Representation</b><br />
           Boyan Li*, <u>Hongyao Tang</u><sup>🔥</sup>*, Yan Zheng, Jianye Hao, Pengyi Li, Zhen Wang, Zhaopeng Meng, Li Wang<br />
           <i>ICLR 2022</i>
@@ -515,7 +536,7 @@
           [<a target="_blank" rel="noopener" href="https://github.com/TJU-DRL-LAB/self-supervised-rl/tree/main/RL_with_Action_Representation/HyAR">Code</a>]
           <span class="tldr">⚡️TL;DR: learns a unified self-supervised representation for hybrid actions, converts hybrid-action RL back to normal RL, thus solving high-d hybrid RL problems effectively</span>
           </p>
-        </div>
+        </div> -->
 
         <div class="row pub-card">
           <p><b>What about Inputting Policy in Value Function: Policy Representation and Policy-Extended Value Function Approximator</b><br />
@@ -679,7 +700,7 @@
 
       <div class="row mt-2">
         <div class="eight columns">
-          <p id="madewith">Updated by Hongyao Tang, May 2026.</p>
+          <p id="madewith">Updated by Hongyao Tang, Aug 2026.</p>
         </div>
 
         <!-- Special thanks to https://simpleicons.org/ for the icons -->

@@ -96,6 +96,10 @@ select:focus {
   font-size: 14px;
 }
 
+.news-content a.news-link {
+  text-decoration: none;
+}
+
 .news-collapsible {
   display: none;
 }

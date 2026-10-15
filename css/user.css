@@ -1093,6 +1093,79 @@ body.darkmode .ring-tldr:hover::-webkit-scrollbar-thumb {
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
 }
 
+/* Random-draw button, sitting above the stage (JS reveals it).
+   Hover = the same pale-yellow highlight the TL;DR boxes use. */
+.ring-random {
+  display: none;
+  position: relative;
+  overflow: visible;
+  margin: 0 auto 2px;
+  padding: 6px 18px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: #666;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.4;
+  text-transform: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, box-shadow 0.25s ease;
+}
+.ring-random:hover,
+.ring-random:focus-visible {
+  background-color: rgba(255, 247, 205, 0.95);
+  border-color: rgba(240, 200, 90, 0.75);
+  color: #333;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+body.darkmode .ring-random {
+  background: rgba(60, 60, 66, 0.85);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #aaa;
+}
+body.darkmode .ring-random:hover,
+body.darkmode .ring-random:focus-visible {
+  background-color: rgba(104, 92, 38, 0.85);
+  border-color: rgba(196, 168, 64, 0.55);
+  color: #f0e6c8;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+/* dice that pops out to the right of the button and rolls for 2s */
+.ring-dice {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+.ring-dice.is-rolling {
+  animation: ring-dice-roll 2s cubic-bezier(0.25, 0.6, 0.35, 1) forwards;
+}
+@keyframes ring-dice-roll {
+  0%   { opacity: 0; transform: translateY(-50%) rotate(0deg) scale(0.6); }
+  12%  { opacity: 1; transform: translateY(-50%) rotate(120deg) scale(1.15); }
+  70%  { opacity: 1; transform: translateY(-50%) rotate(660deg) scale(1); }
+  85%  { opacity: 1; transform: translateY(-50%) rotate(760deg) scale(1.05); }
+  100% { opacity: 0; transform: translateY(-50%) rotate(900deg) scale(0.85); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ring-dice.is-rolling { animation: none; opacity: 0; }
+}
+
+/* slower, easing rotation for the random draw */
+.pub-ring-stage.ring-ready.ring-snap.ring-spin .ring-card {
+  transition: transform 1.15s cubic-bezier(0.16, 0.7, 0.24, 1),
+              opacity 0.5s ease;
+}
+
 /* --- Chrome (arrows + hint): hidden until the ring activates --- */
 .ring-chrome {
   display: none;
@@ -1107,7 +1180,7 @@ body.darkmode .ring-tldr:hover::-webkit-scrollbar-thumb {
      centered on the container via the negative margin */
   width: min(1100px, calc(100vw - 40px));
   margin-left: calc(50% - min(550px, calc(50vw - 20px)));
-  height: 445px;
+  height: 440px;
   perspective: var(--ring-p);
   perspective-origin: 50% 50%;
   overflow: hidden;
@@ -1141,7 +1214,8 @@ body.darkmode .ring-tldr:hover::-webkit-scrollbar-thumb {
 .ring-ready .ring-card {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: calc(50% - 17px);     /* ~20px above / ~54px below: tight to the draw button,
+                                roomier above the "drag to rotate" hint */
   width: var(--card-w);
   height: var(--card-h);     /* uniform: short cards keep the slack at their bottom */
   margin: 0;
@@ -1303,7 +1377,7 @@ body.darkmode .pub-ring-stage.ring-ready::after {
   .pub-ring-stage.ring-ready {
     width: min(1000px, calc(100vw - 40px));
     margin-left: calc(50% - min(500px, calc(50vw - 20px)));
-    height: 460px;
+    height: 455px;
   }
   .pub-ring-stage .ring-title {
     font-size: 15px;
@@ -1321,7 +1395,7 @@ body.darkmode .pub-ring-stage.ring-ready::after {
   .pub-ring-stage.ring-ready {
     width: calc(100% + 40px);
     margin-left: -20px;
-    height: 440px;
+    height: 435px;
   }
   .ring-card-inner {
     padding: 14px 16px;

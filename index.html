@@ -606,6 +606,8 @@
 
       <p style="color:grey">PS: Authors with equal contribution are marked by *. First / co-first authors played by me are marked by 🔥. Corresponding authors are marked by 💧.</p>
 
+      <button class="ring-random" type="button" id="ring-random-btn" style="display: none;">Why not take a random draw?<span class="ring-dice" aria-hidden="true">🎲</span></button>
+
       <div class="pub-ring-stage" id="pub-ring-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Selected publications, 3D ring">
         <div class="pub-ring">
         <div class="ring-card" style="--i:0">
@@ -1009,6 +1011,7 @@
       var activeIdx = 0;
       var rafId = null;
       var snapTimer = null;
+      var spinTimer = null;
       var wheelTimer = null;
       var suppressClick = false;
       var dragging = false;
@@ -1047,7 +1050,8 @@
       }
       function clearSnap() {
         if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
-        stage.classList.remove('ring-snap');
+        if (spinTimer) { clearTimeout(spinTimer); spinTimer = null; }
+        stage.classList.remove('ring-snap', 'ring-spin');
       }
       function finishSnap() {
         if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
@@ -1070,6 +1074,20 @@
       }
       function go(d) {
         snapTo(activeIdx + d, true);
+      }
+      // random draw: two extra turns, slower settle (see .ring-spin in CSS)
+      function spinTo(idx) {
+        idx = ((idx % N) + N) % N;
+        rot += wrapDeg(-idx * STEP - rot) + 720;
+        clearSnap();
+        stage.classList.add('ring-snap', 'ring-spin');
+        apply(rot);
+        spinTimer = setTimeout(function() {
+          stage.classList.remove('ring-snap', 'ring-spin');
+          spinTimer = null;
+          rot = ((rot % 360) + 360) % 360;
+          apply(rot);
+        }, 1250);
       }
 
       // --- drag / swipe ---
@@ -1187,6 +1205,21 @@
 
       if (prevBtn) prevBtn.addEventListener('click', function() { go(-1); });
       if (nextBtn) nextBtn.addEventListener('click', function() { go(1); });
+
+      var randomBtn = document.getElementById('ring-random-btn');
+      if (randomBtn) {
+        randomBtn.style.display = 'block';
+        randomBtn.addEventListener('click', function() {
+          // any card except the current one (uniform over the other N-1)
+          spinTo(activeIdx + 1 + Math.floor(Math.random() * (N - 1)));
+          var dice = randomBtn.querySelector('.ring-dice');
+          if (dice) {
+            dice.classList.remove('is-rolling');
+            void dice.offsetWidth;   // restart the animation
+            dice.classList.add('is-rolling');
+          }
+        });
+      }
 
       stage.classList.add('ring-ready');
       apply(0);

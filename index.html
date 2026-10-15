@@ -321,7 +321,13 @@
 
       <hr />
 
-      <h3 id="section-publications">🧠 Selected Publications & Preprints</h3>
+<!-- Old Selected Publications list, superseded by the ring carousel below.
+     Kept for reference. To bring it back: delete the div below (and restore
+     its id to section-publications, plus the -new id on the ring heading).
+     (A plain HTML comment wrapper cannot be used here: the block contains
+     nested comments, which cannot be commented out again.) -->
+<div style="display:none" id="legacy-publications">
+      <h3 id="section-publications-legacy">🧠 Selected Publications & Preprints</h3>
 
       <p style="color:grey">PS: Authors with equal contribution are marked by *. First / co-first authors played by me are marked by 🔥. Corresponding authors are marked by 💧.</p>
 
@@ -594,6 +600,184 @@
       <h4><a href="/archives">More Publications</a></h4>
 
       <hr />
+</div>
+
+      <h3 id="section-publications">🧠 Selected Publications & Preprints</h3>
+
+      <p style="color:grey">PS: Authors with equal contribution are marked by *. First / co-first authors played by me are marked by 🔥. Corresponding authors are marked by 💧.</p>
+
+      <div class="pub-ring-stage" id="pub-ring-stage" tabindex="0" role="group" aria-roledescription="carousel" aria-label="Selected publications, 3D ring">
+        <div class="pub-ring">
+        <div class="ring-card" style="--i:0">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>arXiv preprint 2026</i></p>
+            <p class="ring-title">Can Jev be Your Q or Policy in Reinforcement Learning?</p>
+            <p class="ring-authors">Yi Ma, Tianpei Yang, Yaodong Yang, Weixun Wang, <u>Hongyao Tang</u><sup>💧</sup></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2610.11692">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: shows a frozen decision model can serve as a reference policy, exploration judge, and replay rater in RL training, beating standard RL learners on 9 MiniGrid tasks and 3 Atari games without the model itself being trained</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:1">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>arXiv preprint 2026</i></p>
+            <p class="ring-title">Code Owns the Simulation, Jev Owns the Evaluation</p>
+            <p class="ring-authors">Yaodong Yang, <u>Hongyao Tang</u>, Yi Ma, Xingyu Fan, Weixun Wang, Jinpeng Li, Tianpei Yang</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2610.01834">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: shows judgment models like Jev ace evaluation but fail at simulation, solving 99% of CRT questions yet walking an unwashed knife to the drawer, and that handing the prediction to code turns them into expert controllers</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:2">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>arXiv preprint 2026</i></p>
+            <p class="ring-title">WarpSAC: Towards the Pinnacle of Scalable Off-policy RL by Rethinking Exploration and Exploitation</p>
+            <p class="ring-authors">Zihao Wu, <u>Hongyao Tang</u><sup>💧</sup>, Yi Ma, Huizhong Song, Pengyi Li, Yifu Yuan, Fei Ni, Jinyi Liu<span class="ring-authors-rest" hidden>, Wei Wei, Jianrong Wang, Yan Zheng, Jianye Hao</span><button class="ring-authors-toggle" type="button" data-more="4">+4 authors</button></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2608.24479">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://wzhhasadream.github.io/WarpSAC/">Project Page</a><a class="ring-link" target="_blank" rel="noopener" href="https://github.com/wzhhasadream/warprl">Code</a></p>
+            <p class="ring-tldr">⚡️TL;DR: We propose WarpSAC, a regime-aware family of off-policy RL algorithms that beats FlashSAC by 4.5%/23.1% AUC across 9 CPU-scale/14 GPU-scale envs and points towards an in-minutes sim-to-real deployment for Unitree G1 with a single high-end GPU like B200</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:3">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>NeurIPS 2026</i></p>
+            <p class="ring-title">Embodied-R1.5: Evolving Physical Intelligence via Embodied Foundation Models</p>
+            <p class="ring-authors">Yifu Yuan, Yaoting Huang, Xianze Yao, Yutong Li, Shuoheng Zhang, Linqi Han, Pengyi Li, Jiangeng Sun<span class="ring-authors-rest" hidden>, Wenting Jia, Zhao Zhang, Yuhao Liu, Ruihao Liao, Yucheng Hu, Qiyu Wu, Yuxiao Li, Zibin Dong, Fei Ni, Yan Zheng, Shuyang Gu, Yi Ma, <u>Hongyao Tang</u><sup>💧</sup>, Han Hu, Jianye Hao</span><button class="ring-authors-toggle" type="button" data-more="15">+15 authors</button></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2606.11324">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://embodied-r.github.io/">Project Page</a><a class="ring-link" target="_blank" rel="noopener" href="https://github.com/pickxiguapi/Embodied-R1.5">Code</a></p>
+            <p class="ring-tldr">⚡️TL;DR: Embodied-R1.5 is a unified Embodied Foundation Model that integrates comprehensive embodied reasoning capabilities within a single 8B-parameter architecture. It achieves SOTA on 16 out of 24 embodied VLM benchmarks and can be fine-tuned into a VLA that outperforms π<sub>0.5</sub> across 4 popular manipulation benchmark suites</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:4">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>NeurIPS 2026</i></p>
+            <p class="ring-title">What Kind of Diffusion Models Do We Need in Online Reinforcement Learning?</p>
+            <p class="ring-authors">Zihao Wu, <u>Hongyao Tang</u><sup>💧</sup>, Yi Ma, Yan Zheng, Jianrong Wang, Jianye Hao</p>
+            <p class="ring-links"><a class="ring-link" href="">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: proposes a taxonomy of existing diffusion RL methods into three families, discusses the limitations of each, and proposes Coupled Flow with tractable likelihood, beating diffusion-based RL baselines by 100% on HumanoidBench</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:5">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>arXiv preprint 2026</i></p>
+            <p class="ring-title">Generalized Agent Iteration: One Formal Framework for Iterative Policy Improvement and Recursive Self-Improvement</p>
+            <p class="ring-authors"><u>Hongyao Tang</u><sup>🔥💧</sup>, Yi Ma, Pengyi Li, Yifu Yuan</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2609.13406">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: proposes Generalized Agent Iteration (GAI), a formal framework that casts iterative policy improvement and recursive self-improvement as one learning paradigm, with two dials placing existing systems on shared axes and making RSI's defects statable one condition at a time</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:6">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>NeurIPS 2026</i></p>
+            <p class="ring-title">The Mirage of Optimizing Training Policies: Monotonic Inference Policies as the Real Objective for LLM Reinforcement Learning</p>
+            <p class="ring-authors">Jing Liang, <u>Hongyao Tang</u><sup>🔥💧</sup>, Yi Ma, Yancheng He, Weixun Wang, Xiaoyang Li, Ju Huang, Wenbo Su<span class="ring-authors-rest" hidden>, Jinyi Liu, Yan Zheng, Jianye Hao, Bo Zheng</span><button class="ring-authors-toggle" type="button" data-more="4">+4 authors</button></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2606.29526">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://anitaleungxx.github.io/MIPU/">Project Page</a></p>
+            <p class="ring-tldr">⚡️TL;DR: reveals that training-inference mismatch in LLM RL creates a persistent off-policy problem due to objective misalignment, and proposes MIPI objective with MIPU framework that selectively accepts synchronized policy updates via an inference-side gap proxy, achieving better reasoning performance and training stability</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:7">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>NeurIPS 2024</i></p>
+            <p class="ring-title">Improving Deep Reinforcement Learning by Reducing the Chain Effect of Value and Policy Churn</p>
+            <p class="ring-authors"><u>Hongyao Tang</u><sup>🔥</sup>, Glen Berseth</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.04792">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://github.com/bluecontra/CHAIN">Code</a></p>
+            <p class="ring-tldr">⚡️TL;DR: identifies the chain effect of churn in DRL, reducing it mitigates the learning issues in DQN/PPO/SAC and leads to better stability and performance</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:8">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>ICML 2025</i></p>
+            <p class="ring-title">Mitigating Plasticity Loss in Continual Reinforcement Learning by Reducing Churn</p>
+            <p class="ring-authors"><u>Hongyao Tang</u><sup>🔥</sup><sup>💧</sup>, Johan Obando-Ceron, Pablo Samuel Castro, Aaron Courville, Glen Berseth</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/pdf/2506.00592">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://github.com/bluecontra/C-CHAIN">Code</a></p>
+            <p class="ring-tldr">⚡️TL;DR: reveals the relationship between churn and plasticity loss, continually reducing churn mitigates plasticity loss and achieves the best overall performance across 24 envs</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:9">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>ICML 2026 (<span class="diamond">Spotlight</span>💎)</i></p>
+            <p class="ring-title">ScaleMoE: Mixture-of-Experts for Scalable Continuous Control in Actor-Critic Reinforcement Learning</p>
+            <p class="ring-authors">Yi Ma, Chenjun Xiao, <u>Hongyao Tang</u><sup>💧</sup>, Yaodong Yang, Jinyi Liu, Jing Liang, Jiye Liang</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: proposes a new way to scale deep AC methods with MoE architectures, outperforms SimBa and BRC in single-task RL and multi-task RL, respectively</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:10">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>ICML 2026 (<span class="diamond">Spotlight</span>💎)</i></p>
+            <p class="ring-title">Neuro-evolutionary Continual Reinforcement Learning</p>
+            <p class="ring-authors">Pengyi Li, <u>Hongyao Tang</u><sup>💧</sup>, Yifu Yuan, Yan Zheng, Jianye Hao</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: dynamically allocates, reuses, and re-cycles neurons in a monolithic model, guarantees no forgetting, achieves SOTA results in ContinualWorld</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:11">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>KDD 2026</i></p>
+            <p class="ring-title">PACE: Unleashing the Power of Code Embeddings to Boost AutoML Agents</p>
+            <p class="ring-authors">Gangyi Zhao, Hebin Liang, <u>Hongyao Tang</u><sup>💧</sup>, Yi Ma, Jinyi Liu, Zhaocheng Du, Yan Zheng, Chenjun Xiao<span class="ring-authors-rest" hidden>, Jianye Hao</span><button class="ring-authors-toggle" type="button" data-more="1">+1 author</button></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://openreview.net/forum?id=OvOYMEH4Uv">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: idenifies the structural locality in the multi-view low-d representation space of code solutions, leverages it to build admission strategies that realizes more efficient autoML</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:12">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>NeurIPS 2024</i></p>
+            <p class="ring-title">The Ladder in Chaos: Improving Policy Learning by Harnessing the Parameter Evolving Path in A Low-dimensional Space</p>
+            <p class="ring-authors"><u>Hongyao Tang</u><sup>🔥</sup>, Min Zhang, Chen Chen, Jianye Hao</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://openreview.net/pdf?id=3vHfwL2stG">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: identifies the low-rank param space of policy evolvement with temporal SVD, improves learning stability and efficiency by editing the SVD coeffs directly</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:13">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>ICLR 2026</i></p>
+            <p class="ring-title">Squeeze the Soaked Sponge: Efficient Off-policy Reinforcement Finetuning for Large Language Model</p>
+            <p class="ring-authors">Jing Liang*, Jinyi Liu*, Yi Ma*, <u>Hongyao Tang</u><sup>💧</sup>, Yan Zheng, Shuyue Hu, Lei Bai, Jianye Hao</p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://openreview.net/pdf?id=quBjNSJMrC">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://anitaleungxx.github.io/ReMix/">Project Page</a></p>
+            <p class="ring-tldr">⚡️TL;DR: revisits Generalized PPO and extends it to LLM RL post-training, achieves SOTA level math reasoning results with a 30x-450x🚀 rollout cost reduction</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:14">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>AAMAS 2026 (Full Paper, <span class="rainbow">Oral</span>🌈)</i></p>
+            <p class="ring-title">Towards A Unified Policy Abstraction Theory and Representation Learning Approach in Markov Decision Processes</p>
+            <p class="ring-authors">Min Zhang, <u>Hongyao Tang</u><sup>💧</sup>, Jianye Hao, Yan Zheng</p>
+            <p class="ring-links"><a class="ring-link" href="">Paper</a></p>
+            <p class="ring-tldr">⚡️TL;DR: just as the title, proposes the systematic definition, hierarchy of policy abstraction and representation for the first time, a solute to Li et al. (2006)</p>
+          </div>
+        </div>
+
+        <div class="ring-card" style="--i:15">
+          <div class="ring-card-inner">
+            <p class="ring-venue"><i>AAAI 2022 <span class="rainbow">Oral</span>🌈 Presentation (&lt; 5%)</i></p>
+            <p class="ring-title">What about Inputting Policy in Value Function: Policy Representation and Policy-Extended Value Function Approximator</p>
+            <p class="ring-authors"><u>Hongyao Tang</u><sup>🔥</sup>, Zhaopeng Meng, Jianye Hao, Chen Chen, Daniel Graves, Dong Li, Changmin Yu, Hangyu Mao<span class="ring-authors-rest" hidden>, Wulong Liu, Yaodong Yang, Wenyuan Tao, Li Wang</span><button class="ring-authors-toggle" type="button" data-more="4">+4 authors</button></p>
+            <p class="ring-links"><a class="ring-link" target="_blank" rel="noopener" href="https://arxiv.org/pdf/2010.09536.pdf">Paper</a><a class="ring-link" target="_blank" rel="noopener" href="https://github.com/TJU-DRL-LAB/self-supervised-rl/tree/main/RL_with_Policy_Representation/Policy-based_RL_with_PeVFA/PPO-PeVFA">Code</a></p>
+            <p class="ring-tldr">⚡️TL;DR: proposes a new RL paradigm that allows value generalization among policies and utilize it to improve learning efficiency, learns low-d representation for NN policies</p>
+          </div>
+        </div>
+        </div>
+        <div class="ring-chrome">
+          <button class="ring-arrow ring-prev" type="button" aria-label="Previous publication">‹</button>
+          <button class="ring-arrow ring-next" type="button" aria-label="Next publication">›</button>
+          <span class="ring-hint">Drag to rotate · <span class="ring-counter">1 / 16</span></span>
+        </div>
+      </div>
+
+      <h4><a href="/archives">More Publications</a></h4>
+
+      <hr />
 
       <h3 id="section-service">Academic Service</h3>
       <h4>Reviewer</h4>
@@ -804,6 +988,210 @@
         btn.textContent = 'Show more ▼';
       }
     }
+    function initPubRing() {
+      var stage = document.getElementById('pub-ring-stage');
+      if (!stage) return;
+      // Respect motion preferences: stay a static readable list.
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var ring = stage.querySelector('.pub-ring');
+      if (!ring) return;
+      var cards = Array.prototype.slice.call(ring.querySelectorAll('.ring-card'));
+      var N = cards.length;
+      if (N < 2) return;
+      var STEP = 360 / N;
+      var counter = stage.querySelector('.ring-counter');
+      var prevBtn = stage.querySelector('.ring-prev');
+      var nextBtn = stage.querySelector('.ring-next');
+
+      ring.style.setProperty('--step', STEP + 'deg');
+
+      var rot = 0;
+      var activeIdx = 0;
+      var rafId = null;
+      var snapTimer = null;
+      var wheelTimer = null;
+      var suppressClick = false;
+      var dragging = false;
+      var engaged = false;
+      var startX = 0, startY = 0, startRot = 0;
+
+      function wrapDeg(a) {
+        return ((a % 360) + 540) % 360 - 180;
+      }
+      function indexForRot(r) {
+        return ((Math.round(-r / STEP) % N) + N) % N;
+      }
+      function opacityForAngle(a) {
+        var m = Math.abs(a);
+        if (m <= 24) return 1;
+        if (m <= 60) return 1 - 0.55 * (m - 24) / 36;
+        if (m <= 88) return 0.45 * (1 - (m - 60) / 28);
+        return 0;
+      }
+      function updateCards(r) {
+        var idx = indexForRot(r);
+        for (var i = 0; i < N; i++) {
+          var op = opacityForAngle(wrapDeg(i * STEP + r));
+          var card = cards[i];
+          card.style.opacity = op;
+          card.classList.toggle('is-front', i === idx);
+          card.classList.toggle('is-hidden', op < 0.05);
+          card.setAttribute('aria-hidden', op < 0.05 ? 'true' : 'false');
+        }
+        activeIdx = idx;
+        if (counter) counter.textContent = (idx + 1) + ' / ' + N;
+      }
+      function apply(r) {
+        ring.style.setProperty('--ring-rot', r + 'deg');
+        updateCards(r);
+      }
+      function clearSnap() {
+        if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
+        stage.classList.remove('ring-snap');
+      }
+      function finishSnap() {
+        if (snapTimer) { clearTimeout(snapTimer); snapTimer = null; }
+        stage.classList.remove('ring-snap');
+        rot = ((rot % 360) + 360) % 360;
+        apply(rot);
+      }
+      function snapTo(idx, animate) {
+        idx = ((idx % N) + N) % N;
+        rot += wrapDeg(-idx * STEP - rot);   // shortest way around the ring
+        if (animate) {
+          clearSnap();
+          stage.classList.add('ring-snap');
+          apply(rot);
+          snapTimer = setTimeout(finishSnap, 400);
+        } else {
+          clearSnap();
+          apply(rot);
+        }
+      }
+      function go(d) {
+        snapTo(activeIdx + d, true);
+      }
+
+      // --- drag / swipe ---
+      stage.addEventListener('pointerdown', function(e) {
+        if (e.button !== undefined && e.button !== 0) return;
+        dragging = true;
+        engaged = false;
+        suppressClick = false;
+        startX = e.clientX;
+        startY = e.clientY;
+        startRot = rot;
+        clearSnap();
+        // NOTE: pointer capture is taken only once a horizontal drag engages —
+        // capturing on pointerdown would retarget the follow-up click to the
+        // stage and break the arrows and click-to-front.
+      });
+      stage.addEventListener('pointermove', function(e) {
+        if (!dragging) return;
+        var dx = e.clientX - startX;
+        var dy = e.clientY - startY;
+        if (!engaged) {
+          if (Math.abs(dx) > 5 && Math.abs(dx) > Math.abs(dy)) {
+            engaged = true;
+            stage.classList.add('ring-drag');
+            if (stage.setPointerCapture) stage.setPointerCapture(e.pointerId);
+          } else if (Math.abs(dy) > 5 && Math.abs(dy) >= Math.abs(dx)) {
+            dragging = false;   // vertical intent: let the page scroll
+            return;
+          } else {
+            return;
+          }
+        }
+        rot = startRot + dx * 0.2;
+        if (rafId) return;
+        rafId = requestAnimationFrame(function() {
+          rafId = null;
+          apply(rot);
+        });
+      });
+      function endDrag() {
+        if (!dragging) return;
+        dragging = false;
+        stage.classList.remove('ring-drag');
+        if (engaged) {
+          engaged = false;
+          suppressClick = true;   // swallow the click this drag will fire
+          snapTo(indexForRot(rot), true);
+        }
+      }
+      stage.addEventListener('pointerup', endDrag);
+      stage.addEventListener('pointercancel', endDrag);
+
+      // --- clicks: rotate tapped card to front; swallow post-drag clicks ---
+      stage.addEventListener('click', function(e) {
+        if (suppressClick) {
+          suppressClick = false;
+          e.stopPropagation();
+          e.preventDefault();
+          return;
+        }
+        var card = e.target.closest ? e.target.closest('.ring-card') : null;
+        if (!card) return;
+        var idx = cards.indexOf(card);
+        if (idx === -1 || idx === activeIdx) return;
+        e.preventDefault();
+        snapTo(idx, true);
+      }, true);
+
+      // --- horizontal wheel / trackpad; vertical always scrolls the page ---
+      stage.addEventListener('wheel', function(e) {
+        if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+        e.preventDefault();
+        clearSnap();
+        rot -= e.deltaX * 0.2;
+        apply(rot);
+        if (wheelTimer) clearTimeout(wheelTimer);
+        wheelTimer = setTimeout(function() {
+          snapTo(indexForRot(rot), true);
+        }, 160);
+      }, { passive: false });
+
+      // --- keyboard + focus following ---
+      stage.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          go(-1);
+        } else if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          go(1);
+        }
+      });
+      stage.addEventListener('focusin', function(e) {
+        var card = e.target.closest ? e.target.closest('.ring-card') : null;
+        if (!card) return;
+        var idx = cards.indexOf(card);
+        if (idx !== -1 && idx !== activeIdx) snapTo(idx, true);
+      });
+
+      // --- "+N authors" expander (front card only; never rotates the ring) ---
+      ring.addEventListener('click', function(e) {
+        var btn = e.target.closest ? e.target.closest('.ring-authors-toggle') : null;
+        if (!btn) return;
+        e.stopPropagation();
+        e.preventDefault();
+        var block = btn.parentNode;
+        var rest = block.querySelector('.ring-authors-rest');
+        if (!rest) return;
+        var nowExpanded = rest.hidden;   // about to expand?
+        rest.hidden = !nowExpanded;
+        block.classList.toggle('expanded', nowExpanded);
+        btn.textContent = nowExpanded
+          ? '− show less'
+          : '+' + btn.getAttribute('data-more') + ' author' + (btn.getAttribute('data-more') === '1' ? '' : 's');
+      });
+
+      if (prevBtn) prevBtn.addEventListener('click', function() { go(-1); });
+      if (nextBtn) nextBtn.addEventListener('click', function() { go(1); });
+
+      stage.classList.add('ring-ready');
+      apply(0);
+    }
+    initPubRing();
   </script>
 </body>
 

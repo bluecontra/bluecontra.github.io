@@ -792,3 +792,722 @@ body.darkmode .pub-card .tldr {
   background-clip: text !important;
   font-weight: 700;
 }
+
+/* ==========================================================================
+   Publication Ring Carousel (preview section)
+   Self-contained block: the old .pub-card list and the archives page are
+   untouched. Base state below is a static, readable card stack (no-JS /
+   prefers-reduced-motion fallback); .ring-ready on .pub-ring-stage turns it
+   into a 3D ring driven by --ring-rot (set by initPubRing in index.html).
+   Geometry vars live on .pub-ring-stage so media queries own the breakpoints.
+   ========================================================================== */
+
+.pub-ring-stage {
+  /* Card width must stay <= 2*R*tan(180deg/2N) (N=16 -> 0.3978*R) so the
+     cards tile a regular 16-gon drum: any wider and adjacent card planes
+     intersect, which punches neighbour content through the front card. */
+  --card-w: 300px;
+  --card-h: 365px;
+  --ring-r: 800px;
+  --ring-p: 1600px;
+  --ring-fade: 150px;
+  --step: 22.5deg;
+  position: relative;
+}
+
+/* --- Card shell (static state = fallback view) --- */
+.ring-card {
+  width: var(--card-w);
+  margin: 0 auto 12px;
+}
+
+.ring-card-inner {
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 20px;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.02) 2px,
+      rgba(0,0,0,0.02) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(235,237,240,0.8) 0%,
+      rgba(248,249,252,0.7) 20%,
+      rgba(255,255,255,0.95) 38%,
+      rgba(242,243,247,0.6) 45%,
+      rgba(254,254,255,0.9) 55%,
+      rgba(246,247,250,0.65) 70%,
+      rgba(230,232,236,0.75) 100%
+    );
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 0 8px 8px 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 2px 8px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s;
+}
+.ring-card-inner::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: -1px;
+  bottom: -1px;
+  width: 3px;
+  background: #c8c8c8;
+  border-radius: 3px 0 0 3px;
+  transition: width 0.25s;
+}
+.ring-card-inner::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.06) 44%,
+    rgba(255,255,255,0.3) 50%,
+    rgba(255,255,255,0.06) 56%,
+    transparent 62%
+  );
+  opacity: 0.75;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: none;
+  transform: translateX(0);
+}
+.ring-card-inner:hover {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0.015) 2px,
+      rgba(0,0,0,0.015) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(242,244,248,0.85) 0%,
+      rgba(252,253,255,0.8) 20%,
+      rgba(255,255,255,1) 38%,
+      rgba(247,248,252,0.7) 45%,
+      rgba(255,255,255,1) 55%,
+      rgba(250,251,254,0.75) 70%,
+      rgba(240,242,246,0.8) 100%
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.85),
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 4px 16px rgba(0,0,0,0.1),
+    2px 0 8px rgba(160,165,175,0.3);
+}
+.ring-card-inner:hover::before {
+  width: 5px;
+}
+.ring-card-inner:hover::after {
+  opacity: 1;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.1) 44%,
+    rgba(255,255,255,0.45) 50%,
+    rgba(255,255,255,0.1) 56%,
+    transparent 62%
+  );
+  transform: translateX(2%);
+}
+
+/* --- Card typography --- */
+.ring-card-inner p {
+  margin: 0 0 6px;
+  line-height: 1.5;
+}
+.ring-venue {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+.ring-venue i {
+  font-style: italic;
+  color: #baa040;
+  position: relative;
+  padding-left: 12px;
+  transition: color 0.3s;
+}
+.ring-venue i::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #baa040;
+  transition: background 0.3s;
+}
+.pub-ring-stage .ring-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+}
+.ring-authors {
+  font-size: 12.5px;
+  color: #444;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.ring-authors.expanded {
+  display: block;
+  overflow: visible;
+}
+.ring-card-inner u {
+  text-decoration: underline;
+  text-decoration-color: #aaa;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  color: #333;
+}
+.ring-authors-toggle {
+  display: inline;
+  height: auto;
+  margin: 0 0 0 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: inherit;
+  text-transform: none;
+  white-space: nowrap;
+  color: #b08d2f;
+  text-decoration: underline;
+  text-decoration-color: rgba(176,141,47,0.45);
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.ring-authors-toggle:hover,
+.ring-authors-toggle:focus {
+  color: #4a8c5c;
+  border: 0;
+  outline: 0;
+}
+
+/* --- Links (pill chips; hover keeps the site-wide cyan slide) --- */
+.ring-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.ring-link {
+  font-size: 12.5px;
+  padding: 1px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+/* the site-wide a:not(.icon) style paints a 200%-tall cyan gradient behind
+   every link (the hover slide for text links); on a padded pill that gradient
+   peeks out as cyan arcs along the top/bottom edges — drop it and fill the
+   whole chip on hover instead. Needs 2 classes to outrank a:not(.icon). */
+.pub-ring-stage .ring-link {
+  background-image: none;
+}
+.pub-ring-stage .ring-link:hover,
+.pub-ring-stage .ring-link:focus-visible {
+  background-color: #0FA0CE;
+  border-color: #0FA0CE;
+  color: #fff;
+}
+
+/* --- TL;DR pinned to the card bottom, scrolls independently --- */
+.pub-ring-stage .ring-tldr {
+  /* uniform-height box under the links row; holds the FULL text and scrolls
+     inside, so nothing is truncated. Hover only recolours it. */
+  flex: 0 1 auto;   /* shrinkable so an expanded author list can't break the card */
+  box-sizing: border-box;
+  height: var(--tldr-h, 102px);
+  margin: 8px 0 0;
+  padding: 6px 12px;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 18px;
+  color: #baa040;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;   /* reserve the bar's width so hover doesn't reflow the text */
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+/* Custom webkit scrollbar (no standard scrollbar-* props: those would disable
+   this styling). The thumb is transparent at rest and fades in on hover, so a
+   scrollable box shows its bar only when the pointer is over it. */
+.ring-tldr::-webkit-scrollbar {
+  width: 6px;
+}
+.ring-tldr::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+.ring-tldr:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.28);
+}
+.ring-tldr::-webkit-scrollbar-track {
+  background: transparent;
+}
+body.darkmode .ring-tldr:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.32);
+}
+/* hover: pale-yellow background + green text (from the card hover rule).
+   An overflowing box also grows to show more of the text: flex-grow claims the
+   leftover space, so it stops exactly at the card's bottom edge, while
+   max-height: max-content caps it at the height the text actually needs and
+   min-height keeps boxes that already fit from shrinking. */
+.pub-ring-stage .ring-tldr:hover {
+  flex-grow: 1;
+  min-height: var(--tldr-h, 102px);
+  max-height: max-content;
+  background: rgba(255, 247, 205, 0.95);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+}
+
+/* --- Chrome (arrows + hint): hidden until the ring activates --- */
+.ring-chrome {
+  display: none;
+}
+
+/* ==========================================================================
+   Ring state (JS adds .ring-ready) — 3D ring layout
+   ========================================================================== */
+
+.pub-ring-stage.ring-ready {
+  /* wider than the 800px container so the ring's side cards breathe;
+     centered on the container via the negative margin */
+  width: min(1100px, calc(100vw - 40px));
+  margin-left: calc(50% - min(550px, calc(50vw - 20px)));
+  height: 445px;
+  perspective: var(--ring-p);
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
+}
+.pub-ring-stage.ring-ready.ring-drag {
+  cursor: grabbing;
+}
+.pub-ring-stage.ring-ready:focus-visible {
+  outline: 2px solid #baa040;
+  outline-offset: 2px;
+}
+
+/* NOTE: must stay overflow:visible — overflow here would force
+   transform-style: flat and collapse the 3D ring. Clipping lives on the
+   stage above (which has perspective but not preserve-3d). */
+.ring-ready .pub-ring {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+  transform: translateZ(calc(-1 * var(--ring-r)));
+}
+
+.ring-ready .ring-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--card-w);
+  height: var(--card-h);     /* uniform: short cards keep the slack at their bottom */
+  margin: 0;
+  transform: translate(-50%, -50%)
+             rotateY(calc(var(--i) * var(--step) + var(--ring-rot, 0deg)))
+             translateZ(var(--ring-r));
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Snap transition: enabled by JS only during release-snap, so drags stay 1:1 */
+.pub-ring-stage.ring-ready.ring-snap .ring-card {
+  transition: transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 0.32s ease;
+}
+
+.ring-ready .ring-card.is-front .ring-card-inner {
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.95),
+    0 12px 32px rgba(0,0,0,0.16),
+    2px 0 10px rgba(160,165,175,0.35);
+}
+.ring-ready .ring-card.is-front .ring-card-inner::before {
+  width: 5px;
+}
+.ring-ready .ring-card.is-front .ring-card-inner:hover {
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.85),
+    inset 0 1px 0 rgba(255,255,255,1),
+    0 14px 36px rgba(0,0,0,0.18),
+    2px 0 12px rgba(160,165,175,0.4);
+}
+.ring-ready .ring-card:hover .ring-venue i {
+  color: #4a8c5c;
+}
+.ring-ready .ring-card:hover .ring-venue i::before {
+  background: #4a8c5c;
+}
+.ring-ready .ring-card:hover .ring-tldr {
+  color: #4a8c5c;
+  font-weight: 700;
+}
+
+/* Only the front card's links/toggle are clickable; clicking any other card
+   rotates it to the front instead (keyboard focus still works — JS follows). */
+.ring-ready .ring-card:not(.is-front) .ring-card-inner a,
+.ring-ready .ring-card:not(.is-front) .ring-authors-toggle {
+  pointer-events: none;
+}
+.ring-ready .ring-card.is-hidden {
+  pointer-events: none;
+}
+
+.ring-ready .ring-chrome {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+.ring-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: auto;
+  width: 38px;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  color: #888;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.ring-arrow:hover,
+.ring-arrow:focus-visible {
+  background: #baa040;
+  border-color: #baa040;
+  color: #fff;
+}
+/* inset on desktop: the fixed #toc-nav (visible >=1100px) covers the stage's
+   first ~50px on the left and would swallow arrow clicks */
+.ring-prev {
+  left: var(--ring-arrow-x, 64px);
+}
+.ring-next {
+  right: var(--ring-arrow-x, 64px);
+}
+.ring-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+/* Soft edge vignette: fades the outermost (dimmed) cards into the page
+   background so the stage edge reads as depth instead of a hard crop, and
+   the fading cards never fight the fixed section nav on the left.
+   Painted under the chrome (z-index 5) so the arrows stay fully visible.
+   (A background-colour gradient rather than a mask: mask/filter on the
+   perspective element would flatten the 3D context.) */
+.pub-ring-stage.ring-ready::before,
+.pub-ring-stage.ring-ready::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--ring-fade, 150px);
+  z-index: 2;
+  pointer-events: none;
+}
+.pub-ring-stage.ring-ready::before {
+  left: 0;
+  background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
+}
+.pub-ring-stage.ring-ready::after {
+  right: 0;
+  background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
+}
+body.darkmode .pub-ring-stage.ring-ready::before {
+  background: linear-gradient(to right, rgb(34, 34, 38), rgba(34, 34, 38, 0));
+}
+body.darkmode .pub-ring-stage.ring-ready::after {
+  background: linear-gradient(to left, rgb(34, 34, 38), rgba(34, 34, 38, 0));
+}
+
+/* ==========================================================================
+   Ring responsive breakpoints (reuse the site's 1100 / 768 steps)
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+  .pub-ring-stage {
+    --card-w: 280px;
+    --card-h: 380px;
+    --ring-r: 750px;
+    --ring-p: 1400px;
+    --ring-fade: 110px;
+    --ring-arrow-x: 8px;   /* #toc-nav is hidden at this width */
+  }
+  .pub-ring-stage.ring-ready {
+    width: min(1000px, calc(100vw - 40px));
+    margin-left: calc(50% - min(500px, calc(50vw - 20px)));
+    height: 460px;
+  }
+  .pub-ring-stage .ring-title {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pub-ring-stage {
+    --card-w: 260px;
+    --card-h: 360px;
+    --ring-r: 700px;
+    --ring-p: 1200px;
+    --ring-fade: 40px;
+  }
+  .pub-ring-stage.ring-ready {
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    height: 440px;
+  }
+  .ring-card-inner {
+    padding: 14px 16px;
+  }
+  .pub-ring-stage .ring-title {
+    font-size: 14px;
+  }
+  .ring-venue,
+  .ring-authors,
+  .ring-link {
+    font-size: 12px;
+  }
+  .pub-ring-stage .ring-tldr {
+    font-size: 12px;
+    line-height: 17px;
+    --tldr-h: 97px;   /* 5 lines at 17px + padding */
+  }
+  .ring-arrow {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pub-ring-stage.ring-ready .ring-card {
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   Ring dark mode
+   ========================================================================== */
+
+body.darkmode .ring-card-inner {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(255,255,255,0.018) 2px,
+      rgba(255,255,255,0.018) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(55,56,62,0.8) 0%,
+      rgba(72,73,80,0.55) 20%,
+      rgba(88,89,96,0.9) 38%,
+      rgba(58,59,65,0.5) 45%,
+      rgba(82,83,90,0.85) 55%,
+      rgba(65,66,72,0.55) 70%,
+      rgba(48,49,54,0.75) 100%
+    );
+  border-color: rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.05),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 2px 8px rgba(0,0,0,0.3);
+}
+body.darkmode .ring-card-inner::before {
+  background: #c8c8c8;
+}
+body.darkmode .ring-card-inner::after {
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.04) 44%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0.04) 56%,
+    transparent 62%
+  );
+  opacity: 0.65;
+}
+body.darkmode .ring-card-inner:hover {
+  background:
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,0,0,0),
+      rgba(0,0,0,0) 2px,
+      rgba(255,255,255,0.022) 2px,
+      rgba(255,255,255,0.022) 4px
+    ),
+    linear-gradient(
+      135deg,
+      rgba(68,69,76,0.85) 0%,
+      rgba(85,86,94,0.65) 20%,
+      rgba(102,103,112,0.95) 38%,
+      rgba(72,73,80,0.58) 45%,
+      rgba(95,96,105,0.9) 55%,
+      rgba(78,79,86,0.65) 70%,
+      rgba(60,61,67,0.8) 100%
+    );
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 4px 16px rgba(0,0,0,0.4),
+    2px 0 8px rgba(120,125,135,0.25);
+}
+body.darkmode .ring-card-inner:hover::after {
+  opacity: 1;
+  background: linear-gradient(
+    125deg,
+    transparent 38%,
+    rgba(255,255,255,0.07) 44%,
+    rgba(255,255,255,0.25) 50%,
+    rgba(255,255,255,0.07) 56%,
+    transparent 62%
+  );
+}
+body.darkmode .ring-title {
+  color: #eee;
+}
+body.darkmode .ring-authors {
+  color: #ccc;
+}
+body.darkmode .ring-card-inner u {
+  color: #ddd;
+  text-decoration-color: #aaa;
+}
+body.darkmode .ring-venue i {
+  color: #c4a840;
+}
+body.darkmode .ring-venue i::before {
+  background: #c4a840;
+}
+body.darkmode .ring-card:hover .ring-venue i {
+  color: #5daa72;
+}
+body.darkmode .ring-card:hover .ring-venue i::before {
+  background: #5daa72;
+}
+body.darkmode .ring-card:hover .ring-tldr {
+  color: #5daa72;
+}
+body.darkmode .ring-tldr {
+  background: rgba(255, 255, 255, 0.08);
+  color: #c4a840;
+}
+body.darkmode .pub-ring-stage .ring-tldr:hover {
+  background: rgba(104, 92, 38, 0.94);
+  border-color: rgba(196, 168, 64, 0.6);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 3px 10px rgba(0, 0, 0, 0.3);
+}
+body.darkmode .ring-authors-toggle {
+  color: #c4a840;
+  text-decoration-color: rgba(196,168,64,0.45);
+}
+body.darkmode .ring-authors-toggle:hover {
+  color: #5daa72;
+}
+body.darkmode .ring-link {
+  border-color: rgba(255, 255, 255, 0.16);
+}
+body.darkmode .ring-arrow {
+  background: rgba(60, 60, 66, 0.85);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #aaa;
+}
+body.darkmode .ring-arrow:hover,
+body.darkmode .ring-arrow:focus-visible {
+  background: #c4a840;
+  border-color: #c4a840;
+  color: #fff;
+}
+body.darkmode .ring-hint {
+  color: #888;
+}
+
+/* Opaque backing: ring cards sit in front of one another, so the translucent
+   metallic gradients need a solid base colour underneath (the old .pub-card
+   relied on backdrop-filter instead, which is dropped here for 3D perf). */
+.ring-card-inner {
+  background-color: #f0f1f5;
+}
+.ring-card-inner:hover {
+  background-color: #f7f8fb;
+}
+body.darkmode .ring-card-inner {
+  background-color: #45464d;
+}
+body.darkmode .ring-card-inner:hover {
+  background-color: #52535a;
+}
+
+/* Static fallback (no JS / reduced motion) reads better as a wide column */
+.pub-ring-stage:not(.ring-ready) .ring-card {
+  width: 100%;
+  max-width: 560px;
+}

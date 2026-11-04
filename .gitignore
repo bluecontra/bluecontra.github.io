@@ -19,3 +19,4 @@ skills-lock.json
 .idea/
 *.swp
 *.swo
+node_modules/

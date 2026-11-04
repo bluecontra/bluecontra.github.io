@@ -1,0 +1,811 @@
+/* ==========================================================================
+   Blog index + article pages
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Index
+   -------------------------------------------------------------------------- */
+
+.blog-index-header {
+  margin: 14px 0 30px;
+}
+
+.blog-index-header h1 {
+  margin: 0 0 6px;
+  font-family: 'DM Serif Display', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 3.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #222;
+}
+
+.blog-index-header p {
+  margin: 0;
+  color: #888;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.blog-index-subline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px 16px;
+}
+
+.blog-count {
+  color: #b0b0b0;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.blog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.blog-card {
+  display: block;
+  padding: 22px 24px 20px;
+  border: 1px solid #e6e7ea;
+  border-radius: 14px;
+  background-color: #fff;
+  background-image: none;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.blog-card:hover,
+.blog-card:focus-visible {
+  border-color: #0FA0CE;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* The site-wide a:not(.icon) rule paints a cyan hover gradient behind every
+   link; neutralise it here (two classes to outrank that selector). */
+.blog-list .blog-card,
+.blog-list .blog-card:hover,
+.blog-list .blog-card:focus,
+.blog-list .blog-card:focus-visible {
+  background-image: none;
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #999;
+  font-size: 12.5px;
+  letter-spacing: 0.01em;
+}
+
+.blog-card-dot {
+  color: #c4c4c4;
+}
+
+.blog-card-title {
+  margin: 8px 0 0;
+  font-family: 'DM Serif Display', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #222;
+  transition: color 0.2s ease;
+}
+
+.blog-card:hover .blog-card-title {
+  color: #0b7ea3;
+}
+
+.blog-card-summary {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  margin: 8px 0 16px;
+  color: #666;
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+
+.blog-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.blog-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.blog-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #f1f3f5;
+  color: #6b7280;
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+.blog-draft {
+  display: inline-block;
+  margin-left: 2px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: #fff3cd;
+  color: #9a6b00;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.blog-empty {
+  padding: 28px 0;
+  color: #999;
+  font-size: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Article page
+   -------------------------------------------------------------------------- */
+
+a.blog-back {
+  display: inline-block;
+  margin: 2px 0 18px;
+  color: #333;
+  background-image: none;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+a.blog-back:hover,
+a.blog-back:focus {
+  color: #333;
+  text-decoration: none;
+  font-weight: 700;
+  background-image: none;
+}
+
+body.darkmode a.blog-back {
+  color: #ccc;
+}
+
+body.darkmode a.blog-back:hover,
+body.darkmode a.blog-back:focus {
+  color: #ccc;
+}
+
+/* The post TOC reuses the site's floating dot navigation. Truncate long
+   section labels so they cannot touch the article. */
+body.blog-post-page #toc-nav .toc-label {
+  display: inline-block;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+
+/* The left gutter is too narrow below this point; the top TOC still works. */
+@media (max-width: 1219px) {
+  body.blog-post-page #toc-nav {
+    display: none !important;
+  }
+}
+
+/* Float the back link in the empty left gutter on wide screens, above the
+   vertically-centred section dots. Below this breakpoint it stays inline. */
+@media (min-width: 1220px) {
+  a.blog-back {
+    position: fixed;
+    left: calc((100vw - 800px) / 2 - 190px);
+    top: 88px;
+    z-index: 70;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  body.darkmode a.blog-back {
+    color: #ccc;
+  }
+}
+
+.blog-post-header {
+  margin-bottom: 34px;
+}
+
+.blog-post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #999;
+  font-size: 12.5px;
+}
+
+.blog-lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  color: #999;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.blog-lang-switch .sep {
+  color: #ccc;
+}
+
+.blog-lang-switch .active {
+  color: #333;
+  font-weight: 700;
+}
+
+.blog-lang-switch a {
+  background-image: none;
+  color: #888;
+  text-decoration: none;
+}
+
+.blog-lang-switch a:hover,
+.blog-lang-switch a:focus {
+  background-image: none;
+  color: #0FA0CE;
+  text-decoration: underline;
+}
+
+body.darkmode .blog-lang-switch .active {
+  color: #eee;
+}
+
+body.darkmode .blog-lang-switch a {
+  color: #aaa;
+}
+
+body.darkmode .blog-lang-switch a:hover,
+body.darkmode .blog-lang-switch a:focus {
+  color: #6fd0ee;
+}
+
+.blog-post-header h1 {
+  margin: 10px 0 0;
+  font-family: 'DM Serif Display', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 3.3rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #222;
+}
+
+.blog-post-summary {
+  margin: 14px 0 0;
+  padding-left: 14px;
+  border-left: 3px solid rgba(15, 160, 206, 0.45);
+  color: #777;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.blog-post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.blog-article {
+  color: #333;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-size: 16px;
+  line-height: 1.85;
+  overflow-wrap: break-word;
+}
+
+.blog-article h2,
+.blog-article h3,
+.blog-article h4 {
+  font-family: 'DM Serif Display', 'Songti SC', 'Noto Serif SC', serif;
+  font-weight: 400;
+  color: #222;
+}
+
+.blog-article h2 {
+  margin: 2.3em 0 0.8em;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #ececef;
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.blog-article h3 {
+  margin: 1.9em 0 0.6em;
+  font-size: 19px;
+  line-height: 1.5;
+}
+
+.blog-article h4 {
+  margin: 1.6em 0 0.5em;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.blog-article p {
+  margin: 0 0 1.15em;
+}
+
+.blog-article strong {
+  color: #111;
+  font-weight: 700;
+}
+
+.blog-article ul,
+.blog-article ol {
+  margin: 0 0 1.15em;
+  padding-left: 1.6em;
+}
+
+.blog-article li {
+  margin: 0.35em 0;
+}
+
+.blog-article li > p {
+  margin-bottom: 0.5em;
+}
+
+.blog-article blockquote {
+  margin: 1.5em 0;
+  padding: 12px 18px;
+  border-left: 3px solid rgba(15, 160, 206, 0.55);
+  border-radius: 0 8px 8px 0;
+  background: rgba(15, 160, 206, 0.06);
+  color: #555;
+  font-style: normal;
+}
+
+.blog-article blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.blog-article hr {
+  margin: 2.2em 0;
+  border: 0;
+  border-top: 1px solid #ececef;
+}
+
+.blog-article code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: #f2f3f5;
+  color: #444;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.87em;
+}
+
+.blog-article pre {
+  margin: 1.4em 0;
+  padding: 14px 16px;
+  border: 1px solid #e7e8eb;
+  border-radius: 10px;
+  background: #f6f7f9;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+.blog-article pre code {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: inherit;
+  font-size: 13.5px;
+}
+
+.blog-article .table-wrap {
+  margin: 1.4em 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blog-article table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.blog-article th,
+.blog-article td {
+  padding: 8px 10px;
+  border: 1px solid #e5e6e9;
+  text-align: left;
+  vertical-align: top;
+}
+
+.blog-article th {
+  background: #f5f6f8;
+  color: #333;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.blog-article table a {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+.blog-article img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.blog-article p > em:only-child {
+  color: #777;
+  font-size: 14px;
+}
+
+body.darkmode .blog-article p > em:only-child {
+  color: #999;
+}
+
+.blog-article .katex-display {
+  margin: 1.2em 0;
+  padding: 4px 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.blog-article a {
+  overflow-wrap: anywhere;
+}
+
+/* Collapsible TOC at the top of the article, in the spirit of lilianweng.github.io. */
+.post-toc {
+  margin: 0 0 30px;
+  padding: 0.4em;
+  border: 1px solid #e6e7ea;
+  border-radius: 12px;
+  background: #f6f7f9;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.post-toc summary {
+  margin-inline-start: 14px;
+  padding: 5px 4px;
+  color: #333;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.post-toc summary:focus {
+  outline: none;
+}
+
+.post-toc-inner {
+  margin: 0 16px;
+  padding: 6px 14px 10px;
+}
+
+.post-toc ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.post-toc li {
+  margin: 3px 0;
+}
+
+.post-toc ul ul {
+  margin-top: 3px;
+  padding-left: 1.15em;
+}
+
+.post-toc a {
+  background-image: none;
+  color: #555;
+  text-decoration: none;
+}
+
+.post-toc a:hover,
+.post-toc a:focus {
+  background-image: none;
+  color: #0FA0CE;
+  text-decoration: underline;
+}
+
+body.darkmode .post-toc {
+  border-color: #3a3a40;
+  background: #29292e;
+}
+
+body.darkmode .post-toc summary {
+  color: #eee;
+}
+
+body.darkmode .post-toc a {
+  color: #aaa;
+}
+
+body.darkmode .post-toc a:hover,
+body.darkmode .post-toc a:focus {
+  color: #6fd0ee;
+}
+
+.blog-article h2[id],
+.blog-article h3[id] {
+  scroll-margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Prev / next + footer
+   -------------------------------------------------------------------------- */
+
+.blog-post-nav {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.blog-post-nav > a {
+  flex: 1 1 0;
+  display: block;
+  padding: 14px 16px;
+  border: 1px solid #e6e7ea;
+  border-radius: 10px;
+  background-image: none;
+  color: #333;
+  font-size: 13.5px;
+  line-height: 1.55;
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.blog-post-nav > a:hover,
+.blog-post-nav > a:focus {
+  border-color: #0FA0CE;
+  background-image: none;
+}
+
+.blog-post-nav > a span {
+  display: block;
+  margin-bottom: 3px;
+  color: #999;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.blog-post-next {
+  text-align: right;
+}
+
+.blog-footer {
+  margin-top: 56px;
+  padding: 18px 0 6px;
+  border-top: 1px solid #ececef;
+  color: #a0a0a0;
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.blog-footer p {
+  margin: 0;
+}
+
+.blog-footer a {
+  background-image: none;
+  color: #999;
+  text-decoration: none;
+}
+
+.blog-footer a:hover {
+  color: #0FA0CE;
+}
+
+/* --------------------------------------------------------------------------
+   Dark mode
+   -------------------------------------------------------------------------- */
+
+body.darkmode .blog-index-header h1,
+body.darkmode .blog-post-header h1,
+body.darkmode .blog-card-title,
+body.darkmode .blog-article h2,
+body.darkmode .blog-article h3,
+body.darkmode .blog-article h4 {
+  color: #eee;
+}
+
+body.darkmode .blog-index-header p,
+body.darkmode .blog-count {
+  color: #999;
+}
+
+body.darkmode .blog-card {
+  border-color: #3a3a40;
+  background-color: #29292e;
+}
+
+body.darkmode .blog-card:hover,
+body.darkmode .blog-card:focus-visible {
+  border-color: #39b8dd;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+body.darkmode .blog-card:hover .blog-card-title {
+  color: #6fd0ee;
+}
+
+body.darkmode .blog-card-meta,
+body.darkmode .blog-card-summary,
+body.darkmode .blog-post-meta {
+  color: #a3a3a3;
+}
+
+body.darkmode .blog-tag {
+  background: #36363c;
+  color: #b8b8c0;
+}
+
+body.darkmode .blog-draft {
+  background: #4a3d17;
+  color: #f0d27a;
+}
+
+body.darkmode .blog-post-summary {
+  color: #aaa;
+  border-left-color: rgba(57, 184, 221, 0.55);
+}
+
+body.darkmode .blog-article {
+  color: #d6d6d6;
+}
+
+body.darkmode .blog-article strong {
+  color: #fff;
+}
+
+body.darkmode .blog-article h2 {
+  border-bottom-color: #3a3a40;
+}
+
+body.darkmode .blog-article blockquote {
+  background: rgba(57, 184, 221, 0.08);
+  color: #c4c4c4;
+}
+
+body.darkmode .blog-article hr {
+  border-top-color: #3a3a40;
+}
+
+body.darkmode .blog-article code {
+  background: #3a3a40;
+  color: #ddd;
+}
+
+body.darkmode .blog-article pre {
+  border-color: #3a3a40;
+  background: #242428;
+}
+
+body.darkmode .blog-article th,
+body.darkmode .blog-article td {
+  border-color: #3d3d43;
+}
+
+body.darkmode .blog-article th {
+  background: #333338;
+  color: #eee;
+}
+
+body.darkmode .blog-article img {
+  border-color: #3a3a40;
+}
+
+body.darkmode .blog-post-nav > a {
+  border-color: #3a3a40;
+  background-color: #29292e;
+  color: #ddd;
+}
+
+body.darkmode .blog-post-nav > a:hover,
+body.darkmode .blog-post-nav > a:focus {
+  border-color: #39b8dd;
+}
+
+body.darkmode .blog-footer {
+  border-top-color: #3a3a40;
+  color: #777;
+}
+
+body.darkmode .blog-footer a {
+  color: #888;
+}
+
+body.darkmode .blog-footer a:hover {
+  color: #6fd0ee;
+}
+
+/* --------------------------------------------------------------------------
+   Small screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .blog-index-header h1 {
+    font-size: 3.0rem;
+  }
+
+  .blog-card {
+    padding: 18px 18px 16px;
+    border-radius: 12px;
+  }
+
+  .blog-card-title {
+    font-size: 19px;
+  }
+
+  .blog-card-summary {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+  }
+
+  .blog-card-bottom {
+    align-items: flex-end;
+  }
+
+  .blog-tag {
+    padding: 2px 7px;
+    font-size: 11px;
+  }
+
+  .blog-post-header h1 {
+    font-size: 2.7rem;
+  }
+
+  .blog-post-summary {
+    font-size: 14.5px;
+  }
+
+  .blog-article {
+    font-size: 15.5px;
+    line-height: 1.8;
+  }
+
+  .blog-article h2 {
+    font-size: 21px;
+  }
+
+  .blog-article h3 {
+    font-size: 18px;
+  }
+
+  .blog-article table {
+    min-width: 640px;
+    font-size: 13px;
+  }
+
+  .blog-post-nav {
+    flex-direction: column;
+  }
+
+  .blog-post-next {
+    text-align: left;
+  }
+}

@@ -498,6 +498,20 @@ body.darkmode .navbar a.active {
   font-size: 18px;
 }
 
+@media (max-width: 600px) {
+  .navbar {
+    padding: 10px 0;
+    font-size: 15px;
+  }
+  .navbar a {
+    margin: 0 8px;
+  }
+  .navbar .dark-toggle {
+    margin-right: 10px;
+    font-size: 17px;
+  }
+}
+
 /* ==========================================================================
    Publication Cards — Metallic Frosted Glass
    ========================================================================== */
@@ -1584,4 +1598,74 @@ body.darkmode .ring-card-inner:hover {
 .pub-ring-stage:not(.ring-ready) .ring-card {
   width: 100%;
   max-width: 560px;
+}
+
+/* ==========================================================================
+   Back to Top
+   ========================================================================== */
+.back-to-top {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: #777;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s,
+              color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  color: #0FA0CE;
+  border-color: rgba(15, 160, 206, 0.6);
+  background: #fff;
+  outline: none;
+}
+
+.back-to-top:focus-visible {
+  box-shadow: 0 0 0 3px rgba(15, 160, 206, 0.22);
+}
+
+body.darkmode .back-to-top {
+  background: rgba(48, 48, 54, 0.94);
+  color: #bbb;
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+}
+
+body.darkmode .back-to-top:hover,
+body.darkmode .back-to-top:focus-visible {
+  color: #6fd0ee;
+  border-color: rgba(111, 208, 238, 0.6);
+  background: rgb(56, 56, 62);
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    right: 14px;
+    bottom: 14px;
+    width: 38px;
+    height: 38px;
+  }
 }

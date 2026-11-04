@@ -3,7 +3,7 @@ title: "流动的数据下，大模型可以怎么持续学习？ICL vs. SFT/RFT
 date: 2026-11-04
 summary: "从 ICL、SFT/RFT 到 SHINE：四种上下文表示，SHINE 是 GPI 还是 RSI，以及 Update by Inference 的一些关联"
 tags: ["LLM", "ICL", "LoRA", "hypernetwork", "in-parameter learning"]
-draft: true
+draft: false
 lang: zh
 translationKey: shine-vs-sft
 ---

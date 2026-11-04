@@ -3,7 +3,7 @@ title: "How Can Large Models Keep Learning on Streaming Data? ICL vs. SFT/RFT vs
 date: 2026-11-04
 summary: "From ICL and SFT/RFT to SHINE: four ways to represent context, whether SHINE is GPI or RSI, and some connections to update by inference."
 tags: ["LLM", "ICL", "LoRA", "hypernetwork", "in-parameter learning"]
-draft: true
+draft: false
 lang: en
 translationKey: shine-vs-sft
 ---

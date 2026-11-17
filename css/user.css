@@ -459,6 +459,7 @@ body.darkmode .toc-item.active .toc-label { color: #eee; }
    Navigation Bar
    ========================================================================== */
 .navbar {
+  position: relative;
   padding: 12px 0;
   margin-bottom: 20px;
   border-bottom: 1px solid #ddd;
@@ -1667,5 +1668,37 @@ body.darkmode .back-to-top:focus-visible {
     bottom: 14px;
     width: 38px;
     height: 38px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Steel Ball Run pixel diorama (navbar, left of the theme toggle)
+   ------------------------------------------------------------------ */
+.sbr-race {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 160px;
+  margin: 0;
+  line-height: 0;
+}
+
+.sbr-race canvas {
+  display: block;
+  width: 100%;
+  height: 42.86px;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+}
+
+body.darkmode .sbr-race canvas {
+  filter: brightness(1.15) saturate(1.05) drop-shadow(0 0 1px rgba(255, 255, 255, 0.28));
+}
+
+@media (max-width: 760px) {
+  .sbr-race {
+    display: none;
   }
 }

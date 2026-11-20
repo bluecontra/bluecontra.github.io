@@ -76,7 +76,7 @@
     <a class="toc-item" href="#3-when-may-icl-sft-or-ipl-work-better"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">3. When may ICL, SFT or IPL work better?</span></a>
     <a class="toc-item" href="#4-结论"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">4. 结论</span></a>
     <a class="toc-item" href="#5-额外讨论"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">5. 额外讨论</span></a>
-    <a class="toc-item" href="#6-参考文献"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">6. 参考文献</span></a>
+    <a class="toc-item" href="#参考文献"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">参考文献</span></a>
   </nav>
 
     <a class="blog-back" href="/blog/">← Back to All Logs</a>
@@ -95,10 +95,10 @@
         <div class="blog-post-tags"><span class="blog-tag">LLM</span><span class="blog-tag">ICL</span><span class="blog-tag">LoRA</span><span class="blog-tag">hypernetwork</span><span class="blog-tag">in-parameter learning</span></div>
       </header>
 
-      <details class="post-toc" open>
+      <details class="post-toc">
         <summary>Table of Contents</summary>
         <div class="post-toc-inner">
-          <ul><li><a href="#1-问题设定一批上下文四种表示">1. 问题设定：一批上下文，四种表示</a></li><li><a href="#2-icl-vs-sft-vs-ipl">2. ICL vs. SFT vs. IPL</a><ul><li><a href="#21-形式化比较">2.1 形式化比较</a></li><li><a href="#22-两个-gap">2.2 两个 gap</a></li><li><a href="#23-几何差异的含义">2.3 几何差异的含义</a></li></ul></li><li><a href="#3-when-may-icl-sft-or-ipl-work-better">3. When may ICL, SFT or IPL work better?</a></li><li><a href="#4-结论">4. 结论</a></li><li><a href="#5-额外讨论">5. 额外讨论</a><ul><li><a href="#51-update-by-inference-和-tipl-的相似性">5.1 Update by Inference: 和 TIPL 的相似性</a></li><li><a href="#52-在-gai-框架下看-shine">5.2 在 GAI 框架下看 SHINE</a></li></ul></li><li><a href="#6-参考文献">6. 参考文献</a></li></ul>
+          <ul><li><a href="#1-问题设定一批上下文四种表示">1. 问题设定：一批上下文，四种表示</a></li><li><a href="#2-icl-vs-sft-vs-ipl">2. ICL vs. SFT vs. IPL</a><ul><li><a href="#21-形式化比较">2.1 形式化比较</a></li><li><a href="#22-两个-gap">2.2 两个 gap</a></li><li><a href="#23-几何差异的含义">2.3 几何差异的含义</a></li></ul></li><li><a href="#3-when-may-icl-sft-or-ipl-work-better">3. When may ICL, SFT or IPL work better?</a></li><li><a href="#4-结论">4. 结论</a></li><li><a href="#5-额外讨论">5. 额外讨论</a><ul><li><a href="#51-update-by-inference-和-tipl-的相似性">5.1 Update by Inference: 和 TIPL 的相似性</a></li><li><a href="#52-在-gai-框架下看-shine">5.2 在 GAI 框架下看 SHINE</a></li></ul></li><li><a href="#参考文献">参考文献</a></li></ul>
         </div>
       </details>
 
@@ -281,7 +281,7 @@
 <p><a id="sec5-1"></a></p>
 <h3 id="51-update-by-inference-和-tipl-的相似性" tabindex="-1">5.1 Update by Inference: 和 TIPL 的相似性</h3>
 <p>TIPL [4]（Tang, 2025）把 RL 策略网络的训练过程看成一条权重轨迹：把历史策略权重序列喂给 causal Transformer，自回归预测下一组策略权重；推理时用前向预测代替迭代梯度更新。它和 SHINE 在抽象层面很像：<strong>都把“优化”学成了一个前向函数</strong>，把每次现算的梯度更新摊销到离线训练里。</p>
-<p><img src="assets/tipl-figure.png" alt="TIPL Figure 1"></p>
+<p><img src="assets/shine-vs-sft/tipl-figure.png" alt="TIPL Figure 1"></p>
 <p><em>图 1：TIPL 将策略权重轨迹作为序列，用 causal Transformer 自回归预测下一组权重（Tang, 2025）。</em></p>
 <p>但两者优化的对象和条件不同：</p>
 <ul>
@@ -297,7 +297,7 @@
 <li><strong>Dial 1</strong>：modifier <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> 是否在 agent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow><annotation encoding="application/x-tex">\mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span> 内？如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo mathvariant="normal">∉</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \notin \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>，改进机制固定在 agent 外，系统是 fixed outer loop / GPI；如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \in \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>，系统可以改写自己的 modifier，才进入 RSI。</li>
 <li><strong>Dial 2</strong>：评估基准 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> 是否由外部世界锚定？如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> 外部锚定，系统是 Anchored；如果 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> 也被 agent 改写，则进入 Goal Drift 或 Fully Self-Referential。</li>
 </ul>
-<p><img src="assets/gai-figure.png" alt="GAI Figure 2"></p>
+<p><img src="assets/shine-vs-sft/gai-figure.png" alt="GAI Figure 2"></p>
 <p><em>图 2：GAI 的 policy / critic / modifier 循环；modifier 固定在 agent 外时退化为 GPI，modifier 在 agent 内时是 RSI（Tang et al., 2026）。</em></p>
 <p>把 SHINE 放进去：</p>
 <ul>
@@ -312,7 +312,7 @@
 <p>如果哪天 SHINE 的超网络本身也根据 agent 的经验和评估在线更新（<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \in \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>），那它才可能进入 Anchored RSI 的讨论；当前版本的 SHINE 不是。</p>
 <hr>
 <p><a id="sec6"></a></p>
-<h2 id="6-参考文献" tabindex="-1">6. 参考文献</h2>
+<h2 id="参考文献" tabindex="-1">参考文献</h2>
 <p><strong>[1]</strong> Yewei Liu, Xiyuan Wang, Yansheng Mao, Yoav Gelberg, Haggai Maron, and Muhan Zhang.<br>
 <em>SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass.</em><br>
 ICML 2026. <a href="https://arxiv.org/abs/2602.06358" target="_blank" rel="noopener">arXiv:2602.06358</a></p>
@@ -331,7 +331,10 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
 
       </article>
 
-
+      <nav class="blog-post-nav" aria-label="More posts">
+        <a class="blog-post-prev" href="/blog/staleness-tim-joint-bias/"><span class="blog-post-nav-label">Newer</span><span class="blog-post-nav-meta">2026.11.20 · 34 min read</span><span class="blog-post-nav-title">How Far Is It from Paradise to Purgatory? Training Policy到Inference Policy之间的一种Staleness-TIM二维理论视角</span></a>
+        <span></span>
+      </nav>
 
     </div>
 
@@ -361,6 +364,19 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
         update();
       }
       initScrollSpy();
+
+      function openDetailsForHash(hash) {
+        if (!hash) return;
+        var target = document.getElementById(hash.slice(1));
+        var details = target && target.closest ? target.closest('details') : null;
+        if (details) details.open = true;
+      }
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+        if (link) openDetailsForHash(link.getAttribute('href'));
+      });
+      window.addEventListener('hashchange', function () { openDetailsForHash(location.hash); });
+      openDetailsForHash(location.hash);
     </script>
 
     <footer class="blog-footer">

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /*
  * Build the static blog:
- *   blog/_posts/*.md  ->  blog/index.html + blog/<slug>/index.html
+ *   blog/_posts/YYYY-MM-DD-slug.{zh,en}.md
+ *     -> blog/index.html + blog/<slug>/index.html
+ *   blog/_posts/assets/<slug>/*  -> copied beside the generated post
  *
  * Usage:
  *   node tools/build-blog.js            # skip draft: true
@@ -112,19 +114,22 @@ function summaryOf(data, html) {
   return text.length > 180 ? text.slice(0, 177).replace(/\s+\S*$/, '') + '…' : text;
 }
 
-// Copy images/resources referenced as relative "assets/..." paths from
-// blog/_posts/assets into the generated post directory, so the markdown can
-// keep using plain relative paths.
+// Copy images/resources referenced as relative "assets/..." or "figures/..."
+// paths from blog/_posts into the generated post directory, so the markdown
+// can keep using plain relative paths.
 function copyPostAssets(html, outDir) {
-  const assetsRoot = path.join(POSTS_DIR, 'assets');
+  const assetRoots = ['assets', 'figures'].map(function (name) {
+    return path.join(POSTS_DIR, name);
+  });
 
-  const outAssets = path.join(outDir, 'assets');
-  if (fs.existsSync(outAssets)) {
-    fs.rmSync(outAssets, { recursive: true, force: true });
-  }
-  if (!fs.existsSync(assetsRoot)) return;
+  assetRoots.forEach(function (root) {
+    const outRoot = path.join(outDir, path.basename(root));
+    if (fs.existsSync(outRoot)) {
+      fs.rmSync(outRoot, { recursive: true, force: true });
+    }
+  });
 
-  const re = /(?:src|href)="((?:\.\/)?assets\/[^"]+)"/gi;
+  const re = /(?:src|href)="((?:\.\/)?(?:assets|figures)\/[^"]+)"/gi;
   const seen = new Set();
   let m;
   while ((m = re.exec(html))) {
@@ -133,7 +138,10 @@ function copyPostAssets(html, outDir) {
     seen.add(rel);
 
     const src = path.resolve(POSTS_DIR, rel);
-    if (src !== assetsRoot && !src.startsWith(assetsRoot + path.sep)) continue;
+    const allowed = assetRoots.some(function (root) {
+      return src === root || src.startsWith(root + path.sep);
+    });
+    if (!allowed) continue;
     if (!fs.existsSync(src)) {
       console.warn('missing asset: ' + rel);
       continue;
@@ -335,6 +343,19 @@ const scrollSpy = `
         update();
       }
       initScrollSpy();
+
+      function openDetailsForHash(hash) {
+        if (!hash) return;
+        var target = document.getElementById(hash.slice(1));
+        var details = target && target.closest ? target.closest('details') : null;
+        if (details) details.open = true;
+      }
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+        if (link) openDetailsForHash(link.getAttribute('href'));
+      });
+      window.addEventListener('hashchange', function () { openDetailsForHash(location.hash); });
+      openDetailsForHash(location.hash);
     </script>
 `;
 
@@ -373,7 +394,7 @@ function tocDetails(headings) {
     inner += '</li>';
   }
 
-  return `      <details class="post-toc" open>
+  return `      <details class="post-toc">
         <summary>Table of Contents</summary>
         <div class="post-toc-inner">
           <ul>${inner}</ul>
@@ -442,6 +463,10 @@ files.forEach(function (file) {
     tags: tagList(data.tags),
     draft: isDraft,
     minutes: readingMinutes(parsed.content),
+    epigraphLines: Array.isArray(data.epigraphLines)
+      ? data.epigraphLines.map(String)
+      : (data.epigraph ? [String(data.epigraph)] : []),
+    epigraphSource: data.epigraphSource ? String(data.epigraphSource) : '',
     html: html,
     headings: headings
   });
@@ -522,8 +547,7 @@ function card(group, lang) {
           <div class="blog-card-meta">
             <span class="blog-card-date">${escapeHtml(p.dateLabel)}</span>
             <span class="blog-card-dot">·</span>
-            <span class="blog-card-time">${p.minutes} min read</span>
-            ${draft}
+            <span class="blog-card-time">${p.minutes} min read</span>${draft}
           </div>
           <h2 class="blog-card-title">${escapeHtml(p.title)}</h2>
           <p class="blog-card-summary">${escapeHtml(p.summary)}</p>
@@ -612,11 +636,23 @@ groups.forEach(function (group, gi) {
 
     let prevNext = '';
     if (newer || older) {
+      const navCard = function (cls, label, post, group) {
+        if (!post) return '        <span></span>';
+        return `        <a class="${cls}" href="${pagePath(group, post.lang)}"><span class="blog-post-nav-label">${label}</span><span class="blog-post-nav-meta">${escapeHtml(post.dateLabel)} · ${post.minutes} min read</span><span class="blog-post-nav-title">${escapeHtml(post.title)}</span></a>`;
+      };
       prevNext = `      <nav class="blog-post-nav" aria-label="More posts">
-${newer ? `        <a class="blog-post-prev" href="${pagePath(newerGroup, newer.lang)}"><span>Newer</span>${escapeHtml(newer.title)}</a>` : '        <span></span>'}
-${older ? `        <a class="blog-post-next" href="${pagePath(olderGroup, older.lang)}"><span>Older</span>${escapeHtml(older.title)}</a>` : '        <span></span>'}
+${navCard('blog-post-prev', 'Newer', newer, newerGroup)}
+${navCard('blog-post-next', 'Older', older, olderGroup)}
       </nav>`;
     }
+
+    const epigraph = p.epigraphLines.length ? `      <blockquote class="blog-epigraph">
+${p.epigraphLines.map(function (line) {
+  return `        <p class="blog-epigraph-line">${escapeHtml(line)}</p>`;
+}).join('\n')}
+${p.epigraphSource ? `        <cite>—— ${escapeHtml(p.epigraphSource)}</cite>\n` : ''}      </blockquote>
+
+` : '';
 
     const page = head({
       title: p.title + ' · Hongyao Tang',
@@ -647,7 +683,7 @@ ${older ? `        <a class="blog-post-next" href="${pagePath(olderGroup, older.
         ${tags ? `<div class="blog-post-tags">${tags}</div>` : ''}
       </header>
 
-${tocDetails(p.headings)}      <article class="blog-article">
+${epigraph}${tocDetails(p.headings)}      <article class="blog-article">
 ${p.html}
       </article>
 

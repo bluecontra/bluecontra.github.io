@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 440" width="780" height="440" role="img" aria-labelledby="title desc">
+  <title id="title">D-C view of the sanity check: relative error vs perturbation scale</title>
+  <desc id="desc">Two log-log panels. Left: drift D; right: covariance C. First- and second-order relative errors at perturbation scales 1e-3, 1e-2, 1e-1.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/>
+    </marker>
+    <style>
+      .axis { stroke: #4b5563; stroke-width: 1.5; }
+      .grid { stroke: #e5e7eb; stroke-width: 1; }
+      .ref { stroke: #9ca3af; stroke-width: 1; stroke-dasharray: 3 4; }
+      .label { font-family: "Times New Roman", Georgia, serif; fill: #374151; }
+      .panel-title { font-size: 17px; font-weight: 700; fill: #111827; }
+      .axis-label { font-size: 13px; fill: #374151; }
+      .tick-label { font-size: 12px; fill: #6b7280; }
+      .legend { font-size: 12px; fill: #374151; }
+      .ref-label { font-size: 11px; fill: #6b7280; }
+      .first { stroke: #ea580c; stroke-width: 2.0; fill: none; stroke-dasharray: 5 4; }
+      .second { stroke: #2563eb; stroke-width: 2.2; fill: none; }
+      .point-first { fill: #ea580c; stroke: #ffffff; stroke-width: 1.5; }
+      .point-second { fill: #2563eb; stroke: #ffffff; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect width="780" height="440" fill="#ffffff"/>
+
+  <line x1="80" y1="154.29" x2="740" y2="154.29" class="ref"/>
+  <text x="744" y="150.29" text-anchor="end" class="label ref-label">1%</text>
+
+  <line x1="250" y1="32" x2="280" y2="32" class="first"/>
+  <circle cx="265" cy="32" r="4" class="point-first"/>
+  <text x="288" y="36" class="label legend">first-order</text>
+  <line x1="390" y1="32" x2="420" y2="32" class="second"/>
+  <circle cx="405" cy="32" r="4" class="point-second"/>
+  <text x="428" y="36" class="label legend">second-order</text>
+
+  <text x="24" y="210" transform="rotate(-90 24 210)" text-anchor="middle" class="label axis-label">relative error (log)</text>
+
+<line x1="80.00" y1="80" x2="80.00" y2="340" class="grid"/>
+<line x1="225.00" y1="80" x2="225.00" y2="340" class="grid"/>
+<line x1="370.00" y1="80" x2="370.00" y2="340" class="grid"/>
+<line x1="80" y1="340.00" x2="370" y2="340.00" class="grid"/>
+<line x1="80" y1="265.71" x2="370" y2="265.71" class="grid"/>
+<line x1="80" y1="191.43" x2="370" y2="191.43" class="grid"/>
+<line x1="80" y1="117.14" x2="370" y2="117.14" class="grid"/>
+<line x1="80" y1="80.00" x2="370" y2="80.00" class="grid"/>
+<line x1="80" y1="340" x2="370" y2="340" class="axis" marker-end="url(#arrow)"/>
+<line x1="80" y1="340" x2="80" y2="80" class="axis" marker-end="url(#arrow)"/>
+<line x1="80.00" y1="340" x2="80.00" y2="345" class="axis"/>
+<text x="80.00" y="360" text-anchor="middle" class="label tick-label">1e−3</text>
+<line x1="225.00" y1="340" x2="225.00" y2="345" class="axis"/>
+<text x="225.00" y="360" text-anchor="middle" class="label tick-label">1e−2</text>
+<line x1="370.00" y1="340" x2="370.00" y2="345" class="axis"/>
+<text x="370.00" y="360" text-anchor="middle" class="label tick-label">1e−1</text>
+<line x1="75" y1="340.00" x2="80" y2="340.00" class="axis"/>
+<text x="70" y="344.00" text-anchor="end" class="label tick-label">1e−7</text>
+<line x1="75" y1="265.71" x2="80" y2="265.71" class="axis"/>
+<text x="70" y="269.71" text-anchor="end" class="label tick-label">1e−5</text>
+<line x1="75" y1="191.43" x2="80" y2="191.43" class="axis"/>
+<text x="70" y="195.43" text-anchor="end" class="label tick-label">1e−3</text>
+<line x1="75" y1="117.14" x2="80" y2="117.14" class="axis"/>
+<text x="70" y="121.14" text-anchor="end" class="label tick-label">1e−1</text>
+<line x1="75" y1="80.00" x2="80" y2="80.00" class="axis"/>
+<text x="70" y="84.00" text-anchor="end" class="label tick-label">1e0</text>
+<text x="225.0" y="58" text-anchor="middle" class="label panel-title">Drift D</text>
+<text x="225.0" y="386" text-anchor="middle" class="label axis-label">perturbation scale σ (log)</text>
+<polyline points="80.00,170.37 225.00,153.19 370.00,97.35" class="first"/>
+<polyline points="80.00,287.14 225.00,241.92 370.00,140.64" class="second"/>
+<circle cx="80.00" cy="170.37" r="4.5" class="point-first"/>
+<circle cx="225.00" cy="153.19" r="4.5" class="point-first"/>
+<circle cx="370.00" cy="97.35" r="4.5" class="point-first"/>
+<circle cx="80.00" cy="287.14" r="4.5" class="point-second"/>
+<circle cx="225.00" cy="241.92" r="4.5" class="point-second"/>
+<circle cx="370.00" cy="140.64" r="4.5" class="point-second"/>
+<line x1="450.00" y1="80" x2="450.00" y2="340" class="grid"/>
+<line x1="595.00" y1="80" x2="595.00" y2="340" class="grid"/>
+<line x1="740.00" y1="80" x2="740.00" y2="340" class="grid"/>
+<line x1="450" y1="340.00" x2="740" y2="340.00" class="grid"/>
+<line x1="450" y1="265.71" x2="740" y2="265.71" class="grid"/>
+<line x1="450" y1="191.43" x2="740" y2="191.43" class="grid"/>
+<line x1="450" y1="117.14" x2="740" y2="117.14" class="grid"/>
+<line x1="450" y1="80.00" x2="740" y2="80.00" class="grid"/>
+<line x1="450" y1="340" x2="740" y2="340" class="axis" marker-end="url(#arrow)"/>
+<line x1="450" y1="340" x2="450" y2="80" class="axis" marker-end="url(#arrow)"/>
+<line x1="450.00" y1="340" x2="450.00" y2="345" class="axis"/>
+<text x="450.00" y="360" text-anchor="middle" class="label tick-label">1e−3</text>
+<line x1="595.00" y1="340" x2="595.00" y2="345" class="axis"/>
+<text x="595.00" y="360" text-anchor="middle" class="label tick-label">1e−2</text>
+<line x1="740.00" y1="340" x2="740.00" y2="345" class="axis"/>
+<text x="740.00" y="360" text-anchor="middle" class="label tick-label">1e−1</text>
+<line x1="445" y1="340.00" x2="450" y2="340.00" class="axis"/>
+<text x="440" y="344.00" text-anchor="end" class="label tick-label">1e−7</text>
+<line x1="445" y1="265.71" x2="450" y2="265.71" class="axis"/>
+<text x="440" y="269.71" text-anchor="end" class="label tick-label">1e−5</text>
+<line x1="445" y1="191.43" x2="450" y2="191.43" class="axis"/>
+<text x="440" y="195.43" text-anchor="end" class="label tick-label">1e−3</text>
+<line x1="445" y1="117.14" x2="450" y2="117.14" class="axis"/>
+<text x="440" y="121.14" text-anchor="end" class="label tick-label">1e−1</text>
+<line x1="445" y1="80.00" x2="450" y2="80.00" class="axis"/>
+<text x="440" y="84.00" text-anchor="end" class="label tick-label">1e0</text>
+<text x="595.0" y="58" text-anchor="middle" class="label panel-title">Covariance C</text>
+<text x="595.0" y="386" text-anchor="middle" class="label axis-label">perturbation scale σ (log)</text>
+<polyline points="450.00,185.00 595.00,145.35 740.00,106.12" class="first"/>
+<polyline points="450.00,293.02 595.00,241.63 740.00,142.32" class="second"/>
+<circle cx="450.00" cy="185.00" r="4.5" class="point-first"/>
+<circle cx="595.00" cy="145.35" r="4.5" class="point-first"/>
+<circle cx="740.00" cy="106.12" r="4.5" class="point-first"/>
+<circle cx="450.00" cy="293.02" r="4.5" class="point-second"/>
+<circle cx="595.00" cy="241.63" r="4.5" class="point-second"/>
+<circle cx="740.00" cy="142.32" r="4.5" class="point-second"/>
+</svg>

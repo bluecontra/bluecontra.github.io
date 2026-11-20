@@ -76,7 +76,7 @@
     <a class="toc-item" href="#3-when-may-icl-sft-or-ipl-work-better"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">3. When May ICL, SFT or IPL Work Better?</span></a>
     <a class="toc-item" href="#4-conclusion"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">4. Conclusion</span></a>
     <a class="toc-item" href="#5-additional-discussion"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">5. Additional Discussion</span></a>
-    <a class="toc-item" href="#6-references"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">6. References</span></a>
+    <a class="toc-item" href="#references"><span class="toc-dot-wrap"><span class="toc-dot"></span></span><span class="toc-label">References</span></a>
   </nav>
 
     <a class="blog-back" href="/blog/">← Back to All Logs</a>
@@ -95,10 +95,10 @@
         <div class="blog-post-tags"><span class="blog-tag">LLM</span><span class="blog-tag">ICL</span><span class="blog-tag">LoRA</span><span class="blog-tag">hypernetwork</span><span class="blog-tag">in-parameter learning</span></div>
       </header>
 
-      <details class="post-toc" open>
+      <details class="post-toc">
         <summary>Table of Contents</summary>
         <div class="post-toc-inner">
-          <ul><li><a href="#1-problem-setup-a-batch-of-contexts-four-representations">1. Problem Setup: A Batch of Contexts, Four Representations</a></li><li><a href="#2-icl-vs-sft-vs-ipl">2. ICL vs. SFT vs. IPL</a><ul><li><a href="#21-a-formal-comparison">2.1 A Formal Comparison</a></li><li><a href="#22-two-gaps">2.2 Two Gaps</a></li><li><a href="#23-what-the-geometric-difference-means">2.3 What the Geometric Difference Means</a></li></ul></li><li><a href="#3-when-may-icl-sft-or-ipl-work-better">3. When May ICL, SFT or IPL Work Better?</a></li><li><a href="#4-conclusion">4. Conclusion</a></li><li><a href="#5-additional-discussion">5. Additional Discussion</a><ul><li><a href="#51-update-by-inference-similarity-to-tipl">5.1 Update by Inference: Similarity to TIPL</a></li><li><a href="#52-shine-through-the-gai-framework">5.2 SHINE through the GAI Framework</a></li></ul></li><li><a href="#6-references">6. References</a></li></ul>
+          <ul><li><a href="#1-problem-setup-a-batch-of-contexts-four-representations">1. Problem Setup: A Batch of Contexts, Four Representations</a></li><li><a href="#2-icl-vs-sft-vs-ipl">2. ICL vs. SFT vs. IPL</a><ul><li><a href="#21-a-formal-comparison">2.1 A Formal Comparison</a></li><li><a href="#22-two-gaps">2.2 Two Gaps</a></li><li><a href="#23-what-the-geometric-difference-means">2.3 What the Geometric Difference Means</a></li></ul></li><li><a href="#3-when-may-icl-sft-or-ipl-work-better">3. When May ICL, SFT or IPL Work Better?</a></li><li><a href="#4-conclusion">4. Conclusion</a></li><li><a href="#5-additional-discussion">5. Additional Discussion</a><ul><li><a href="#51-update-by-inference-similarity-to-tipl">5.1 Update by Inference: Similarity to TIPL</a></li><li><a href="#52-shine-through-the-gai-framework">5.2 SHINE through the GAI Framework</a></li></ul></li><li><a href="#references">References</a></li></ul>
         </div>
       </details>
 
@@ -272,7 +272,7 @@
 <h2 id="5-additional-discussion" tabindex="-1">5. Additional Discussion</h2>
 <h3 id="51-update-by-inference-similarity-to-tipl" tabindex="-1">5.1 Update by Inference: Similarity to TIPL</h3>
 <p>TIPL [4] (Tang, 2025) views the training process of an RL policy network as a weight trajectory: feed the sequence of historical policy weights to a causal Transformer and autoregressively predict the next set of policy weights; at inference time, replace iterative gradient updates with a forward prediction. Abstractly, it is very similar to SHINE: <strong>both learn &quot;optimization&quot; as a forward function</strong>, amortizing each on-the-fly gradient update into offline training.</p>
-<p><img src="assets/tipl-figure.png" alt="TIPL Figure 1"></p>
+<p><img src="assets/shine-vs-sft/tipl-figure.png" alt="TIPL Figure 1"></p>
 <p><em>Figure 1: TIPL treats the policy-weight trajectory as a sequence and autoregressively predicts the next set of weights with a causal Transformer (Tang, 2025).</em></p>
 <p>But the two optimize different objects under different conditions:</p>
 <ul>
@@ -287,7 +287,7 @@
 <li><strong>Dial 1</strong>: Is the modifier <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span></span></span></span> inside the agent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow><annotation encoding="application/x-tex">\mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>? If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo mathvariant="normal">∉</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \notin \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mord"><span class="mrel">∈</span></span><span class="mord vbox"><span class="thinbox"><span class="llap"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="inner"><span class="mord"><span class="mord">/</span><span class="mspace" style="margin-right:0.0556em;"></span></span></span><span class="fix"></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>, the improvement mechanism is fixed outside the agent, and the system is a fixed outer loop / GPI; if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \in \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>, the system can rewrite its own modifier and enters RSI.</li>
 <li><strong>Dial 2</strong>: Is the evaluation criterion <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> anchored by the external world? If <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> is externally anchored, the system is Anchored; if <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ρ</mi></mrow><annotation encoding="application/x-tex">\rho</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">ρ</span></span></span></span> can also be rewritten by the agent, it enters Goal Drift or Fully Self-Referential.</li>
 </ul>
-<p><img src="assets/gai-figure.png" alt="GAI Figure 2"></p>
+<p><img src="assets/shine-vs-sft/gai-figure.png" alt="GAI Figure 2"></p>
 <p><em>Figure 2: GAI's policy / critic / modifier loop; when the modifier is fixed outside the agent it degenerates to GPI, and when the modifier is inside the agent it is RSI (Tang et al., 2026).</em></p>
 <p>Put SHINE into this framework:</p>
 <ul>
@@ -301,7 +301,7 @@
 <p>More precisely, SHINE does learn an <strong>optimizer</strong>—a context-conditioned, amortized parameter-update rule; but it is not a complete modifier, only the <strong>parameter-update component</strong> of a modifier. GAI's modifier can be a pipeline (task proposer, experience store, trainer, schedule); SHINE implements only the context → parameter update segment. As a trained module, it does not decide what to learn, when to update, or how to evaluate.</p>
 <p>If someday SHINE's hypernetwork itself is also updated online based on the agent's experience and evaluation (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mo>∈</mo><mrow><mi mathvariant="normal">A</mi><mi mathvariant="normal">g</mi></mrow></mrow><annotation encoding="application/x-tex">m \in \mathrm{Ag}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathrm" style="margin-right:0.0139em;">Ag</span></span></span></span></span>), then it might enter the discussion of Anchored RSI; the current version of SHINE is not.</p>
 <hr>
-<h2 id="6-references" tabindex="-1">6. References</h2>
+<h2 id="references" tabindex="-1">References</h2>
 <p><strong>[1]</strong> Yewei Liu, Xiyuan Wang, Yansheng Mao, Yoav Gelberg, Haggai Maron, and Muhan Zhang.<br>
 <em>SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass.</em><br>
 ICML 2026. <a href="https://arxiv.org/abs/2602.06358" target="_blank" rel="noopener">arXiv:2602.06358</a></p>
@@ -320,7 +320,10 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
 
       </article>
 
-
+      <nav class="blog-post-nav" aria-label="More posts">
+        <a class="blog-post-prev" href="/blog/staleness-tim-joint-bias/en/"><span class="blog-post-nav-label">Newer</span><span class="blog-post-nav-meta">2026.11.20 · 40 min read</span><span class="blog-post-nav-title">How Far Is It from Paradise to Purgatory? A Staleness–TIM Two-Dimensional Perspective on the Training-to-Inference Policy Gap</span></a>
+        <span></span>
+      </nav>
 
     </div>
 
@@ -350,6 +353,19 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
         update();
       }
       initScrollSpy();
+
+      function openDetailsForHash(hash) {
+        if (!hash) return;
+        var target = document.getElementById(hash.slice(1));
+        var details = target && target.closest ? target.closest('details') : null;
+        if (details) details.open = true;
+      }
+      document.addEventListener('click', function (e) {
+        var link = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+        if (link) openDetailsForHash(link.getAttribute('href'));
+      });
+      window.addEventListener('hashchange', function () { openDetailsForHash(location.hash); });
+      openDetailsForHash(location.hash);
     </script>
 
     <footer class="blog-footer">

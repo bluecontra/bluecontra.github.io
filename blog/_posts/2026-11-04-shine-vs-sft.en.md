@@ -157,7 +157,7 @@ ICL, per-context full-parameter SFT, per-context LoRA SFT, and SHINE are not rep
 
 TIPL [4] (Tang, 2025) views the training process of an RL policy network as a weight trajectory: feed the sequence of historical policy weights to a causal Transformer and autoregressively predict the next set of policy weights; at inference time, replace iterative gradient updates with a forward prediction. Abstractly, it is very similar to SHINE: **both learn "optimization" as a forward function**, amortizing each on-the-fly gradient update into offline training.
 
-![TIPL Figure 1](assets/tipl-figure.png)
+![TIPL Figure 1](assets/shine-vs-sft/tipl-figure.png)
 
 *Figure 1: TIPL treats the policy-weight trajectory as a sequence and autoregressively predicts the next set of weights with a causal Transformer (Tang, 2025).*
 
@@ -176,7 +176,7 @@ GAI [5] (Tang et al., 2026) decomposes a system into $\pi, V, m, U, \rho$: $\pi$
 - **Dial 1**: Is the modifier $m$ inside the agent $\mathrm{Ag}$? If $m \notin \mathrm{Ag}$, the improvement mechanism is fixed outside the agent, and the system is a fixed outer loop / GPI; if $m \in \mathrm{Ag}$, the system can rewrite its own modifier and enters RSI.
 - **Dial 2**: Is the evaluation criterion $\rho$ anchored by the external world? If $\rho$ is externally anchored, the system is Anchored; if $\rho$ can also be rewritten by the agent, it enters Goal Drift or Fully Self-Referential.
 
-![GAI Figure 2](assets/gai-figure.png)
+![GAI Figure 2](assets/shine-vs-sft/gai-figure.png)
 
 *Figure 2: GAI's policy / critic / modifier loop; when the modifier is fixed outside the agent it degenerates to GPI, and when the modifier is inside the agent it is RSI (Tang et al., 2026).*
 
@@ -196,7 +196,7 @@ If someday SHINE's hypernetwork itself is also updated online based on the agent
 
 ---
 
-## 6. References
+## References
 
 **[1]** Yewei Liu, Xiyuan Wang, Yansheng Mao, Yoav Gelberg, Haggai Maron, and Muhan Zhang.  
 *SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass.*  

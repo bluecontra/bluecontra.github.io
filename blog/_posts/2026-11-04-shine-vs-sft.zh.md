@@ -175,7 +175,7 @@ ICL、逐上下文全参数 SFT、逐上下文 LoRA SFT、SHINE 不是替代关�
 
 TIPL [4]（Tang, 2025）把 RL 策略网络的训练过程看成一条权重轨迹：把历史策略权重序列喂给 causal Transformer，自回归预测下一组策略权重；推理时用前向预测代替迭代梯度更新。它和 SHINE 在抽象层面很像：**都把“优化”学成了一个前向函数**，把每次现算的梯度更新摊销到离线训练里。
 
-![TIPL Figure 1](assets/tipl-figure.png)
+![TIPL Figure 1](assets/shine-vs-sft/tipl-figure.png)
 
 *图 1：TIPL 将策略权重轨迹作为序列，用 causal Transformer 自回归预测下一组权重（Tang, 2025）。*
 
@@ -196,7 +196,7 @@ GAI [5]（Tang et al., 2026）把系统拆成 $\pi, V, m, U, \rho$：$\pi$ 是�
 - **Dial 1**：modifier $m$ 是否在 agent $\mathrm{Ag}$ 内？如果 $m \notin \mathrm{Ag}$，改进机制固定在 agent 外，系统是 fixed outer loop / GPI；如果 $m \in \mathrm{Ag}$，系统可以改写自己的 modifier，才进入 RSI。
 - **Dial 2**：评估基准 $\rho$ 是否由外部世界锚定？如果 $\rho$ 外部锚定，系统是 Anchored；如果 $\rho$ 也被 agent 改写，则进入 Goal Drift 或 Fully Self-Referential。
 
-![GAI Figure 2](assets/gai-figure.png)
+![GAI Figure 2](assets/shine-vs-sft/gai-figure.png)
 
 *图 2：GAI 的 policy / critic / modifier 循环；modifier 固定在 agent 外时退化为 GPI，modifier 在 agent 内时是 RSI（Tang et al., 2026）。*
 
@@ -218,7 +218,7 @@ GAI [5]（Tang et al., 2026）把系统拆成 $\pi, V, m, U, \rho$：$\pi$ 是�
 
 <a id="sec6"></a>
 
-## 6. 参考文献
+## 参考文献
 
 **[1]** Yewei Liu, Xiyuan Wang, Yansheng Mao, Yoav Gelberg, Haggai Maron, and Muhan Zhang.  
 *SHINE: A Scalable In-Context Hypernetwork for Mapping Context to LoRA in a Single Pass.*  

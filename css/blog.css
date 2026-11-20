@@ -306,6 +306,36 @@ body.darkmode .blog-lang-switch a:focus {
   margin-top: 14px;
 }
 
+.blog-epigraph {
+  margin: 8px auto 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: right;
+}
+
+.blog-epigraph-line {
+  margin: 0;
+  font-family: 'DM Serif Display', 'Songti SC', 'Noto Serif SC', serif;
+  font-size: 12px;
+  font-style: normal;
+  line-height: 1.8;
+  color: #888;
+}
+
+.blog-epigraph-line + .blog-epigraph-line {
+  margin-top: 2px;
+}
+
+.blog-epigraph cite {
+  display: block;
+  margin-top: 8px;
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.04em;
+  color: #aaa;
+}
+
 .blog-article {
   color: #333;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
@@ -334,6 +364,12 @@ body.darkmode .blog-lang-switch a:focus {
   margin: 1.9em 0 0.6em;
   font-size: 19px;
   line-height: 1.5;
+}
+
+.blog-article h2[id="参考文献"] ~ p,
+.blog-article h2[id="references"] ~ p {
+  font-size: 14px;
+  line-height: 1.8;
 }
 
 .blog-article h4 {
@@ -383,6 +419,48 @@ body.darkmode .blog-lang-switch a:focus {
   margin: 2.2em 0;
   border: 0;
   border-top: 1px solid #ececef;
+}
+
+.blog-article details {
+  margin: 1.4em 0;
+  padding: 12px 16px;
+  border: 1px solid #cfe6d5;
+  border-radius: 10px;
+  background: #f2faf4;
+  font-size: 13px;
+}
+
+.blog-article details > summary {
+  cursor: pointer;
+  color: #2f6b42;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.blog-article details.appendix {
+  font-size: 16px;
+}
+
+.blog-article details[open] > summary {
+  margin-bottom: 6px;
+}
+
+.blog-article details > summary::marker {
+  color: #5a9a6e;
+}
+
+body.darkmode .blog-article details {
+  border-color: #355b42;
+  background: #1e2a22;
+}
+
+body.darkmode .blog-article details > summary {
+  color: #9fd3ad;
+}
+
+body.darkmode .blog-article details > summary::marker {
+  color: #7fbf93;
 }
 
 .blog-article code {
@@ -582,15 +660,35 @@ body.darkmode .post-toc a:focus {
 .blog-post-nav > a:focus {
   border-color: #0FA0CE;
   background-image: none;
+  color: #333;
 }
 
-.blog-post-nav > a span {
+.blog-post-nav-label {
   display: block;
-  margin-bottom: 3px;
+  margin-bottom: 6px;
   color: #999;
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.blog-post-nav-meta {
+  display: block;
+  margin-bottom: 4px;
+  color: #999;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.blog-post-nav-title {
+  display: block;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .blog-post-next {
@@ -636,6 +734,14 @@ body.darkmode .blog-article h4 {
 body.darkmode .blog-index-header p,
 body.darkmode .blog-count {
   color: #999;
+}
+
+body.darkmode .blog-epigraph-line {
+  color: #b3b3b3;
+}
+
+body.darkmode .blog-epigraph cite {
+  color: #888;
 }
 
 body.darkmode .blog-card {
@@ -728,6 +834,12 @@ body.darkmode .blog-post-nav > a {
 body.darkmode .blog-post-nav > a:hover,
 body.darkmode .blog-post-nav > a:focus {
   border-color: #39b8dd;
+  color: #ddd;
+}
+
+body.darkmode .blog-post-nav-label,
+body.darkmode .blog-post-nav-meta {
+  color: #888;
 }
 
 body.darkmode .blog-footer {

@@ -1,7 +1,7 @@
 ---
 title: "How Far Is It from Paradise to Purgatory? Training Policy到Inference Policy之间的一种Staleness-TIM二维理论视角"
 date: 2026-11-20
-summary: "LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项。"
+summary: "LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项"
 epigraphLines:
   - "真的，真的……真是绕了好大一圈啊……"
   - "It's truly, truly been… a very long roundabout path…"

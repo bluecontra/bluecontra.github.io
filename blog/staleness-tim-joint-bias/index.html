@@ -10,19 +10,19 @@
   <link rel="alternate" hreflang="zh-CN" href="https://bluecontra.github.io/blog/staleness-tim-joint-bias/">
   <link rel="alternate" hreflang="en" href="https://bluecontra.github.io/blog/staleness-tim-joint-bias/en/">
 
-  <meta name="description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项。">
+  <meta name="description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项">
   <meta name="author" content="Hongyao Tang">
 
   <meta property="og:site_name" content="Hongyao Tang's Homepage" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="How Far Is It from Paradise to Purgatory? Training Policy到Inference Policy之间的一种Staleness-TIM二维理论视角 · Hongyao Tang" />
-  <meta property="og:description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项。" />
+  <meta property="og:description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项" />
   <meta property="og:url" content="https://bluecontra.github.io/blog/staleness-tim-joint-bias/" />
   <meta property="og:image" content="https://bluecontra.github.io/images/thumbnail.jpg" />
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="How Far Is It from Paradise to Purgatory? Training Policy到Inference Policy之间的一种Staleness-TIM二维理论视角 · Hongyao Tang">
-  <meta name="twitter:description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项。">
+  <meta name="twitter:description" content="LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项">
   <meta name="twitter:image" content="https://bluecontra.github.io/images/thumbnail.jpg">
 
   <link rel="preload" href="/fonts/dm-serif-display-v4-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
@@ -97,7 +97,7 @@
           <span class="blog-lang-switch"><span class="active">中文</span><span class="sep">|</span><a href="/blog/staleness-tim-joint-bias/en/">English</a></span>
         </div>
         <h1>How Far Is It from Paradise to Purgatory? Training Policy到Inference Policy之间的一种Staleness-TIM二维理论视角</h1>
-        <p class="blog-post-summary">LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项。</p>
+        <p class="blog-post-summary">LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项</p>
         <div class="blog-post-tags"><span class="blog-tag">LLM RL</span><span class="blog-tag">TIM</span><span class="blog-tag">staleness</span><span class="blog-tag">score centering</span><span class="blog-tag">off-policy</span></div>
       </header>
 

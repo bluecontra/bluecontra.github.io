@@ -118,9 +118,9 @@
       </details>
 
       <article class="blog-article">
-<p>LLM RL 的稳定性，很大程度上取决于 sampler 和 trainer 有多像。理想情况下它们是同一个策略；现实中，一个在 vLLM 里生成，一个在 Megatron 里训练，中间隔着参数 lag、精度、kernel、量化、MoE routing。我们把这两类差异分别叫作 <strong>staleness</strong> 和 <strong>TIM</strong>。它们经常被混在一起讨论，但其实是两个不同空间里的扰动。</p>
+<p>LLM RL 的稳定性，很大程度上取决于 sampler 和 trainer 有多像。理想情况下它们是同一个策略；现实中，一个在 vLLM 里生成，一个在 Megatron 里训练，中间隔着参数 lag、精度、kernel、量化、MoE routing。我们把这两类差异分别叫作 <strong>staleness</strong> 和 <strong>TIM</strong>。它们经常被混在一起讨论，但其实是两类不同空间的失配：一个是参数 lag，一个是 logit 差异。</p>
 <blockquote>
-<p>Staleness 是参数空间的扰动，TIM 是 logit 空间的扰动；联合起来，它们仍然是一个 logit 扰动。这个观察让&quot;两类 Mismatch&quot;变成一个可分离的分解问题。</p>
+<p>Staleness 是参数空间的 lag，TIM 是 logit 空间的差异；前者诱导出的 logit 差异与后者相加，联合起来仍然是一个 logit 差异。这个观察让&quot;两类 Mismatch&quot;变成一个可分离的分解问题。</p>
 </blockquote>
 <p>既然它们可以写成同一个 logit 扰动，就可以从三个坐标来分析它：</p>
 <ul>

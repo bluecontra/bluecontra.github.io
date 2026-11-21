@@ -13,9 +13,9 @@ lang: en
 translationKey: staleness-tim-joint-bias
 ---
 
-The stability of LLM RL depends heavily on how similar the sampler and the trainer are. Ideally they are the same policy. In practice, one generates in vLLM and the other trains in Megatron, with a parameter lag, precision differences, kernels, quantization, and MoE routing in between. We call these two kinds of discrepancy **staleness** and **TIM**. They are often discussed together, but they are perturbations in two different spaces.
+The stability of LLM RL depends heavily on how similar the sampler and the trainer are. Ideally they are the same policy. In practice, one generates in vLLM and the other trains in Megatron, with a parameter lag, precision differences, kernels, quantization, and MoE routing in between. We call these two kinds of discrepancy **staleness** and **TIM**. They are often discussed together, but they are mismatches in two different spaces: one is a parameter lag, the other a logit difference.
 
-> Staleness is a perturbation in parameter space; TIM is a perturbation in logit space. Jointly, they are still a logit perturbation. This observation turns the “two kinds of mismatch” into a separable decomposition problem.
+> Staleness is a lag in parameter space; TIM is a difference in logit space. The logit difference induced by the former adds to the latter, so jointly they are still a logit difference. This observation turns the “two kinds of mismatch” into a separable decomposition problem.
 
 Since both can be written as the same logit perturbation, we can analyze it along three coordinates:
 

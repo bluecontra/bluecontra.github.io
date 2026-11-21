@@ -14,9 +14,9 @@ slug: staleness-tim-joint-bias
 translationKey: staleness-tim-joint-bias
 ---
 
-LLM RL 的稳定性，很大程度上取决于 sampler 和 trainer 有多像。理想情况下它们是同一个策略；现实中，一个在 vLLM 里生成，一个在 Megatron 里训练，中间隔着参数 lag、精度、kernel、量化、MoE routing。我们把这两类差异分别叫作 **staleness** 和 **TIM**。它们经常被混在一起讨论，但其实是两个不同空间里的扰动。
+LLM RL 的稳定性，很大程度上取决于 sampler 和 trainer 有多像。理想情况下它们是同一个策略；现实中，一个在 vLLM 里生成，一个在 Megatron 里训练，中间隔着参数 lag、精度、kernel、量化、MoE routing。我们把这两类差异分别叫作 **staleness** 和 **TIM**。它们经常被混在一起讨论，但其实是两类不同空间的失配：一个是参数 lag，一个是 logit 差异。
 
-> Staleness 是参数空间的扰动，TIM 是 logit 空间的扰动；联合起来，它们仍然是一个 logit 扰动。这个观察让"两类 Mismatch"变成一个可分离的分解问题。
+> Staleness 是参数空间的 lag，TIM 是 logit 空间的差异；前者诱导出的 logit 差异与后者相加，联合起来仍然是一个 logit 差异。这个观察让"两类 Mismatch"变成一个可分离的分解问题。
 
 既然它们可以写成同一个 logit 扰动，就可以从三个坐标来分析它：
 

@@ -109,6 +109,19 @@ function tagList(tags) {
   return String(tags).split(',').map(function (t) { return t.trim(); }).filter(Boolean);
 }
 
+const TRASH_META = {
+  recyclable: { zh: '可回收垃圾', en: 'Recyclable Trash', emoji: '♻️' },
+  combustible: { zh: '可燃垃圾', en: 'Combustible Trash', emoji: '🔥' }
+};
+
+function trashBadge(post, lang, extraClass) {
+  const meta = TRASH_META[post.trashType];
+  if (!meta) return '';
+  const label = lang === 'en' ? meta.en : meta.zh;
+  const cls = 'blog-tag-trash ' + (extraClass ? extraClass + ' ' : '') + post.trashType;
+  return `<span class="${cls}"><span class="trash-emoji" aria-hidden="true">${meta.emoji}</span><span>${escapeHtml(label)}</span></span>`;
+}
+
 function summaryOf(data, html) {
   if (data.summary) return String(data.summary).trim();
   const text = plainText(html);
@@ -561,6 +574,7 @@ files.forEach(function (file) {
     dateValue: dateValue(date),
     summary: summaryOf(data, html),
     tags: tagList(data.tags),
+    trashType: data.trashType ? String(data.trashType).toLowerCase() : '',
     draft: isDraft,
     minutes: readingMinutes(parsed.content),
     epigraphLines: Array.isArray(data.epigraphLines)
@@ -643,7 +657,8 @@ function card(group, lang) {
     return `<span class="blog-tag">${escapeHtml(t)}</span>`;
   }).join('');
   const draft = p.draft ? '<span class="blog-draft">Draft</span>' : '';
-  return `        <a class="blog-card" href="${pagePath(group, linkLang)}">
+  const trash = trashBadge(p, lang, 'blog-card-trash');
+  return `        <a class="blog-card${trash ? ' has-trash' : ''}" href="${pagePath(group, linkLang)}">
           <div class="blog-card-meta">
             <span class="blog-card-author">Author(s): ${AUTHOR}</span>
             <span class="blog-card-dot">·</span>
@@ -651,6 +666,7 @@ function card(group, lang) {
             <span class="blog-card-dot">·</span>
             <span class="blog-card-time">${p.minutes} min read</span>${draft}
           </div>
+          ${trash}
           <h2 class="blog-card-title">${escapeHtml(p.title)}</h2>
           <p class="blog-card-summary">${escapeHtml(p.summary)}</p>
           <div class="blog-card-bottom">
@@ -734,6 +750,7 @@ groups.forEach(function (group, gi) {
     const tags = p.tags.map(function (t) {
       return `<span class="blog-tag">${escapeHtml(t)}</span>`;
     }).join('');
+    const trash = trashBadge(p, lang);
     const draft = p.draft ? '<span class="blog-draft">Draft</span>' : '';
 
     let prevNext = '';
@@ -778,7 +795,7 @@ ${p.epigraphSource ? `        <cite>—— ${escapeHtml(p.epigraphSource)}</cite
           <span class="blog-card-dot">·</span>
           <span>${escapeHtml(p.dateLabel)}</span>
           <span class="blog-card-dot">·</span>
-          <span>${p.minutes} min read</span>
+          <span>${p.minutes} min read</span>${trash}
           ${draft}
           ${langSwitch(group, lang)}
         </div>

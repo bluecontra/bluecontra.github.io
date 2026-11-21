@@ -5,6 +5,7 @@ summary: "LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM �
 epigraphLines:
   - "真的，真的……真是绕了好大一圈啊……"
 epigraphSource: "乔尼·乔斯达《Steel Ball Run》第 22 卷 / 第 85 话「Ball Breaker 其③」"
+trashType: recyclable
 tags: ["LLM RL", "TIM", "staleness", "score centering", "off-policy"]
 draft: false
 lang: zh

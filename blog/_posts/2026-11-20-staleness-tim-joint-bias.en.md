@@ -5,6 +5,7 @@ summary: "LLM RL systems exhibit two distinct mismatches between sampler and tra
 epigraphLines:
   - "It's truly, truly been… a very long roundabout path…"
 epigraphSource: "Johnny Joestar, Steel Ball Run, Vol. 22, Ch. 85 “Ball Breaker, Part 3”"
+trashType: recyclable
 tags: ["LLM RL", "TIM", "staleness", "score centering", "off-policy"]
 draft: false
 lang: en

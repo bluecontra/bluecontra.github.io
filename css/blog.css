@@ -84,6 +84,12 @@
   letter-spacing: 0.01em;
 }
 
+.blog-card-author,
+.blog-post-author {
+  color: #666;
+  font-weight: 500;
+}
+
 .blog-card-dot {
   color: #c4c4c4;
 }
@@ -366,6 +372,18 @@ body.darkmode .blog-lang-switch a:focus {
   line-height: 1.5;
 }
 
+.blog-article h3.bibtex-heading {
+  margin-top: 2.6em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #ececef;
+  font-size: 20px;
+}
+
+body.darkmode .blog-article h3.bibtex-heading {
+  border-bottom-color: #3a3a42;
+  color: #e6e6e6;
+}
+
 .blog-article h2[id="参考文献"] ~ p,
 .blog-article h2[id="references"] ~ p {
   font-size: 14px;
@@ -585,6 +603,11 @@ body.darkmode .blog-article details.term-note > .term-note-body {
   background: none;
   color: inherit;
   font-size: 13.5px;
+}
+
+.blog-article pre code.language-bibtex {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 .blog-article .table-wrap {
@@ -860,6 +883,11 @@ body.darkmode .blog-card-meta,
 body.darkmode .blog-card-summary,
 body.darkmode .blog-post-meta {
   color: #a3a3a3;
+}
+
+body.darkmode .blog-card-author,
+body.darkmode .blog-post-author {
+  color: #d0d0d0;
 }
 
 body.darkmode .blog-tag {

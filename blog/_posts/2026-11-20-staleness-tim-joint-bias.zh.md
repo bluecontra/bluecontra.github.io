@@ -982,3 +982,14 @@ arXiv:2503.14476, 2025. [arxiv.org/abs/2503.14476](https://arxiv.org/abs/2503.14
 **[11]** Chujie Zheng et al.  
 *Group Sequence Policy Optimization.*  
 arXiv:2507.18071, 2025. [arxiv.org/abs/2507.18071](https://arxiv.org/abs/2507.18071)
+
+<h3 class="bibtex-heading">引用：BibTeX</h3>
+
+```bibtex
+@misc{tang2026staleness,
+  title        = {How Far Is It from Paradise to Purgatory? A Staleness--TIM Two-Dimensional Perspective on the Training-to-Inference Policy Gap},
+  author       = {Tang, Hongyao},
+  year         = {2026},
+  url          = {https://bluecontra.github.io/blog/staleness-tim-joint-bias/en/}
+}
+```

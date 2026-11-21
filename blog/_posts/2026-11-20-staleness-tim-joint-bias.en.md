@@ -17,6 +17,14 @@ The stability of LLM RL depends heavily on how similar the sampler and the train
 
 > Staleness is a perturbation in parameter space; TIM is a perturbation in logit space. Jointly, they are still a logit perturbation. This observation turns the “two kinds of mismatch” into a separable decomposition problem.
 
+Since both can be written as the same logit perturbation, we can analyze it along three coordinates:
+
+- **source**: staleness (S) or TIM (T)?
+- **mechanism**: drift (a mean shift) or covariance (coupling with the reward)?
+- **resolution**: first order, second order, or exact?
+
+The following sections unfold along these three coordinates: §4 is the first-order single-source slice, §5 is the exact joint decomposition (pure staleness + pure TIM + interaction), §6 is the second-order five-term slice, and §7 projects existing methods onto these terms. The single-source analysis sets up the axes, the exact joint decomposition provides ground truth, and the second-order expansion gives an actionable budget.
+
 
 ## Key Takeaways
 

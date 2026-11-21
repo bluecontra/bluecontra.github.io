@@ -18,6 +18,14 @@ LLM RL 的稳定性，很大程度上取决于 sampler 和 trainer 有多像。�
 
 > Staleness 是参数空间的扰动，TIM 是 logit 空间的扰动；联合起来，它们仍然是一个 logit 扰动。这个观察让"两类 Mismatch"变成一个可分离的分解问题。
 
+既然它们可以写成同一个 logit 扰动，就可以从三个坐标来分析它：
+
+- **source**：staleness（S）还是 TIM（T）？
+- **mechanism**：drift（均值平移）还是 covariance（与 reward 的耦合）？
+- **resolution**：一阶、二阶，还是精确？
+
+后面的章节就是按这三个坐标展开的：§4 是一阶的单源切片，§5 是精确的联合分解（纯 staleness + 纯 TIM + interaction），§6 是二阶的五项切片，§7 把现有方法投影到这些项上。单源分析建立坐标轴，精确联合提供 ground truth，二阶展开给出可操作的 budget。
+
 
 ## 主要结论
 

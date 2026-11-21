@@ -293,7 +293,7 @@ ${MARKER}
       <span class="dark-toggle" onclick="setDarkMode(false)" id="lightBtnTop" style="display: none;">☀️</span>
       <a href="/">Home</a>
       <a href="/archives">Publications</a>
-      <a href="${escapeHtml(blogHref)}" class="active">Logs</a>
+      <a href="${escapeHtml(blogHref)}" class="active">Mind Trash (Logs)</a>
     </div>
 
     <script>

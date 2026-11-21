@@ -645,7 +645,7 @@ function card(group, lang) {
   const draft = p.draft ? '<span class="blog-draft">Draft</span>' : '';
   return `        <a class="blog-card" href="${pagePath(group, linkLang)}">
           <div class="blog-card-meta">
-            <span class="blog-card-author">${AUTHOR}</span>
+            <span class="blog-card-author">Author(s): ${AUTHOR}</span>
             <span class="blog-card-dot">·</span>
             <span class="blog-card-date">${escapeHtml(p.dateLabel)}</span>
             <span class="blog-card-dot">·</span>
@@ -677,7 +677,7 @@ function renderIndex(lang) {
     : '        <p class="blog-empty">No posts yet.</p>';
 
   return head({
-    title: "Welcome to Hongyao's Log · Hongyao Tang",
+    title: "Hongyao's Mind Trash Dump · Hongyao Tang",
     description: 'Notes by Hongyao Tang on reinforcement learning, large models, and embodied intelligence.',
     url: SITE + (isZh ? '/blog/' : '/blog/en/'),
     langAttr: isZh ? 'zh-CN' : 'en',
@@ -689,7 +689,7 @@ function renderIndex(lang) {
   }) + `
     <div class="trans">
       <header class="blog-index-header">
-        <h1>Welcome to Hongyao's Log</h1>
+        <h1>Hongyao's Mind Trash Dump</h1>
         <div class="blog-index-subline">
           <p>Here, I produce logs (actually, my mind trash) sporadically. <span class="blog-count">${countLabel}</span></p>
           ${indexLangSwitch(lang)}
@@ -774,7 +774,7 @@ ${p.epigraphSource ? `        <cite>—— ${escapeHtml(p.epigraphSource)}</cite
     <div class="trans">
       <header class="blog-post-header">
         <div class="blog-post-meta">
-          <span class="blog-post-author">${AUTHOR}</span>
+          <span class="blog-post-author">Author(s): ${AUTHOR}</span>
           <span class="blog-card-dot">·</span>
           <span>${escapeHtml(p.dateLabel)}</span>
           <span class="blog-card-dot">·</span>

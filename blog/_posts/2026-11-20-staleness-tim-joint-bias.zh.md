@@ -4,8 +4,6 @@ date: 2026-11-20
 summary: "LLM RL 的 sampler 与 trainer 之间同时存在 staleness 和 TIM 两类 mismatch。本文把它们写成同一个 logit 扰动，给出精确的 2D 分解与二阶五项展开，并梳理现有方法各自消掉了哪一项"
 epigraphLines:
   - "真的，真的……真是绕了好大一圈啊……"
-  - "It's truly, truly been… a very long roundabout path…"
-  - "本当に本当に、なんて遠い廻り道…"
 epigraphSource: "乔尼·乔斯达《Steel Ball Run》第 22 卷 / 第 85 话「Ball Breaker 其③」"
 tags: ["LLM RL", "TIM", "staleness", "score centering", "off-policy"]
 draft: false

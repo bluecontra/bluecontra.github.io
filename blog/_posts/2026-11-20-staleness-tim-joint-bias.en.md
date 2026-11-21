@@ -3,9 +3,7 @@ title: "How Far Is It from Paradise to Purgatory? A Staleness–TIM Two-Dimensio
 date: 2026-11-20
 summary: "LLM RL systems exhibit two distinct mismatches between sampler and trainer: staleness and TIM. This post casts both as the same logit perturbation, derives an exact 2D decomposition and a five-term second-order expansion, and maps which term each existing method removes."
 epigraphLines:
-  - "真的，真的……真是绕了好大一圈啊……"
   - "It's truly, truly been… a very long roundabout path…"
-  - "本当に本当に、なんて遠い廻り道…"
 epigraphSource: "Johnny Joestar, Steel Ball Run, Vol. 22, Ch. 85 “Ball Breaker, Part 3”"
 tags: ["LLM RL", "TIM", "staleness", "score centering", "off-policy"]
 draft: false

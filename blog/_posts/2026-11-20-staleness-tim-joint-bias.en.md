@@ -52,12 +52,10 @@ Let the current parameters be $\theta$, the sampler's old parameters be $\theta'
 | Behavior with age | $\delta z_S=O(\eta a)$, grows with age | $\delta z_T=O(1)$, independent of age |
 | Typical symptoms | Drift accumulates with age, gradient norm grows | Systematic bias, collapse under quantization |
 
-Key observation: **both can be written as logit perturbations, and they add in logit space**. This is the starting point for every decomposition that follows. Paper [1] analyzes TIM from the perspective of drift, and Blog [2] analyzes async staleness from the perspective of age; this post places both in a single decomposition.
+Key observation: **both can be written as logit perturbations, and they add in logit space**. This is the starting point for every decomposition that follows. SC Paper [1] analyzes TIM from the perspective of drift, and Mang&Wang's Blog [2] analyzes async staleness from the perspective of age; this post places both in a single decomposition.
 
 
 ## 2. Minimal Background: Drift and Signal
-
-Only the main equations are numbered below; intermediate definitions and derivations are not.
 
 ### 2.1 Policy Gradient
 
@@ -69,7 +67,16 @@ J(\theta)=\mathbb{E}_{\pi_\theta}[R],
 g(\theta)=\nabla J(\theta)=\mathbb{E}_{\pi_\theta}[R\,s_\theta], \qquad (1)
 $$
 
-where $s_\theta=\nabla_\theta\log\pi_\theta$ is the score. Note that $\mathbb{E}_{\pi_\theta}[s_\theta]=0$, so on-policy the gradient is the covariance between reward and score.
+where $s_\theta=\nabla_\theta\log\pi_\theta$ is the score. The score has zero mean under its own policy:
+
+$$
+\mathbb{E}_{\pi_\theta}[s_\theta\mid x]
+=\int \pi_\theta(y\mid x)\,\nabla_\theta\log\pi_\theta(y\mid x)\,dy
+=\nabla_\theta\!\int \pi_\theta(y\mid x)\,dy
+=\nabla_\theta 1=0,
+$$
+
+so the second term of the covariance $\mathrm{Cov}(R,s_\theta)=\mathbb{E}[Rs_\theta]-\mathbb{E}[R]\,\mathbb{E}[s_\theta]$ vanishes, and the on-policy gradient is exactly the covariance between reward and score. Intuitively, only the part of the reward that varies with the sampled token produces gradient: a constant reward, or a baseline that depends only on $x$, leaves the gradient unchanged.
 
 If the data come from a sampler $\mu$ rather than $\pi_\theta$, the actual estimator is
 
@@ -91,12 +98,12 @@ $$
 +\underbrace{\mathrm{Cov}_\mu(R,s_\theta)}_{\text{signal}}. \qquad (3)
 $$
 
-- **Drift** depends on $R$ only through its mean and carries no information about “which token caused success.” It is a distillation term toward the sampler; on-policy, $\mathbb{E}_{\pi}[s]=0$, so drift vanishes.
+- **Drift** depends on $R$ only through its mean and carries no information about “which token caused success.” It is a distillation term toward the sampler{{note: Read $\mathbb{E}_\mu[s_\theta]$ as the gradient of a distribution distance: $\mathbb{E}_\mu[s_\theta]=\nabla_\theta\mathbb{E}_\mu[\log\pi_\theta]=-\nabla_\theta\mathrm{KL}(\mu\|\pi_\theta)$. Hence for $\bar R>0$, drift lowers the KL between sampler and trainer and pulls $\pi_\theta$ toward $\mu$ — the same update shape as distillation/SFT. It is weighted only by the mean reward and carries no token-level credit. On-policy, $\mu=\pi_\theta$ and the KL gradient at itself is zero, so drift vanishes.}}; on-policy, $\mathbb{E}_{\pi}[s]=0$, so drift vanishes.
 - **Signal** is the actual learning signal, but the covariance is taken under $\mu$, not under $\pi$.
 
-The core insight of Paper [1] is that the main cause of RL instability under TIM is not “noise” but drift. With a fixed teacher (SFT), drift points to a fixed point and does not amplify itself; with a moving teacher (RL), the sampler follows the trainer at every step, so drift becomes a feedback loop and the error accumulates.
+The core insight of Score Centering [1] is that the main cause of RL instability under TIM is not “noise” but drift. The key is whether the behavior policy $\mu$ is fixed: when $\mu$ is fixed (off-policy RL with a fixed behavior policy; SFT is the special case with $R\equiv1$ and zero covariance), drift is the gradient of a fixed KL potential, $-\bar R\nabla_\theta\mathrm{KL}(\mu\|\pi_\theta)$, so it has a fixed point and does not amplify itself. Under TIM/async, $\mu$ is a lagged, biased copy of the trainer, so the KL target moves with the trainer and drift becomes a feedback loop. In synchronous on-policy RL, $\mu=\pi_\theta$ and drift is exactly zero.
 
-Drift is like an invisible teacher that keeps pulling the student toward the sampler; it does not tell the student “which token is good,” only “who the student should resemble overall.”
+Drift is like an invisible teacher that keeps pulling the student toward the sampler.
 
 ### 2.3 Score Centering and Importance Sampling
 
@@ -127,15 +134,15 @@ Exact IS is unbiased but high-variance; in practice, truncated IS (TIS) [3] or m
 
 ### 2.4 Two Empirical Facts about Existing Methods
 
-- Paper [1]: under quantization, SC alone can match or outperform IS; under severe staleness, SC+TIS/MIS is best.
-- Blog [2]: the drift norm grows with age; SC reduces the grad-norm ratio between age-64 and age-0 from 3.24 to 1.54; a state-level KL mask and a KL penalty can further stabilize training.
+- SC Paper [1]: under quantization, SC alone can match or outperform IS; under severe staleness, SC+TIS/MIS is best.
+- Mang&Wang's Blog [2]: the drift norm grows with age; SC reduces the grad-norm ratio between age-64 and age-0 from 3.24 to 1.54; a state-level KL mask and a KL penalty can further stabilize training.
 
 Behind these phenomena, different terms are being removed. We first fix the notation, then place them in a single expression.
 
 
 ## 3. Notations
 
-> Throughout, $\pi$ denotes the trainer and $\mu$ the sampler (the paper uses $p/q$, the blog uses $\pi/\mu$; map accordingly when citing). Unsubscripted $\mathbb{E},\mathrm{Cov}$ default to $\pi=\pi_\theta$; $\mathbb{R}$, $\mathrm{softmax}$, $\log$, $\sum$, $\int$ have their usual meanings, and $d$ denotes the differential.
+> Throughout, $\pi$ denotes the trainer and $\mu$ the sampler (SC Paper uses $p/q$, Mang&Wang's Blog uses $\pi/\mu$; map accordingly when citing). Unsubscripted $\mathbb{E},\mathrm{Cov}$ default to $\pi=\pi_\theta$; $\mathbb{R}$, $\mathrm{softmax}$, $\log$, $\sum$, $\int$ have their usual meanings, and $d$ denotes the differential.
 
 <details>
 <summary><b>Notation</b>: click to expand</summary>
@@ -196,6 +203,14 @@ Behind these phenomena, different terms are being removed. We first fix the nota
 
 ## 4. Staleness and TIM in Isolation: First-Order Bias
 
+First, fix notation. For a sampler $\mu$, define the gradient bias as
+
+$$
+b=\mathbb{E}_\mu[Rs_\theta]-\mathbb{E}_\pi[Rs_\theta].
+$$
+
+Section 4 considers two single-source cases: pure staleness ($\mu=\pi_{\theta-\Delta}$), whose bias is $b_S$, and pure TIM (the sampler logits carry an error $\delta z_T$), whose bias is $b_T$. We keep only the first-order term in each case.
+
 ### 4.1 Pure Staleness
 
 The sampler uses $\theta-\Delta$ and the trainer uses $\theta$. Let
@@ -213,28 +228,45 @@ b_S=\mathrm{Cov}_\pi(Rs,\delta z_S)
 =-H\Delta. \qquad (5)
 $$
 
-Split $H$ into a mean part and a covariance part:
-
-$$
-H=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top).
-$$
-
-Thus
-
-$$
-b_S=D_S^{(1)}+C_S^{(1)},
-\qquad
-D_S^{(1)}=-\bar R\,F\Delta,
-\qquad
-C_S^{(1)}=-\mathrm{Cov}_\pi(R,ss^\top)\Delta. \qquad (6)
-$$
-
-Intuitively, drift is “mean reward × Fisher × parameter lag,” and covariance is “fluctuation of reward × lag.”
+Two steps are involved: substitute $\delta z_S\approx-\Delta^\top\nabla_\theta z$ and use the score identity $\nabla_\theta z=s_\theta+\mathbb{E}_{\pi_\theta}[\nabla_\theta z]$. The second term is constant across sampled tokens at a fixed prefix and cancels in the covariance; with $\mathbb{E}_\pi[s_\theta]=0$, $\mathrm{Cov}_\pi(Rs,s_\theta)=\mathbb{E}_\pi[Rss_\theta^\top]$.
 
 <details>
 <summary><b>Derivation</b>: origin of the first-order bias</summary>
 
-For $p_\epsilon=\mathrm{softmax}(z+\epsilon\,\delta z)$,
+First, see why $b_S$ is a covariance. Under pure staleness, $\mu=\pi_{\theta-\Delta}=\mathrm{softmax}(z+\delta z_S)$. Expand the numerator and denominator (Taylor expansion of the exponential, $e^x=1+x+O(x^2)$):
+
+$$
+e^{\delta z_S}=1+\delta z_S+O(\delta z_S^2),
+\qquad
+\mathbb{E}_{\pi}[e^{\delta z_S}]
+=1+\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2).
+$$
+
+Using $(1+x)^{-1}=1-x+O(x^2)$ and multiplying out,
+
+$$
+\begin{aligned}
+\frac{\mu}{\pi}
+&=\frac{e^{\delta z_S}}{\mathbb{E}_{\pi}[e^{\delta z_S}]}\\
+&=\frac{1+\delta z_S+O(\delta z_S^2)}
+        {1+\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2)}\\
+&=(1+\delta z_S)(1-\mathbb{E}_{\pi}[\delta z_S])+O(\delta z_S^2)\\
+&=1+\delta z_S-\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2),
+\end{aligned}
+$$
+
+where the last step drops the second-order cross term $\delta z_S\,\mathbb{E}_{\pi}[\delta z_S]$.
+
+Hence
+
+$$
+b_S
+=\mathbb{E}_{\pi}\Big[\Big(\frac{\mu}{\pi}-1\Big)Rs_\theta\Big]+O(\Delta^2)
+=\mathbb{E}_{\pi}\big[Rs_\theta(\delta z_S-\mathbb{E}_{\pi}[\delta z_S])\big]+O(\Delta^2)
+=\mathrm{Cov}_{\pi}(Rs_\theta,\delta z_S)+O(\Delta^2).
+$$
+
+Below we rewrite the same step in derivative form. For $p_\epsilon=\mathrm{softmax}(z+\epsilon\,\delta z)$,
 
 $$
 \partial_\epsilon\log p_\epsilon=\delta z-\mathbb{E}_{p_\epsilon}[\delta z].
@@ -254,17 +286,59 @@ s_\theta=\nabla_\theta\log\pi_\theta
 =\nabla_\theta z-\mathbb{E}_{\pi_\theta}[\nabla_\theta z],
 $$
 
-i.e., the score is the centered logit gradient,
+i.e., the score is the centered logit gradient. Let $c(x)=\mathbb{E}_{\pi_\theta}[\nabla_\theta z]$; at a fixed prefix it is constant across the sampled token, so $\mathrm{Cov}_\pi(Rs_\theta,c(x))=0$. Here $\mathrm{Cov}_\pi(Rs_\theta,\nabla_\theta z)$ is a $P\times P$ cross-covariance matrix, so
 
 $$
-b_S=\mathbb{E}_\pi\big[Rs_\theta\,(-\Delta^\top s_\theta)\big]
-=-\mathbb{E}_\pi[Rs_\theta s_\theta^\top]\Delta
+\begin{aligned}
+b_S
+&=\mathrm{Cov}_\pi(Rs_\theta,\delta z_S)\\
+&=\mathrm{Cov}_\pi\big(Rs_\theta,-\Delta^\top\nabla_\theta z\big)\\
+&=-\mathrm{Cov}_\pi(Rs_\theta,\nabla_\theta z)\,\Delta\\
+&=-\mathrm{Cov}_\pi(Rs_\theta,s_\theta)\,\Delta\\
+&=-\mathbb{E}_\pi[Rs_\theta s_\theta^\top]\Delta
 =-H\Delta.
+\end{aligned}
 $$
 
-Substituting $H=\bar R F+\mathrm{Cov}_\pi(R,ss^\top)$ then gives (6).
+Splitting $H$ below then gives (6).
 
 </details>
+
+Split $H$ into a mean part and a covariance part:
+
+$$
+H=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top).
+$$
+
+<details>
+<summary><b>Derivation</b>: splitting H</summary>
+
+Substituting $R=\bar R+(R-\bar R)$,
+
+$$
+\begin{aligned}
+H
+&=\mathbb{E}_\pi[Rss^\top]\\
+&=\bar R\,\mathbb{E}_\pi[ss^\top]+\mathbb{E}_\pi[(R-\bar R)ss^\top]\\
+&=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top),
+\end{aligned}
+$$
+
+where $F=\mathbb{E}_\pi[ss^\top]$ and $\mathrm{Cov}_\pi(R,ss^\top)=\mathbb{E}_\pi[(R-\bar R)ss^\top]$.
+
+</details>
+
+Thus
+
+$$
+b_S=D_S^{(1)}+C_S^{(1)},
+\qquad
+D_S^{(1)}=-\bar R\,F\Delta,
+\qquad
+C_S^{(1)}=-\mathrm{Cov}_\pi(R,ss^\top)\Delta. \qquad (6)
+$$
+
+Intuitively, drift is “mean reward × Fisher × parameter lag,” and covariance is “fluctuation of reward × lag.”
 
 ### 4.2 Pure TIM
 
@@ -366,17 +440,41 @@ The endpoints can be represented by a 2×2 table:
 
 **Table 1**: The four endpoints of the 2×2 factorial. A has no mismatch, B has only staleness, C has only TIM, and D has both (the actual sampler).
 
-Here **2D** refers to the two interpolation parameters $(\lambda_S,\lambda_T)\in[0,1]^2$: $\lambda_S$ controls the strength of staleness and $\lambda_T$ controls the strength of TIM. Viewing the two mismatch sources as two coordinate axes of a plane, the four endpoints are A/B/C/D; interaction is the integral of the mixed partial derivative over this unit square.
+Write the objective of the interpolated policy as
+
+$$
+J(\lambda_S,\lambda_T)=\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[R],
+$$
+
+and abbreviate the four endpoint values as $J(\mathrm{A})=J(0,0)$, $J(\mathrm{B})=J(1,0)$, $J(\mathrm{C})=J(0,1)$, and $J(\mathrm{D})=J(1,1)$. Define
+
+$$
+\Delta J_S=J(\mathrm{B})-J(\mathrm{A}),\qquad
+\Delta J_T=J(\mathrm{C})-J(\mathrm{A}),\qquad
+\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A}).
+$$
+
+$\mathrm{Int}_J$ is the **interaction**: the part of the objective that exceeds the sum of the two single-source effects when both mismatches are present, i.e., the four-corner difference-in-differences.
+
+Here **2D** refers to the two interpolation parameters $(\lambda_S,\lambda_T)\in[0,1]^2$: $\lambda_S$ controls the strength of staleness and $\lambda_T$ controls the strength of TIM. Viewing the two mismatch sources as two coordinate axes of a plane, the four endpoints are A/B/C/D; interaction can also be written as the integral of the mixed partial $\partial_{\lambda_S}\partial_{\lambda_T}J$ over this unit square.
 
 ![2D interpolation plane: staleness λ_S on the horizontal axis, TIM λ_T on the vertical axis; A, B, C, D at the corners](assets/staleness-tim-joint-bias/2d-lambda-plane.svg)
 
-**Figure 1**: The $(\lambda_S,\lambda_T)$ plane. The horizontal axis is staleness strength $\lambda_S$ and the vertical axis is TIM strength $\lambda_T$; A is the origin, B is pure staleness, C is pure TIM, and D is their superposition. Interaction is the difference-in-differences over the four corners: $J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$ (where $J$ is the objective).
+**Figure 1**: The $(\lambda_S,\lambda_T)$ plane. The horizontal axis is staleness strength $\lambda_S$ and the vertical axis is TIM strength $\lambda_T$; A is the origin, B is pure staleness, C is pure TIM, and D is their superposition. The interaction $\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$ is the four-corner difference-in-differences.
 
-> **Side note.** The path here is a linear interpolation in logit space. The four endpoints are fixed, so $\Delta J_S=J(\mathrm{B})-J(\mathrm{A})$, $\Delta J_T=J(\mathrm{C})-J(\mathrm{A})$, and $\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$ are determined solely by the endpoints and are independent of the interpolation path. The path changes only how the integrand (the covariance field) is distributed over the square, not the values of the three integrals.
+> **Side note.** The path here is a linear interpolation in logit space. The four endpoints are fixed, so the $\Delta J_S,\Delta J_T,\mathrm{Int}_J$ defined above are determined solely by the endpoints and are independent of the interpolation path. The path changes only how the integrand (the covariance field) is distributed over the square, not the values of the three integrals.
 
 ### 5.2 Exact Decomposition
 
-Building on the drift/covariance decomposition in [1], write the objective as a function of the interpolated policy, $J(\lambda_S,\lambda_T)=\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[R]$. Then
+Building on the drift/covariance decomposition in [1], differentiate the $J(\lambda_S,\lambda_T)$ defined above. Recall the centered perturbations at the interpolation point $\pi_{\lambda_S,\lambda_T}$:
+
+$$
+a_S=\delta z_S-\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[\delta z_S],
+\qquad
+a_T=\delta z_T-\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[\delta z_T].
+$$
+
+Then
 
 $$
 \partial_{\lambda_S}J=\mathbb{E}[R a_S],
@@ -637,9 +735,9 @@ We first fix the notation: $b=S_1+T_1+S_2+T_2+ST+O(\delta z^3)$, with first-orde
 
 Abbreviations: IS = importance sampling; TIS/MIS = truncated/masked IS; PPO/DAPO/GSPO = ratio-clipping methods; DPPO = TV mask; TRM = trust-region masking; SC = score centering. The $\nu\propto\mu w$ in the tables is the effective distribution after IS reweighting, and the retained mass is the mass it covers.
 
-Method sources: TIS [3], MIS/IcePop [4], DPPO [5], TRM [8], and FP16/router replay [7,9] come from the corresponding papers; SC and baseline correction come from [1]; the state-KL mask and KL penalty come from Blog [2]; PPO/DAPO/GSPO are standard ratio-clipping methods (DAPO [10], GSPO [11]). CIS [6] is not in the tables: it performs confidence-aware truncation from the perspective of log-odds shifts, which is complementary to the $\delta z$ decomposition here; we return to it in §9. We care only about the effect of these methods on bias, not about their concrete implementations.
+Method sources: TIS [3], MIS/IcePop [4], DPPO [5], TRM [8], and FP16/router replay [7,9] come from the corresponding papers; SC and baseline correction come from [1]; the state-KL mask and KL penalty come from Mang&Wang's Blog [2]; PPO/DAPO/GSPO are standard ratio-clipping methods (DAPO [10], GSPO [11]). CIS [6] is not in the tables: it performs confidence-aware truncation from the perspective of log-odds shifts, which is complementary to the $\delta z$ decomposition here; we return to it in §9. We care only about the effect of these methods on bias, not about their concrete implementations.
 
-We first look at the $D^{(1)}/C^{(1)}$ view (who removes drift and who removes covariance), and then break the analysis down into the five terms (which specific term is removed). “SC+TIS/MIS” in the tables means centering on the weighted score, i.e., the combination used in Appendix A.2 of Paper [1]; it is not “SC first, then IS.” The ordering issue is discussed in §7.4.
+We first look at the $D^{(1)}/C^{(1)}$ view (who removes drift and who removes covariance), and then break the analysis down into the five terms (which specific term is removed). “SC+TIS/MIS” in the tables means centering on the weighted score, i.e., the combination used in Appendix A.2 of SC Paper [1]; it is not “SC first, then IS.” The ordering issue is discussed in §7.4.
 
 ### 7.1 D/C View
 
@@ -688,18 +786,18 @@ We first look at the $D^{(1)}/C^{(1)}$ view (who removes drift and who removes c
 ### 7.3 Why Is SC Not Enough?
 
 1. **SC is not “removing $S_1+T_1$.”** It subtracts $\mathbb{E}_\mu[s]$ and exactly removes drift $D$, so $D_S^{(1)},D_T^{(1)}$ vanish; however, $C_S^{(1)},C_T^{(1)}$ remain as they were, and at second order it also removes only the drift part, not the covariance part. This is the structural reason why “instability remains after SC.”
-2. **The IS family is the only class that directly suppresses covariance.** Exact IS removes everything; TIS/MIS restrict the residual to the truncated/masked region and only partially correct covariance on the retained mass. This explains Paper [1]'s finding that “SC+TIS/MIS is best under severe staleness”: $C_S^{(1)}$ grows with age, SC cannot suppress it, and IS can suppress part of it.
+2. **The IS family is the only class that directly suppresses covariance.** Exact IS removes everything; TIS/MIS restrict the residual to the truncated/masked region and only partially correct covariance on the retained mass. This explains the finding of SC Paper [1] that “SC+TIS/MIS is best under severe staleness”: $C_S^{(1)}$ grows with age, SC cannot suppress it, and IS can suppress part of it.
 3. **Only source reduction can distinguish $S$ from $T$.** FP16 [7] / router replay [9] reduce $\delta z_T$ and affect only $T_1,T_2,ST$; reducing age reduces $\Delta$ and affects only $S_1,S_2,ST$. Neither handles the other source.
-4. **Clipping/masking methods do not distinguish sources.** PPO/DAPO/DPPO/state-KL/TRM all either clip the magnitude of $\delta z$ or remove positions with high mismatch, so all five terms are ◐. The PPO/DAPO clip is designed for the policy-movement ratio; under numerical mismatch, the ratio of a rare token can explode because of a tiny probability difference, and clipping then misses the target. This corresponds to Paper [1]'s observation that “PPO/DAPO withstands staleness but not quantization.”
+4. **Clipping/masking methods do not distinguish sources.** PPO/DAPO/DPPO/state-KL/TRM all either clip the magnitude of $\delta z$ or remove positions with high mismatch, so all five terms are ◐. The PPO/DAPO clip is designed for the policy-movement ratio; under numerical mismatch, the ratio of a rare token can explode because of a tiny probability difference, and clipping then misses the target. This corresponds to the observation of SC Paper [1] that “PPO/DAPO withstands staleness but not quantization.”
 5. **The KL penalty is not a bias-correction term.** It adds back a controlled drift (↑), pulling $\pi$ toward $\mu$ as a trust-region anchor; it does not remove any of the five terms.
 6. **Gap**: no method currently targets $ST$ or second-order covariance explicitly; these are only affected incidentally by clipping, masking, or source reduction.
 
 ### 7.4 Mapping to Experiments
 
-- **Quantization in Paper [1]**: mainly creates $\delta z_T$. SC removes $D_T^{(1)}$ and leaves $C_T^{(1)}$; TIS/MIS suppress only $C_T$ on the retained mass. Under quantization, SC alone or combined with TIS/MIS is best; when mild, SC alone suffices.
-- **Staleness in Paper [1]**: $\Delta$ dominates. SC removes $D_S^{(1)}$ and leaves $C_S^{(1)}$; TIS/MIS suppress $C_S$. This explains “SC+TIS/MIS is best under staleness, better than vanilla SC.”
-- **State-KL mask in Blog [2]**: a per-state bound that suppresses the per-state contribution of high $d_{\mathrm{KL}}(x)$, but does not distinguish sources; the **KL penalty** is a trust-region anchor, not a bias correction.
-- **The SC+IS critique in Blog [2]**: the two operations do not commute. SC→IS adds drift back (centering uses the expectation under $\mu$, while IS changes the measure to $\pi$, leaving a residual of $-\bar R\,\mathbb{E}_\mu[s]$); with IS→Exact IS, SC has no effect; with IS→TIS, SC acts only on the effective distribution $\nu$, and there is no guarantee that $\nu$ is closer to $\pi$.
+- **Quantization in SC Paper [1]**: mainly creates $\delta z_T$. SC removes $D_T^{(1)}$ and leaves $C_T^{(1)}$; TIS/MIS suppress only $C_T$ on the retained mass. Under quantization, SC alone or combined with TIS/MIS is best; when mild, SC alone suffices.
+- **Staleness in SC Paper [1]**: $\Delta$ dominates. SC removes $D_S^{(1)}$ and leaves $C_S^{(1)}$; TIS/MIS suppress $C_S$. This explains “SC+TIS/MIS is best under staleness, better than vanilla SC.”
+- **State-KL mask in Mang&Wang's Blog [2]**: a per-state bound that suppresses the per-state contribution of high $d_{\mathrm{KL}}(x)$, but does not distinguish sources; the **KL penalty** is a trust-region anchor, not a bias correction.
+- **The SC+IS critique in Mang&Wang's Blog [2]**: the two operations do not commute. SC→IS adds drift back (centering uses the expectation under $\mu$, while IS changes the measure to $\pi$, leaving a residual of $-\bar R\,\mathbb{E}_\mu[s]$); with IS→Exact IS, SC has no effect; with IS→TIS, SC acts only on the effective distribution $\nu$, and there is no guarantee that $\nu$ is closer to $\pi$.
 
 
 ## 8. What This Means for Method Design

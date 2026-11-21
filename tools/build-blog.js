@@ -175,6 +175,33 @@ md.use(katexPlugin, {
   errorColor: '#cc0000'
 });
 
+// Inline collapsible annotation: {{note: ...}} renders as a circled "?"
+// superscript that expands to the given text. The body goes through
+// renderInline so $math$ and **emphasis** work inside it.
+md.inline.ruler.before('escape', 'term_note', function (state, silent) {
+  const start = state.pos;
+  const marker = '{{note:';
+  if (state.src.slice(start, start + marker.length) !== marker) return false;
+  const end = state.src.indexOf('}}', start + marker.length);
+  if (end < 0) return false;
+  if (!silent) {
+    const content = state.src.slice(start + marker.length, end).trim();
+    const label = state.env && state.env.lang === 'en' ? 'Show note' : '展开说明';
+    const token = state.push('term_note', '', 0);
+    token.content = '<details class="term-note"><summary aria-label="' + label + '"><span class="term-q">?</span></summary><span class="term-note-body">' +
+      state.md.renderInline(content, state.env) +
+      '</span></details>';
+  }
+  state.pos = end + 2;
+  return true;
+});
+
+// Render the custom inline token as raw HTML. Using a dedicated token type
+// (instead of html_inline) keeps math parsing alive in the text that follows.
+md.renderer.rules.term_note = function (tokens, idx) {
+  return tokens[idx].content;
+};
+
 // Wrap tables so they can scroll horizontally on narrow screens.
 const defaultTableOpen = md.renderer.rules.table_open || function (tokens, idx, options, env, self) {
   return self.renderToken(tokens, idx, options);
@@ -356,6 +383,78 @@ const scrollSpy = `
       });
       window.addEventListener('hashchange', function () { openDetailsForHash(location.hash); });
       openDetailsForHash(location.hash);
+
+      function initTermNotes() {
+        var notes = Array.prototype.slice.call(document.querySelectorAll('details.term-note'));
+        if (!notes.length) return;
+
+        function closeAll(except) {
+          notes.forEach(function (note) {
+            if (note !== except) note.open = false;
+          });
+        }
+
+        function place(note) {
+          var summary = note.querySelector('summary');
+          var panel = note.querySelector('.term-note-body');
+          if (!summary || !panel) return;
+
+          var rect = summary.getBoundingClientRect();
+          var margin = 12;
+          var gap = 12;
+          var width = Math.min(420, window.innerWidth - margin * 2);
+          panel.style.position = 'fixed';
+          panel.style.width = width + 'px';
+          var height = panel.offsetHeight;
+          var left = rect.right + gap;
+          var top = Math.max(margin, Math.min(rect.top, window.innerHeight - height - margin));
+
+          if (left + width > window.innerWidth - margin) {
+            // Not enough room beside the marker: keep the note on the right
+            // side of the viewport and drop it below the marker instead of
+            // covering the annotated sentence.
+            left = window.innerWidth - width - margin;
+            top = rect.bottom + 10;
+            if (top + height > window.innerHeight - margin) {
+              top = Math.max(margin, rect.top - height - 10);
+            }
+          }
+
+          panel.style.transform = 'none';
+          panel.style.top = top + 'px';
+          panel.style.left = left + 'px';
+        }
+
+        notes.forEach(function (note) {
+          note.addEventListener('toggle', function () {
+            if (!note.open) return;
+            closeAll(note);
+            requestAnimationFrame(function () { place(note); });
+          });
+        });
+
+        document.addEventListener('click', function (e) {
+          var inside = e.target.closest ? e.target.closest('details.term-note') : null;
+          if (!inside) closeAll(null);
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeAll(null);
+        });
+
+        window.addEventListener('resize', function () {
+          notes.forEach(function (note) {
+            if (note.open) place(note);
+          });
+        });
+
+        window.addEventListener('scroll', function (e) {
+          var inside = e.target && e.target.closest ? e.target.closest('details.term-note') : null;
+          if (inside) return;
+          closeAll(null);
+        }, true);
+      }
+      initTermNotes();
     </script>
 `;
 
@@ -435,7 +534,7 @@ files.forEach(function (file) {
   const groupKeyRaw = data.translationKey || data.slug || baseName.replace(/\.(zh|en)$/i, '');
   const key = postSlug({ slug: groupKeyRaw }, file);
 
-  const html = md.render(parsed.content);
+  const html = md.render(parsed.content, { lang: lang });
   const headings = [];
   const headingRe = /<h([23])\b([^>]*)>([\s\S]*?)<\/h\1>/gi;
   let m;

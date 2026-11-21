@@ -321,7 +321,7 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
       </article>
 
       <nav class="blog-post-nav" aria-label="More posts">
-        <a class="blog-post-prev" href="/blog/staleness-tim-joint-bias/en/"><span class="blog-post-nav-label">Newer</span><span class="blog-post-nav-meta">2026.11.20 · 40 min read</span><span class="blog-post-nav-title">How Far Is It from Paradise to Purgatory? A Staleness–TIM Two-Dimensional Perspective on the Training-to-Inference Policy Gap</span></a>
+        <a class="blog-post-prev" href="/blog/staleness-tim-joint-bias/en/"><span class="blog-post-nav-label">Newer</span><span class="blog-post-nav-meta">2026.11.20 · 45 min read</span><span class="blog-post-nav-title">How Far Is It from Paradise to Purgatory? A Staleness–TIM Two-Dimensional Perspective on the Training-to-Inference Policy Gap</span></a>
         <span></span>
       </nav>
 
@@ -366,6 +366,78 @@ arXiv 2026. <a href="https://arxiv.org/abs/2609.13406" target="_blank" rel="noop
       });
       window.addEventListener('hashchange', function () { openDetailsForHash(location.hash); });
       openDetailsForHash(location.hash);
+
+      function initTermNotes() {
+        var notes = Array.prototype.slice.call(document.querySelectorAll('details.term-note'));
+        if (!notes.length) return;
+
+        function closeAll(except) {
+          notes.forEach(function (note) {
+            if (note !== except) note.open = false;
+          });
+        }
+
+        function place(note) {
+          var summary = note.querySelector('summary');
+          var panel = note.querySelector('.term-note-body');
+          if (!summary || !panel) return;
+
+          var rect = summary.getBoundingClientRect();
+          var margin = 12;
+          var gap = 12;
+          var width = Math.min(420, window.innerWidth - margin * 2);
+          panel.style.position = 'fixed';
+          panel.style.width = width + 'px';
+          var height = panel.offsetHeight;
+          var left = rect.right + gap;
+          var top = Math.max(margin, Math.min(rect.top, window.innerHeight - height - margin));
+
+          if (left + width > window.innerWidth - margin) {
+            // Not enough room beside the marker: keep the note on the right
+            // side of the viewport and drop it below the marker instead of
+            // covering the annotated sentence.
+            left = window.innerWidth - width - margin;
+            top = rect.bottom + 10;
+            if (top + height > window.innerHeight - margin) {
+              top = Math.max(margin, rect.top - height - 10);
+            }
+          }
+
+          panel.style.transform = 'none';
+          panel.style.top = top + 'px';
+          panel.style.left = left + 'px';
+        }
+
+        notes.forEach(function (note) {
+          note.addEventListener('toggle', function () {
+            if (!note.open) return;
+            closeAll(note);
+            requestAnimationFrame(function () { place(note); });
+          });
+        });
+
+        document.addEventListener('click', function (e) {
+          var inside = e.target.closest ? e.target.closest('details.term-note') : null;
+          if (!inside) closeAll(null);
+        });
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape') closeAll(null);
+        });
+
+        window.addEventListener('resize', function () {
+          notes.forEach(function (note) {
+            if (note.open) place(note);
+          });
+        });
+
+        window.addEventListener('scroll', function (e) {
+          var inside = e.target && e.target.closest ? e.target.closest('details.term-note') : null;
+          if (inside) return;
+          closeAll(null);
+        }, true);
+      }
+      initTermNotes();
     </script>
 
     <footer class="blog-footer">

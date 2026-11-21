@@ -53,12 +53,10 @@ $$
 | 随 age 的行为 | $\delta z_S=O(\eta a)$，随 age 增长 | $\delta z_T=O(1)$，与 age 无关 |
 | 典型症状 | drift 随 age 累积、梯度范数增长 | 系统性偏差、quantization 下崩溃 |
 
-关键观察：**两者都可以写成 logit 扰动，而且在 logit 空间是相加的**。这是本文后面所有分解的起点。Paper [1] 从 drift 的角度分析 TIM，Blog [2] 从 age 的角度分析 async staleness；本文把两者放进同一个分解。
+关键观察：**两者都可以写成 logit 扰动，而且在 logit 空间是相加的**。这是本文后面所有分解的起点。SC Paper [1] 从 drift 的角度分析 TIM，Mang&Wang's Blog [2] 从 age 的角度分析 async staleness；本文把两者放进同一个分解。
 
 
 ## 2. Minimal Background: Drift and Signal
-
-下面只给主要公式编号；中间的定义和推导不编号。
 
 ### 2.1 Policy Gradient
 
@@ -70,7 +68,16 @@ J(\theta)=\mathbb{E}_{\pi_\theta}[R],
 g(\theta)=\nabla J(\theta)=\mathbb{E}_{\pi_\theta}[R\,s_\theta], \qquad (1)
 $$
 
-其中 $s_\theta=\nabla_\theta\log\pi_\theta$ 是 score。注意 $\mathbb{E}_{\pi_\theta}[s_\theta]=0$，所以 on-policy 时梯度就是 reward 与 score 的 covariance。
+其中 $s_\theta=\nabla_\theta\log\pi_\theta$ 是 score。score 在自身策略下期望为零：
+
+$$
+\mathbb{E}_{\pi_\theta}[s_\theta\mid x]
+=\int \pi_\theta(y\mid x)\,\nabla_\theta\log\pi_\theta(y\mid x)\,dy
+=\nabla_\theta\!\int \pi_\theta(y\mid x)\,dy
+=\nabla_\theta 1=0,
+$$
+
+所以协方差 $\mathrm{Cov}(R,s_\theta)=\mathbb{E}[Rs_\theta]-\mathbb{E}[R]\,\mathbb{E}[s_\theta]$ 的第二项消失，on-policy 时梯度就是 reward 与 score 的 covariance。直观上，只有 reward 随采样 token 变化的部分才产生梯度：常数 reward、或只依赖 $x$ 的 baseline，都不改变梯度。
 
 如果数据来自 sampler $\mu$ 而不是 $\pi_\theta$，实际估计的是
 
@@ -92,12 +99,12 @@ $$
 +\underbrace{\mathrm{Cov}_\mu(R,s_\theta)}_{\text{signal}}. \qquad (3)
 $$
 
-- **Drift** 只通过 reward 均值依赖 $R$，不含"哪个 token 导致成功"的信息。它是朝 sampler 的蒸馏项；on-policy 时 $\mathbb{E}_{\pi}[s]=0$，drift 消失。
+- **Drift** 只通过 reward 均值依赖 $R$，不含"哪个 token 导致成功"的信息。它是朝 sampler 的蒸馏项{{note: 把 $\mathbb{E}_\mu[s_\theta]$ 看作分布距离的梯度：$\mathbb{E}_\mu[s_\theta]=\nabla_\theta\mathbb{E}_\mu[\log\pi_\theta]=-\nabla_\theta\mathrm{KL}(\mu\|\pi_\theta)$。因此 $\bar R>0$ 时，drift 在降低 sampler 与 trainer 的 KL，把 $\pi_\theta$ 拉向 $\mu$，与蒸馏/SFT 的更新同形；它只由平均 reward 加权，不含 token 级 credit。on-policy 时 $\mu=\pi_\theta$，KL 在自身处梯度为零，drift 消失。}}；on-policy 时 $\mathbb{E}_{\pi}[s]=0$，drift 消失。
 - **Signal** 是真正的学习信号，但 covariance 是在 $\mu$ 下取的，不是 $\pi$ 下。
 
-Paper 的核心洞察 [1] 是：TIM 下 RL 不稳的主因不是"噪声"，而是 drift。固定 teacher（SFT）时，drift 指向一个不动点，不会自我放大；移动 teacher（RL）时，sampler 每步都跟着 trainer 更新，drift 就变成反馈回路，误差会逐步累积。
+Score Centering 的核心洞察 [1] 是：TIM 下 RL 不稳的主因不是"噪声"，而是 drift。关键是 behavior policy $\mu$ 是否固定：$\mu$ 固定时（固定 behavior policy 的 off-policy RL；SFT 是 $R\equiv1$、covariance 为零的特例），drift 是固定 KL 势 $-\bar R\nabla_\theta\mathrm{KL}(\mu\|\pi_\theta)$ 的梯度，有不动点，不会自我放大；TIM/async 下 $\mu$ 是 trainer 的滞后、带偏副本，KL 目标随 trainer 移动，drift 才变成反馈回路。同步 on-policy 时 $\mu=\pi_\theta$，drift 恰为零。
 
-Drift 像是一个看不见的 teacher，一直在把 student 拉向 sampler；它不告诉 student "哪个 token 好"，只告诉 student "整体上应该更像谁"。
+Drift 像是一个看不见的 teacher，一直在把 student 拉向 sampler。
 
 ### 2.3 Score Centering 与 Importance Sampling
 
@@ -128,15 +135,15 @@ Exact IS 无偏，但方差高；实践中常用 truncated IS (TIS) [3] 或 mask
 
 ### 2.4 现有方法的两个经验事实
 
-- Paper [1]：quantization 下 SC 单独可以匹配或超过 IS；严重 staleness 下 SC+TIS/MIS 最好。
-- Blog [2]：drift norm 随 age 增长；SC 把 age-64/age-0 的 grad-norm ratio 从 3.24 降到 1.54；state-level KL mask 和 KL penalty 可以进一步稳定。
+- SC Paper [1]：quantization 下 SC 单独可以匹配或超过 IS；严重 staleness 下 SC+TIS/MIS 最好。
+- Mang&Wang's Blog [2]：drift norm 随 age 增长；SC 把 age-64/age-0 的 grad-norm ratio 从 3.24 降到 1.54；state-level KL mask 和 KL penalty 可以进一步稳定。
 
 这些现象背后，其实是不同的项在被消除。下面先把记号固定下来，再把它们放进同一个表达式。
 
 
 ## 3. Notations
 
-> 本文统一用 $\pi$ 表示 trainer、$\mu$ 表示 sampler（Paper 用 $p/q$，Blog 用 $\pi/\mu$，引用时按此映射）。未写下标的 $\mathbb{E},\mathrm{Cov}$ 默认在 $\pi=\pi_\theta$ 下；$\mathbb{R}$、$\mathrm{softmax}$、$\log$、$\sum$、$\int$ 按通常含义使用，$d$ 为微分。
+> 本文统一用 $\pi$ 表示 trainer、$\mu$ 表示 sampler（SC Paper 用 $p/q$，Mang&Wang's Blog 用 $\pi/\mu$，引用时按此映射）。未写下标的 $\mathbb{E},\mathrm{Cov}$ 默认在 $\pi=\pi_\theta$ 下；$\mathbb{R}$、$\mathrm{softmax}$、$\log$、$\sum$、$\int$ 按通常含义使用，$d$ 为微分。
 
 <details>
 <summary><b>符号表</b>：点击展开</summary>
@@ -197,6 +204,14 @@ Exact IS 无偏，但方差高；实践中常用 truncated IS (TIS) [3] 或 mask
 
 ## 4. Staleness和TIM的单源作用：一阶偏差
 
+先统一记号。给定 sampler $\mu$，gradient bias 定义为
+
+$$
+b=\mathbb{E}_\mu[Rs_\theta]-\mathbb{E}_\pi[Rs_\theta].
+$$
+
+§4 分别考虑两个单源情形：纯 staleness（$\mu=\pi_{\theta-\Delta}$）的偏差记 $b_S$，纯 TIM（sampler 的 logit 带误差 $\delta z_T$）的偏差记 $b_T$；以下都只保留各自的一阶项。
+
 ### 4.1 纯 Staleness
 
 Sampler 用 $\theta-\Delta$，trainer 用 $\theta$。记
@@ -214,28 +229,45 @@ b_S=\mathrm{Cov}_\pi(Rs,\delta z_S)
 =-H\Delta. \qquad (5)
 $$
 
-把 $H$ 拆成均值部分和 covariance 部分：
-
-$$
-H=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top).
-$$
-
-于是
-
-$$
-b_S=D_S^{(1)}+C_S^{(1)},
-\qquad
-D_S^{(1)}=-\bar R\,F\Delta,
-\qquad
-C_S^{(1)}=-\mathrm{Cov}_\pi(R,ss^\top)\Delta. \qquad (6)
-$$
-
-直观上，drift 是「平均 reward × Fisher × 参数 lag」，covariance 是「reward 的波动 × lag」。
+这里用到两步：由 $\delta z_S\approx-\Delta^\top\nabla_\theta z$ 和 score 恒等式 $\nabla_\theta z=s_\theta+\mathbb{E}_{\pi_\theta}[\nabla_\theta z]$，第二项在固定 prefix 下与采样 token 无关，在 covariance 中抵消；再用 $\mathbb{E}_\pi[s_\theta]=0$，有 $\mathrm{Cov}_\pi(Rs,s_\theta)=\mathbb{E}_\pi[Rss_\theta^\top]$。
 
 <details>
 <summary><b>推导</b>：一阶偏差的来历</summary>
 
-对 $p_\epsilon=\mathrm{softmax}(z+\epsilon\,\delta z)$，有
+先看 $b_S$ 为什么等于 covariance。纯 staleness 下 $\mu=\pi_{\theta-\Delta}=\mathrm{softmax}(z+\delta z_S)$。先展开分子和分母（指数函数的 Taylor 展开 $e^x=1+x+O(x^2)$）：
+
+$$
+e^{\delta z_S}=1+\delta z_S+O(\delta z_S^2),
+\qquad
+\mathbb{E}_{\pi}[e^{\delta z_S}]
+=1+\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2).
+$$
+
+再用 $(1+x)^{-1}=1-x+O(x^2)$ 和乘法展开：
+
+$$
+\begin{aligned}
+\frac{\mu}{\pi}
+&=\frac{e^{\delta z_S}}{\mathbb{E}_{\pi}[e^{\delta z_S}]}\\
+&=\frac{1+\delta z_S+O(\delta z_S^2)}
+        {1+\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2)}\\
+&=(1+\delta z_S)(1-\mathbb{E}_{\pi}[\delta z_S])+O(\delta z_S^2)\\
+&=1+\delta z_S-\mathbb{E}_{\pi}[\delta z_S]+O(\delta z_S^2),
+\end{aligned}
+$$
+
+最后一步丢掉二阶交叉项 $\delta z_S\,\mathbb{E}_{\pi}[\delta z_S]$。
+
+于是
+
+$$
+b_S
+=\mathbb{E}_{\pi}\Big[\Big(\frac{\mu}{\pi}-1\Big)Rs_\theta\Big]+O(\Delta^2)
+=\mathbb{E}_{\pi}\big[Rs_\theta(\delta z_S-\mathbb{E}_{\pi}[\delta z_S])\big]+O(\Delta^2)
+=\mathrm{Cov}_{\pi}(Rs_\theta,\delta z_S)+O(\Delta^2).
+$$
+
+下面用导数形式重写同一件事。对 $p_\epsilon=\mathrm{softmax}(z+\epsilon\,\delta z)$，有
 
 $$
 \partial_\epsilon\log p_\epsilon=\delta z-\mathbb{E}_{p_\epsilon}[\delta z].
@@ -255,17 +287,59 @@ s_\theta=\nabla_\theta\log\pi_\theta
 =\nabla_\theta z-\mathbb{E}_{\pi_\theta}[\nabla_\theta z],
 $$
 
-即 score 是中心化的 logit 梯度，所以
+即 score 是中心化的 logit 梯度。记 $c(x)=\mathbb{E}_{\pi_\theta}[\nabla_\theta z]$，它在固定 prefix 下与采样 token 无关，所以 $\mathrm{Cov}_\pi(Rs_\theta,c(x))=0$。这里 $\mathrm{Cov}_\pi(Rs_\theta,\nabla_\theta z)$ 是 $P\times P$ 的交叉协方差矩阵，于是
 
 $$
-b_S=\mathbb{E}_\pi\big[Rs_\theta\,(-\Delta^\top s_\theta)\big]
-=-\mathbb{E}_\pi[Rs_\theta s_\theta^\top]\Delta
+\begin{aligned}
+b_S
+&=\mathrm{Cov}_\pi(Rs_\theta,\delta z_S)\\
+&=\mathrm{Cov}_\pi\big(Rs_\theta,-\Delta^\top\nabla_\theta z\big)\\
+&=-\mathrm{Cov}_\pi(Rs_\theta,\nabla_\theta z)\,\Delta\\
+&=-\mathrm{Cov}_\pi(Rs_\theta,s_\theta)\,\Delta\\
+&=-\mathbb{E}_\pi[Rs_\theta s_\theta^\top]\Delta
 =-H\Delta.
+\end{aligned}
 $$
 
-再把 $H=\bar R F+\mathrm{Cov}_\pi(R,ss^\top)$ 代入，就得到 (6)。
+下面把 $H$ 拆开，就得到 (6)。
 
 </details>
+
+把 $H$ 拆成均值部分和 covariance 部分：
+
+$$
+H=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top).
+$$
+
+<details>
+<summary><b>推导</b>：H 的拆分</summary>
+
+把 $R=\bar R+(R-\bar R)$ 代入：
+
+$$
+\begin{aligned}
+H
+&=\mathbb{E}_\pi[Rss^\top]\\
+&=\bar R\,\mathbb{E}_\pi[ss^\top]+\mathbb{E}_\pi[(R-\bar R)ss^\top]\\
+&=\bar R\,F+\mathrm{Cov}_\pi(R,ss^\top),
+\end{aligned}
+$$
+
+其中 $F=\mathbb{E}_\pi[ss^\top]$，$\mathrm{Cov}_\pi(R,ss^\top)=\mathbb{E}_\pi[(R-\bar R)ss^\top]$。
+
+</details>
+
+于是
+
+$$
+b_S=D_S^{(1)}+C_S^{(1)},
+\qquad
+D_S^{(1)}=-\bar R\,F\Delta,
+\qquad
+C_S^{(1)}=-\mathrm{Cov}_\pi(R,ss^\top)\Delta. \qquad (6)
+$$
+
+直观上，drift 是「平均 reward × Fisher × 参数 lag」，covariance 是「reward 的波动 × lag」。
 
 ### 4.2 纯 TIM
 
@@ -367,17 +441,41 @@ $$
 
 **表 1**：2x2 factorial 的四个端点。A 没有失配，B 只有 staleness，C 只有 TIM，D 两者都有（实际 sampler）。
 
-这里的 **2D** 指的是两个插值参数 $(\lambda_S,\lambda_T)\in[0,1]^2$：$\lambda_S$ 控制 staleness 的强度，$\lambda_T$ 控制 TIM 的强度。把两个失配源看成平面上的两个坐标轴，四个端点就是 A/B/C/D；interaction 是混合偏导在这个单位正方形上的积分。
+记插值策略的 objective 为
+
+$$
+J(\lambda_S,\lambda_T)=\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[R],
+$$
+
+四个端点的值简写为 $J(\mathrm{A})=J(0,0)$、$J(\mathrm{B})=J(1,0)$、$J(\mathrm{C})=J(0,1)$、$J(\mathrm{D})=J(1,1)$。定义
+
+$$
+\Delta J_S=J(\mathrm{B})-J(\mathrm{A}),\qquad
+\Delta J_T=J(\mathrm{C})-J(\mathrm{A}),\qquad
+\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A}).
+$$
+
+$\mathrm{Int}_J$ 就是 **interaction**：两个失配源同时存在时，objective 相对"两个单源效应之和"多出的部分，即四个角的 difference-in-differences。
+
+这里的 **2D** 指的是两个插值参数 $(\lambda_S,\lambda_T)\in[0,1]^2$：$\lambda_S$ 控制 staleness 的强度，$\lambda_T$ 控制 TIM 的强度。把两个失配源看成平面上的两个坐标轴，四个端点就是 A/B/C/D；interaction 也可以写成混合偏导 $\partial_{\lambda_S}\partial_{\lambda_T}J$ 在这个单位正方形上的积分。
 
 ![2D interpolation plane: staleness λ_S on the horizontal axis, TIM λ_T on the vertical axis; A, B, C, D at the corners](assets/staleness-tim-joint-bias/2d-lambda-plane.svg)
 
-**图 1**：$(\lambda_S,\lambda_T)$ 平面。横轴是 staleness 强度 $\lambda_S$，纵轴是 TIM 强度 $\lambda_T$；A 是原点，B 是纯 staleness，C 是纯 TIM，D 是两者叠加。Interaction 是四个角的 difference-in-differences：$J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$（$J$ 即 objective）。
+**图 1**：$(\lambda_S,\lambda_T)$ 平面。横轴是 staleness 强度 $\lambda_S$，纵轴是 TIM 强度 $\lambda_T$；A 是原点，B 是纯 staleness，C 是纯 TIM，D 是两者叠加。$\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$ 是四个角的 difference-in-differences。
 
-> **Side note.** 这里的路径是 logit 空间的线性插值。四个端点固定，所以 $\Delta J_S=J(\mathrm{B})-J(\mathrm{A})$、$\Delta J_T=J(\mathrm{C})-J(\mathrm{A})$、$\mathrm{Int}_J=J(\mathrm{D})-J(\mathrm{B})-J(\mathrm{C})+J(\mathrm{A})$ 都只由端点决定，与插值路径无关。路径只改变被积函数（协方差场）在正方形内的分布，不改变三个积分的值。
+> **Side note.** 这里的路径是 logit 空间的线性插值。四个端点固定，所以上面定义的 $\Delta J_S,\Delta J_T,\mathrm{Int}_J$ 都只由端点决定，与插值路径无关。路径只改变被积函数（协方差场）在正方形内的分布，不改变三个积分的值。
 
 ### 5.2 精确分解
 
-在 [1] 的 drift/covariance 分解基础上，把 objective 写成插值策略的函数 $J(\lambda_S,\lambda_T)=\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[R]$，有
+在 [1] 的 drift/covariance 分解基础上，对上面定义的 $J(\lambda_S,\lambda_T)$ 求导。先重述 centered 扰动：在插值点 $\pi_{\lambda_S,\lambda_T}$ 下，
+
+$$
+a_S=\delta z_S-\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[\delta z_S],
+\qquad
+a_T=\delta z_T-\mathbb{E}_{\pi_{\lambda_S,\lambda_T}}[\delta z_T].
+$$
+
+于是
 
 $$
 \partial_{\lambda_S}J=\mathbb{E}[R a_S],
@@ -638,9 +736,9 @@ $$
 
 缩写：IS = importance sampling；TIS/MIS = truncated/masked IS；PPO/DAPO/GSPO = ratio-clipping 类；DPPO = TV mask；TRM = trust-region masking；SC = score centering。表中的 $\nu\propto\mu w$ 是 IS 重加权后的有效分布，retained mass 就是它覆盖的质量。
 
-方法来源：TIS [3]、MIS/IcePop [4]、DPPO [5]、TRM [8]、FP16/router replay [7,9] 分别来自对应文献；SC 和 baseline correction 来自 [1]，state-KL mask 和 KL penalty 来自 Blog [2]；PPO/DAPO/GSPO 是标准 ratio-clipping 类（DAPO [10]、GSPO [11]）。CIS [6] 不在表中：它从 log-odds 位移的角度做 confidence-aware truncation，与这里的 $\delta z$ 分解互补，§9 会再提。这里只关心这些方法对 bias 的作用，不评价具体实现。
+方法来源：TIS [3]、MIS/IcePop [4]、DPPO [5]、TRM [8]、FP16/router replay [7,9] 分别来自对应文献；SC 和 baseline correction 来自 [1]，state-KL mask 和 KL penalty 来自 Mang&Wang's Blog [2]；PPO/DAPO/GSPO 是标准 ratio-clipping 类（DAPO [10]、GSPO [11]）。CIS [6] 不在表中：它从 log-odds 位移的角度做 confidence-aware truncation，与这里的 $\delta z$ 分解互补，§9 会再提。这里只关心这些方法对 bias 的作用，不评价具体实现。
 
-下面先看 $D^{(1)}/C^{(1)}$ 视角（谁消 drift、谁消 covariance），再拆到五项（具体是哪一项被消掉）。表中的 SC+TIS/MIS 指在加权 score 上做 centering，也就是 Paper [1] 的附录 A.2 的组合方式；它不是先 SC 再 IS，顺序问题见 §7.4。
+下面先看 $D^{(1)}/C^{(1)}$ 视角（谁消 drift、谁消 covariance），再拆到五项（具体是哪一项被消掉）。表中的 SC+TIS/MIS 指在加权 score 上做 centering，也就是 SC Paper [1] 的附录 A.2 的组合方式；它不是先 SC 再 IS，顺序问题见 §7.4。
 
 ### 7.1 D/C 视角
 
@@ -689,18 +787,18 @@ $$
 ### 7.3 为什么 SC 不够？
 
 1. **SC 不是"消 $S_1+T_1$"**。它减去 $\mathbb{E}_\mu[s]$，精确消掉 drift $D$，所以 $D_S^{(1)},D_T^{(1)}$ 没了；但 $C_S^{(1)},C_T^{(1)}$ 原样留下，二阶项里也只消 drift 部分、不消 covariance 部分。这是"SC 之后还会不稳"的结构性原因。
-2. **IS 系是唯一直接压 covariance 的**。Exact IS 全消；TIS/MIS 把 residual 限制在 truncated/masked 区域，只在 retained mass 上部分修正 covariance。这解释了 Paper [1] 的 "severe staleness 下 SC+TIS/MIS 最好"：$C_S^{(1)}$ 随 age 增长，SC 压不住，IS 能压一部分。
+2. **IS 系是唯一直接压 covariance 的**。Exact IS 全消；TIS/MIS 把 residual 限制在 truncated/masked 区域，只在 retained mass 上部分修正 covariance。这解释了 SC Paper [1] 的 "severe staleness 下 SC+TIS/MIS 最好"：$C_S^{(1)}$ 随 age 增长，SC 压不住，IS 能压一部分。
 3. **只有 source-reduction 能区分 $S$ 和 $T$**。FP16 [7] / router replay [9] 压 $\delta z_T$，只动 $T_1,T_2,ST$；减少 age 压 $\Delta$，只动 $S_1,S_2,ST$。它们都不处理另一源。
-4. **截断/掩码类不区分源**。PPO/DAPO/DPPO/state-KL/TRM 都是把 $\delta z$ 的幅度截断或把高 mismatch 的位置去掉，所以五项都是 ◐。PPO/DAPO 的 clip 是为 policy-movement ratio 设计的，numerical mismatch 下 rare token 的 ratio 可能因微小概率差爆炸，clip 会打偏目标——这对应 Paper [1] 的 "PPO/DAPO 扛 staleness 但扛不住 quantization"。
+4. **截断/掩码类不区分源**。PPO/DAPO/DPPO/state-KL/TRM 都是把 $\delta z$ 的幅度截断或把高 mismatch 的位置去掉，所以五项都是 ◐。PPO/DAPO 的 clip 是为 policy-movement ratio 设计的，numerical mismatch 下 rare token 的 ratio 可能因微小概率差爆炸，clip 会打偏目标——这对应 SC Paper [1] 的 "PPO/DAPO 扛 staleness 但扛不住 quantization"。
 5. **KL penalty 不是 bias 修正项**。它加回一个受控 drift（↑），让 $\pi$ 靠近 $\mu$，属于 trust-region anchor；不消任何五项。
 6. **空白**：目前没有方法显式针对 $ST$ 或二阶 covariance；这部分只被截断/掩码/源削减顺带影响。
 
 ### 7.4 与实验的对应
 
-- **Paper [1] 的 quantization**：主要制造 $\delta z_T$。SC 消 $D_T^{(1)}$，留 $C_T^{(1)}$；TIS/MIS 只压 retained mass 上的 $C_T$。Quantization 下，SC 单独或与 TIS/MIS 组合都最好；mild 时 SC 单独就够。
-- **Paper [1] 的 staleness**：$\Delta$ 主导。SC 消 $D_S^{(1)}$，留 $C_S^{(1)}$；TIS/MIS 压 $C_S$。这解释了 "SC+TIS/MIS 在 staleness 下最好，优于 vanilla SC"。
-- **Blog [2] 的 state-KL mask**：per-state bound，压高 $d_{\mathrm{KL}}(x)$ 的 per-state 贡献，但不区分源；**KL penalty** 是 trust-region anchor，不是 bias 修正。
-- **Blog [2] 的 SC+IS 批评**：两步操作不可交换。SC→IS 会把 drift 加回来（centering 用的是 $\mu$ 的期望，而 IS 把测度换成 $\pi$，剩下 $-\bar R\,\mathbb{E}_\mu[s]$ 的残差）；IS→Exact IS 时 SC 不起作用；IS→TIS 时 SC 只在有效分布 $\nu$ 上生效，而 $\nu$ 是否更接近 $\pi$ 没有保证。
+- **SC Paper [1] 的 quantization**：主要制造 $\delta z_T$。SC 消 $D_T^{(1)}$，留 $C_T^{(1)}$；TIS/MIS 只压 retained mass 上的 $C_T$。Quantization 下，SC 单独或与 TIS/MIS 组合都最好；mild 时 SC 单独就够。
+- **SC Paper [1] 的 staleness**：$\Delta$ 主导。SC 消 $D_S^{(1)}$，留 $C_S^{(1)}$；TIS/MIS 压 $C_S$。这解释了 "SC+TIS/MIS 在 staleness 下最好，优于 vanilla SC"。
+- **Mang&Wang's Blog [2] 的 state-KL mask**：per-state bound，压高 $d_{\mathrm{KL}}(x)$ 的 per-state 贡献，但不区分源；**KL penalty** 是 trust-region anchor，不是 bias 修正。
+- **Mang&Wang's Blog [2] 的 SC+IS 批评**：两步操作不可交换。SC→IS 会把 drift 加回来（centering 用的是 $\mu$ 的期望，而 IS 把测度换成 $\pi$，剩下 $-\bar R\,\mathbb{E}_\mu[s]$ 的残差）；IS→Exact IS 时 SC 不起作用；IS→TIS 时 SC 只在有效分布 $\nu$ 上生效，而 $\nu$ 是否更接近 $\pi$ 没有保证。
 
 
 ## 8. 这对方法设计意味着什么

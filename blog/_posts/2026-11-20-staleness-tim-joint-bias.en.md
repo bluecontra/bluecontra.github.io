@@ -584,7 +584,7 @@ Here $b_S,b_T,b_{\mathrm{int}}$ are exact components; the $b_S,b_T$ in §4 are t
 The expression above is **exact** for any $\Delta,\delta z_T$; it is not a Taylor approximation. It is suitable as a benchmark under severe quantization, and it also reveals the structure of interaction: **it is the integral of the covariance between $R$ (or $Rs_\theta$) and $a_Sa_T$ over the $(\lambda_S,\lambda_T)$ square**.
 
 
-## 6. Second Order: Where the Five Terms Come From
+## 6. Second-Order Approximation of the Joint Error
 
 ### 6.1 The Five Terms
 

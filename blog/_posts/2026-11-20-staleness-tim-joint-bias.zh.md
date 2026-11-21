@@ -585,7 +585,7 @@ $$
 上式对任意 $\Delta,\delta z_T$ 都**精确**，不是 Taylor 近似；它适合作为 severe quantization 下的基准，也说明 interaction 的结构：**它是 $R$（或 $Rs_\theta$）与 $a_Sa_T$ 在 $(\lambda_S,\lambda_T)$ 正方形上的协方差积分**。
 
 
-## 6. 二阶：五项从哪来
+## 6. 联合误差的二阶近似
 
 ### 6.1 五项
 
